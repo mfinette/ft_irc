@@ -6,21 +6,31 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/13 17:12:02 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:49:35 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_IRC_HPP
-# define FT_IRC_HPP
+#define FT_IRC_HPP
 
 #include <iostream>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
+#include <string>
 #include <cstring>
+#include <cerrno>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
 
-using std::cout;
-using std::string;
-using std::endl;
+class Server
+{
+private:
+    int serverSocket;
 
-# endif
+public:
+    Server();
+    ~Server();
+    void start(int port);
+};
+
+#endif // FT_IRC_HPP
