@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 17:09:36 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/15 14:54:53 by mfinette         ###   ########.fr       */
+/*   Created: 2024/02/15 19:04:42 by mfinette          #+#    #+#             */
+/*   Updated: 2024/02/15 19:05:28 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_irc.hpp"
 
-int main(int argc, char **argv)
+void	Command::ParseAndExecute(const std::string& command, User* user, Server* server)
 {
-	(void)argc;
-	Server server(-1);
-	server.start(atoi(argv[1]));
-	return 0;
+	(void)command;
+	(void)user;
+	// Parse command and execute it
 }

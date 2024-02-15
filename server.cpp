@@ -6,78 +6,98 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/15 14:30:11 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/15 21:03:44 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_irc.hpp"
 
-Server::Server() : serverSocket(-1)
+Server::Server(int port) : _serverSocket(-1)
 {
+	(void)port;
 }
 
 Server::~Server()
 {
-    if (serverSocket != -1)
-        close(serverSocket);
+	if (_serverSocket != -1)
+		close(_serverSocket);
+}
+
+void Server::bindServerSocket(int serverSocket, int port)
+{
+	struct sockaddr_in serverAddr;
+	memset(&serverAddr, 0, sizeof(serverAddr));
+	serverAddr.sin_family = AF_INET;
+	serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	serverAddr.sin_port = htons(port);
+	if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0)
+	{
+		cerr << "Error binding socket: " << strerror(errno) << endl;
+		closeSocket(serverSocket);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void Server::listenForConnections(int serverSocket, int backlog)
+{
+	if (listen(serverSocket, backlog) < 0)
+	{
+		cerr << "Error listening on socket: " << strerror(errno) << endl;
+		closeSocket(serverSocket);
+		exit(EXIT_FAILURE);
+	}
+}
+
+int Server::acceptClientConnection(int serverSocket, sockaddr_in& clientAddr)
+{
+	socklen_t clientAddrLen = sizeof(clientAddr);
+	int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen);
+	return clientSocket;
+}
+
+void Server::handleClient(int clientSocket)
+{
+	char buffer[1024];
+	int bytesRead;
+	while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0)
+	{
+		cout << "Received message: " << string(buffer, bytesRead);
+		send(clientSocket, buffer, bytesRead, 0); // Echo back to the client
+	}
+	if (bytesRead == 0)
+		cout << "Client disconnected" << endl;
+	else if (bytesRead < 0)
+		cerr << "Error receiving message: " << strerror(errno) << endl;
+}
+
+void Server::closeSocket(int socket)
+{
+	close(socket);
 }
 
 void Server::start(int port)
 {
-	// Create a socket
-	serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+	int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (serverSocket < 0)
 	{
-		std::cerr << "Error creating socket: " << strerror(errno) << std::endl;
+		cerr << "Error creating socket: " << strerror(errno) << endl;
 		return;
 	}
-	// Bind the socket to an IP address and port
-	struct sockaddr_in serverAddr;
-	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_addr.s_addr = htonl(INADDR_ANY); // Listen on all available interfaces
-	serverAddr.sin_port = htons(port); // Port number, change to desired port
-	if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0)
-	{
-		std::cerr << "Error binding socket: " << strerror(errno) << std::endl;
-		close(serverSocket);
-		return;
-	}
-	// Listen for incoming connections
-	if (listen(serverSocket, 10) < 0)
-	{
-		std::cerr << "Error listening on socket: " << strerror(errno) << std::endl;
-		close(serverSocket);
-		return;
-	}
-	std::cout << "Server listening on port " << port << std::endl;
-	// Accept incoming connections and continuously receive messages
+	bindServerSocket(serverSocket, port);
+	listenForConnections(serverSocket, 10);
+	cout << "Server listening on port " << port << endl;
 	while (true)
 	{
-		// Accept incoming connections
-		struct sockaddr_in clientAddr;
-		socklen_t clientAddrLen = sizeof(clientAddr);
-		int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen);
+		sockaddr_in clientAddr;
+		int clientSocket = acceptClientConnection(serverSocket, clientAddr);
 		if (clientSocket < 0)
 		{
-			std::cerr << "Error accepting connection: " << strerror(errno) << std::endl;
-			close(serverSocket);
+			cerr << "Error accepting connection: " << strerror(errno) << endl;
+			closeSocket(serverSocket);
 			return;
 		}
-		std::cout << "Client connected" << std::endl;
-		// Receive messages from the client
-		char buffer[1024];
-		int bytesRead;
-		while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0)
-		{
-			std::cout << "Received message: " << std::string(buffer, bytesRead);
-			// Echo the message back to the client (optional)
-			send(clientSocket, buffer, bytesRead, 0);
-		}
-		if (bytesRead == 0)
-			std::cout << "Client disconnected" << std::endl;
-		else if (bytesRead < 0)
-			std::cerr << "Error receiving message: " << strerror(errno) << std::endl;
-		// Close the client socket
-		close(clientSocket);
+		cout << "Client connected" << endl;
+		handleClient(clientSocket);
+		closeSocket(clientSocket);
 	}
 }
