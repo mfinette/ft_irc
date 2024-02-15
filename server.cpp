@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/14 14:49:42 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:30:11 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,17 @@ void Server::start(int port)
 		std::cerr << "Error creating socket: " << strerror(errno) << std::endl;
 		return;
 	}
-
 	// Bind the socket to an IP address and port
 	struct sockaddr_in serverAddr;
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_addr.s_addr = htonl(INADDR_ANY); // Listen on all available interfaces
 	serverAddr.sin_port = htons(port); // Port number, change to desired port
-
 	if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0)
 	{
 		std::cerr << "Error binding socket: " << strerror(errno) << std::endl;
 		close(serverSocket);
 		return;
 	}
-
 	// Listen for incoming connections
 	if (listen(serverSocket, 10) < 0)
 	{
@@ -52,9 +49,7 @@ void Server::start(int port)
 		close(serverSocket);
 		return;
 	}
-
 	std::cout << "Server listening on port " << port << std::endl;
-
 	// Accept incoming connections and continuously receive messages
 	while (true)
 	{
@@ -68,9 +63,7 @@ void Server::start(int port)
 			close(serverSocket);
 			return;
 		}
-
 		std::cout << "Client connected" << std::endl;
-
 		// Receive messages from the client
 		char buffer[1024];
 		int bytesRead;
@@ -80,12 +73,10 @@ void Server::start(int port)
 			// Echo the message back to the client (optional)
 			send(clientSocket, buffer, bytesRead, 0);
 		}
-
 		if (bytesRead == 0)
 			std::cout << "Client disconnected" << std::endl;
 		else if (bytesRead < 0)
 			std::cerr << "Error receiving message: " << strerror(errno) << std::endl;
-
 		// Close the client socket
 		close(clientSocket);
 	}
