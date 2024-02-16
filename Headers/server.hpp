@@ -20,6 +20,7 @@ class Server
 		void		listenForConnections(int serverSocket, int backlog);
 		int			acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
 		void		handleClient(int clientSocket);
+		void		handleServer(int serverSocket, struct pollfd fds[], int& numClients, const int MAX_CLIENTS);
 		void		closeSocket(int socket);
 };
 
