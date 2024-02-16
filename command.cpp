@@ -3,18 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:04:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/15 19:05:28 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:40:36 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.hpp"
+#include "Headers/ft_irc.hpp"
 
-void	Command::ParseAndExecute(const std::string& command, User* user, Server* server)
+// std::string assemble_msg(std::string servName, std::string msg, std::string nickname, std::string code) { 
+// 	return std::string(":" + servName + " " + getcode(msg) + " " + nickname + " ");
+// }
+
+Command Command::parseMsgToCmd(string input)
+{
+	Command cmd;
+	size_t start = 0;
+    size_t end = input.find(" ");
+
+    while (end != std::string::npos) {
+		cmd.cmdName = input.substr(start, end - start);
+		start = end + 1;
+		end = input.find(" ", start);
+    }
+}
+
+void	Command::parseCmd(Command command)
 {
 	(void)command;
-	(void)user;
 	// Parse command and execute it
 }

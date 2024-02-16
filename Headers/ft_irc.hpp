@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/16 21:03:37 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:36:44 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 #include "user.hpp"
 #include "command.hpp"
 #include "server.hpp"
-#include "messages.hpp"
+#include "RPL & ERR/ERR.hpp"
+#include "RPL & ERR/RPL.hpp"
 
 using std::string;
 using std::vector;
