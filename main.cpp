@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:09:36 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/15 14:54:53 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:25:30 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.hpp"
+#include "Headers/ft_irc.hpp"
 
 int main(int argc, char **argv)
 {
