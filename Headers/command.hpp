@@ -7,16 +7,17 @@
 class Command
 {
 	public:
-		Command() : last_param(""){};
+		Command(string input);
 		Command parseMsgToCmd(string input);
-		static void parseCmd(Command command);
+		void printCmd();
 
 	private:
+		string prefix;
 		string cmdName;
-		User *user;
-		Server *server;
+		// User *user;
+		// Server *server;
 		std::vector<string> params;
-		string last_param;
+		string msg;
 		// Add command-specific methods as needed
 };
 
