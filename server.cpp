@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/16 21:16:46 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:21:44 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ Server::Server(int port) : _serverSocket(-1)
 {
 	(void)port;
 }
-
+ 
 Server::~Server()
 {
 	if (_serverSocket != -1)
@@ -53,55 +53,55 @@ int	Server::acceptClientConnection(int serverSocket, sockaddr_in& clientAddr)
 	socklen_t clientAddrLen = sizeof(clientAddr);
 	int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen);
 	return clientSocket;
-}
+	}
 
-void Server::handleClient(int clientSocket)
-{
-    char buffer[1024];
-    int bytesRead;
+	void Server::handleClient(int clientSocket)
+	{
+	char buffer[1024];
+	int bytesRead;
 
-    // Set socket to non-blocking mode
-    int flags = fcntl(clientSocket, F_GETFL, 0);
-    if (flags == -1) {
-        cerr << "Error getting socket flags: " << strerror(errno) << endl;
-        closeSocket(clientSocket);
-        return;
-    }
-    if (fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK) == -1) {
-        cerr << "Error setting socket to non-blocking mode: " << strerror(errno) << endl;
-        closeSocket(clientSocket);
-        return;
-    }
-    while (true)
-    {
-        // Receive message from client
-        bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
-        if (bytesRead > 0)
-        {
-            // Print message received from client
-            cout << "Client (" << clientSocket << ") message: " << string(buffer, bytesRead);
+	// Set socket to non-blocking mode
+	int flags = fcntl(clientSocket, F_GETFL, 0);
+	if (flags == -1) {
+		cerr << "Error getting socket flags: " << strerror(errno) << endl;
+		closeSocket(clientSocket);
+		return;
+	}
+	if (fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK) == -1) {
+		cerr << "Error setting socket to non-blocking mode: " << strerror(errno) << endl;
+		closeSocket(clientSocket);
+		return;
+	}
+	while (true)
+	{
+		// Receive message from client
+		bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+		if (bytesRead > 0)
+		{
+			// Print message received from client
+			cout << "Client (" << clientSocket << ") message: " << string(buffer, bytesRead);
+			break;
+		}
+		else if (bytesRead == 0)
+		{
+			// Client disconnected
+			cout << "Client disconnected" << endl;
+			// Close client socket
+			closeSocket(clientSocket);
+			break;
+		}
+		else if (errno == EAGAIN || errno == EWOULDBLOCK)
+		{
+			// No data available, continue polling
 			continue;
-        }
-        else if (bytesRead == 0)
-        {
-            // Client disconnected
-            cout << "Client disconnected" << endl;
-            break;
-        }
-        else if (errno == EAGAIN || errno == EWOULDBLOCK)
-        {
-            // No data available, continue polling
-            continue;
-        }
-        else
-        {
-            // Error receiving message
-            cerr << "Error receiving message: " << strerror(errno) << endl;
-            break;
-        }
-    }
-    // Close client socket
-    closeSocket(clientSocket);
+		}
+		else
+		{
+			// Error receiving message
+			cerr << "Error receiving message: " << strerror(errno) << endl;
+			break;
+		}
+	}
 }
 
 void	Server::closeSocket(int socket)
