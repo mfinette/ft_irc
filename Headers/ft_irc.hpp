@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/17 00:36:44 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/19 13:55:52 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 #include <vector>
 #include <poll.h>
 #include <fcntl.h>
-#include "user.hpp"
+#include <map>
+#include "channel.hpp"
+#include "client.hpp"
 #include "command.hpp"
 #include "server.hpp"
 #include "RPL & ERR/ERR.hpp"

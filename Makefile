@@ -6,7 +6,7 @@
 #    By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/19 11:53:00 by pchapuis         ###   ########.fr        #
+#    Updated: 2024/02/19 14:04:34 by pchapuis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ RM			= rm -rf
 
 OBJDIR = .objFiles
 
-FILES		= main server
+FILES		= main server channel command client
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))
-HEADER		= Headers/ft_irc.hpp
+HEADER		= Headers/*.hpp
 #Colors:
 GREEN		=	\e[92;5;118m
 YELLOW		=	\e[93;5;226m

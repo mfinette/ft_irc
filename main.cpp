@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:09:36 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/16 16:25:30 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/19 16:28:09 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int main(int argc, char **argv)
 {
-	(void)argc;
-	Server server(-1);
-	server.start(atoi(argv[1]));
+	if (argc != 3){
+		std::cout << "Usage: ./ircserv <port> <password>" << std::endl;
+		return 0;
+	}
+	Server server(atoi(argv[1]), argv[2]);
+	server.start();
 	return 0;
 }

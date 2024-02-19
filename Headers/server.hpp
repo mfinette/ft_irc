@@ -6,15 +6,18 @@
 class Server
 {
 	public:
-					Server(int port);
+					Server(int port, string password);
 					~Server();
-		void		start(int port);
+		void		start();
 		void		stop();
 		
 	private:
-		int			_serverSocket;
-		int			_port;
-		bool		_running;
+		int								_serverSocket;
+		int								_port;
+		bool							_running;
+		string							_password;
+		std::map<int, Client>			l_client;
+		std::map<std::string, Channel>	l_channel;
 
 		void		bindServerSocket(int serverSocket, int port);
 		void		listenForConnections(int serverSocket, int backlog);

@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   channel.cpp                                        :+:      :+:    :+:   */
+/*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 19:01:53 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/19 14:05:00 by pchapuis         ###   ########.fr       */
+/*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
+/*   Updated: 2024/02/19 14:00:06 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Channel::Channel(const string& name) : _name(name)
+Client::Client(int socket, const std::string& nickname) : _socket(socket) , _nickname(nickname)
 {
 }
 
-Channel::~Channel()
+Client::~Client()
 {
 }
 
-void	Channel::AddUser(Client* client)
+void Client::SendMessage(const std::string& message)
 {
-	(void)client;
-	// Add user to channel
+	send(_socket, message.c_str(), message.size(), 0);
 }
 
-void	Channel::RemoveUser(Client* client)
-{
-	(void)client;
-	// Remove user from channel
-}
-
-void	Channel::SendMessage(const string& message)
-{
-	(void)message;
-	// Send message to all users in channel
-}

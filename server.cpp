@@ -6,15 +6,14 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/19 12:21:44 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:33:03 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Server::Server(int port) : _serverSocket(-1)
+Server::Server(int port, string password) : _serverSocket(-1) , _port(port), _password(password) 
 {
-	(void)port;
 }
  
 Server::~Server()
@@ -53,39 +52,28 @@ int	Server::acceptClientConnection(int serverSocket, sockaddr_in& clientAddr)
 	socklen_t clientAddrLen = sizeof(clientAddr);
 	int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen);
 	return clientSocket;
-	}
+}
 
-	void Server::handleClient(int clientSocket)
-	{
+void Server::handleClient(int clientSocket)
+{
 	char buffer[1024];
 	int bytesRead;
 
-	// Set socket to non-blocking mode
-	int flags = fcntl(clientSocket, F_GETFL, 0);
-	if (flags == -1) {
-		cerr << "Error getting socket flags: " << strerror(errno) << endl;
-		closeSocket(clientSocket);
-		return;
-	}
-	if (fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK) == -1) {
-		cerr << "Error setting socket to non-blocking mode: " << strerror(errno) << endl;
-		closeSocket(clientSocket);
-		return;
-	}
 	while (true)
 	{
 		// Receive message from client
-		bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+		bytesRead = recv(clientSocket, buffer, sizeof(buffer), MSG_DONTWAIT);
 		if (bytesRead > 0)
 		{
 			// Print message received from client
-			cout << "Client (" << clientSocket << ") message: " << string(buffer, bytesRead);
+		//	cout << "Client (" << clientSocket << ") message: " << string(buffer, bytesRead);
+			cout << string(buffer, bytesRead);
 			break;
 		}
 		else if (bytesRead == 0)
 		{
 			// Client disconnected
-			cout << "Client disconnected" << endl;
+			cout << "Client disconnected (" << clientSocket << ")" << endl;
 			// Close client socket
 			closeSocket(clientSocket);
 			break;
@@ -122,29 +110,37 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	}
 	cout << "Client connected (" << clientSocket << ")" << endl;
 	// Add the new client socket to the set of file descriptors to monitor
-	fds[numClients + 1].fd = clientSocket; // Start from index 1
-	fds[numClients + 1].events = POLLIN;
-	numClients++;
-	// Check if maximum number of clients reached
-	if (numClients >= MAX_CLIENTS)
+	if (numClients + 1 >= MAX_CLIENTS)
 	{
 		cerr << "Maximum number of clients reached" << endl;
 		closeSocket(serverSocket);
 		return;
 	}
+	fds[numClients + 1].fd = clientSocket; // Start from index 1
+	fds[numClients + 1].events = POLLIN;
+	fds[numClients + 1].revents = 0;	
+	numClients++;
+	// Check if maximum number of clients reached
 }
 
-void Server::start(int port)
+void Server::start(void)
 {
+	int opt = 1;
+
 	int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (serverSocket < 0)
 	{
 		cerr << "Error creating socket: " << strerror(errno) << endl;
 		return;
 	}
-	bindServerSocket(serverSocket, port);
+	if( setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0 )   
+    {   
+        cerr << "setsockopt" << std::endl;   
+        exit(EXIT_FAILURE);   
+    }   
+	bindServerSocket(serverSocket, this->_port);
 	listenForConnections(serverSocket, 10);
-	cout << "Server listening on port " << port << endl;
+	cout << "Server listening on port " << this->_port << endl;
 	const int MAX_CLIENTS = 10; // Maximum number of clients
 	struct pollfd fds[MAX_CLIENTS + 1]; // +1 for server socket
 	fds[0].fd = serverSocket;
