@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 14:25:37 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:54:54 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void Server::handleClient(int clientSocket)
 		if (bytesRead > 0)
 		{
 			// Print message received from client
-			cout << "Client (" << clientSocket << ") message: " << string(buffer, bytesRead);
+			cout << YELLOW << string(buffer, bytesRead) << RESET;
 			// cout << string(buffer, bytesRead);
 			
 			break;
@@ -167,3 +167,8 @@ void Server::start(void)
 		}
 	}
 }
+
+// void	Server::setup()
+// {
+	
+// }

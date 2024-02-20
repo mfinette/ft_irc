@@ -10,10 +10,20 @@ class Channel
 	public:
 		Channel(const std::string& name);
 		~Channel();
-		void AddUser(Client* client);
-		void RemoveUser(Client* client);
-		void SendMessage(const std::string& message);
-		// Add methods as needed for channel management
+		
+		void	AddClient(Client* client);
+		void	RemoveClient(Client* client);
+		void	SendMessage(const std::string& message);
+		bool	isOperator(int socket);
+
+		void	changeOperatorStatusToOff(int socket);
+		void	changeOperatorStatusToOn(int socket);
+		void	changeUserLimit(int user_limit);
+		void	changeInviteOnlyStatusToOn();
+		void	changeInviteOnlyStatusToOff();
+		void	changePasswordStatusToOn();
+		void	changePasswordStatusToOff();
+
 	private:
 		std::map<Client*, bool>	_client;
 		std::string				_name;

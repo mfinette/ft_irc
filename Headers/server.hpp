@@ -6,10 +6,11 @@
 class Server
 {
 	public:
-					Server(int port, string password);
-					~Server();
-		void		start();
-		void		stop();
+		Server(int port, string password);
+		~Server();
+		void	start();
+		void	setup();
+		void	stop();
 		
 	private:
 		int								_serverSocket;
