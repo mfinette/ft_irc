@@ -14,6 +14,12 @@ class Client
 		~Client();
 		void	SendMessage(const string& message);
 		// Add methods as needed for Client management
+		int		getSocket() const;
+		string	getNickname() const;
+		string	getUsername() const;
+
+		void	setUsername(string username);
+		void	setNickname(string nickname);
 		
 	private:
 		int			_socket;

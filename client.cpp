@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   user.cpp                                           :+:      :+:    :+:   */
+/*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/19 14:00:06 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:51:49 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,25 @@ void Client::SendMessage(const std::string& message)
 {
 	send(_socket, message.c_str(), message.size(), 0);
 }
+
+void	Client::setUsername(string username){
+	_username = username;
+}
+
+void	Client::setNickname(string nickname){
+	_nickname = nickname;
+}
+
+int		Client::getSocket() const{
+	return	_socket;
+}
+
+string	Client::getNickname() const{
+	return _nickname;
+}
+
+string	Client::getUsername() const{
+	return _username;
+}
+
 

@@ -6,7 +6,7 @@
 #    By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/19 14:04:34 by pchapuis         ###   ########.fr        #
+#    Updated: 2024/02/20 14:57:13 by pchapuis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ RM			= rm -rf
 
 OBJDIR = .objFiles
 
-FILES		= main server channel command client
+FILES		= main server channel command client send_msg
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))

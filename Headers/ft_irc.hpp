@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/19 13:55:52 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:50:23 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,8 @@ using std::cout;
 using std::endl;
 using std::cerr;
 using std::memset;
+
+void	test_send(int	clientSocket);
+
 
 #endif // FT_IRC_HPP

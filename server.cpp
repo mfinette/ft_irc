@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/19 16:33:03 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:25:37 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ void Server::handleClient(int clientSocket)
 		if (bytesRead > 0)
 		{
 			// Print message received from client
-		//	cout << "Client (" << clientSocket << ") message: " << string(buffer, bytesRead);
-			cout << string(buffer, bytesRead);
+			cout << "Client (" << clientSocket << ") message: " << string(buffer, bytesRead);
+			// cout << string(buffer, bytesRead);
+			
 			break;
 		}
 		else if (bytesRead == 0)
@@ -109,6 +110,7 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 		return;
 	}
 	cout << "Client connected (" << clientSocket << ")" << endl;
+	test_send(clientSocket);
 	// Add the new client socket to the set of file descriptors to monitor
 	if (numClients + 1 >= MAX_CLIENTS)
 	{
@@ -118,7 +120,7 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	}
 	fds[numClients + 1].fd = clientSocket; // Start from index 1
 	fds[numClients + 1].events = POLLIN;
-	fds[numClients + 1].revents = 0;	
+	fds[numClients + 1].revents = 0;
 	numClients++;
 	// Check if maximum number of clients reached
 }
