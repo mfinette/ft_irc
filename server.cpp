@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 17:45:38 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:56:55 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void Server::handleClient(int clientSocket)
 			// Print message received from client
 			cout << YELLOW << string(buffer, bytesRead) << RESET;
 			// cout << string(buffer, bytesRead);
-			
+		//	if (clientSocket != 4)
+		//		this->privmsg(buffer, 4, clientSocket);
 			break;
 		}
 		else if (bytesRead == 0)
@@ -117,7 +118,8 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 		return;
 	}
 	cout << "Client connected (" << clientSocket << ")" << endl;
-	test_send(clientSocket);
+	//test_send(clientSocket);
+	
 	// Add the new client socket to the set of file descriptors to monitor
 	if (numClients + 1 >= MAX_CLIENTS)
 	{
@@ -180,4 +182,26 @@ void Server::start(void)
 
 void	Server::setup()
 {
+}
+
+Client&	Server::getClientWithSocket(int socket){
+	std::map<int, Client>::iterator it;
+	std::map<int, Client>::iterator ite = this->l_client.end();
+
+	for(it = l_client.begin(); it != l_client.end(); ++it){
+		if (it->first == socket)
+			return it->second;
+	}
+	return ite->second;
+}
+
+Client&	Server::getClientWithNickname(std::string nickname){
+	std::map<int, Client>::iterator it;
+	std::map<int, Client>::iterator ite = this->l_client.end();
+
+	for(it = l_client.begin(); it != l_client.end(); ++it){
+		if (it->second.getNickname() == nickname)
+			return it->second;
+	}
+	return ite->second;
 }

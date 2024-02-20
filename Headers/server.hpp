@@ -3,6 +3,7 @@
 
 #include "ft_irc.hpp"
 
+
 class Server
 {
 	public:
@@ -11,6 +12,9 @@ class Server
 		void	start();
 		void	setup();
 		void	stop();
+		void	privmsg(std::string msg, int target, int from);
+		Client	&getClientWithSocket(int socket);
+		Client	&getClientWithNickname(std::string nickname);
 		
 	private:
 		int								_serverSocket;

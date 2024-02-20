@@ -12,6 +12,9 @@ class Client
 	public:
 		Client(int socket, const string& nickname);
 		~Client();
+
+		Client& operator=(const Client& rhs);
+
 		void	SendMessage(const string& message);
 		// Add methods as needed for Client management
 		int		getSocket() const;
