@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 18:56:55 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:51:01 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap) {
-    for (std::map<int, Client>::const_iterator it = myMap.begin(); it != myMap.end(); ++it) {
-        os << "socket : " << it->first << " " << it->second << endl;
-    }
-    return os;
+std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap)
+{
+	for (std::map<int, Client>::const_iterator it = myMap.begin(); it != myMap.end(); ++it) {
+		os << "socket : " << it->first << " " << it->second << endl;
+	}
+	return os;
 }
 
 Server::Server(int port, string password) : _serverSocket(-1) , _port(port), _password(password) 
@@ -73,8 +74,7 @@ void Server::handleClient(int clientSocket)
 		if (bytesRead > 0)
 		{
 			// Print message received from client
-			cout << YELLOW << string(buffer, bytesRead) << RESET;
-			// cout << string(buffer, bytesRead);
+			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
 		//	if (clientSocket != 4)
 		//		this->privmsg(buffer, 4, clientSocket);
 			break;
@@ -108,7 +108,7 @@ void	Server::closeSocket(int socket)
 
 void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients, const int MAX_CLIENTS)
 {
-    // Check for events on server socket
+	// Check for events on server socket
 	sockaddr_in clientAddr;
 	int clientSocket = acceptClientConnection(serverSocket, clientAddr);
 	if (clientSocket < 0)
@@ -118,11 +118,11 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 		return;
 	}
 	cout << "Client connected (" << clientSocket << ")" << endl;
-	//test_send(clientSocket);
-	
+	test_send(clientSocket);
 	// Add the new client socket to the set of file descriptors to monitor
 	if (numClients + 1 >= MAX_CLIENTS)
 	{
+		// Check if maximum number of clients reached
 		cerr << "Maximum number of clients reached" << endl;
 		closeSocket(serverSocket);
 		return;
@@ -134,7 +134,6 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	this->l_client.insert(std::make_pair(clientSocket, tmp));
 	numClients++;
 	cout << l_client;
-	// Check if maximum number of clients reached
 }
 
 void Server::start(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 17:31:21 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:26:09 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,22 @@ using std::memset;
 void	test_send(int	clientSocket);
 
 
-# define RESET		"\033[0m"
-# define BLACK		"\033[30m"
-# define RED		"\033[31m"
-# define GREEN		"\033[32m"
-# define YELLOW		"\033[33m"
-# define BLUE		"\033[34m"
-# define MAGENTA	"\033[35m"
-# define CYAN		"\033[36m"
-# define WHITE		"\033[37m"
+# define RESET				"\033[0m"
+# define BLACK				"\033[30m"
+# define RED				"\033[31m"
+# define GREEN				"\033[32m"
+# define YELLOW				"\033[33m"
+# define BLUE				"\033[34m"
+# define MAGENTA			"\033[35m"
+# define CYAN				"\033[36m"
+# define WHITE				"\033[37m"
+# define LIGHT_PINK			"\033[38;5;217m"
+# define MEDIUM_PINK		"\033[38;5;219m"
+# define DARK_PINK			"\033[38;5;205m"
+# define PALE_PINK			"\033[38;5;218m"
+# define HOT_PINK			"\033[38;5;205m"
+# define BABY_PINK			"\033[38;5;225m"
+# define NEON_PINK			"\033[38;5;207m"
 
 
 
