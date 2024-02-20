@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 16:47:56 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:31:21 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <netinet/in.h>
 #include <sys/select.h>
 #include <arpa/inet.h>
+#include <ostream>
 #include <stdlib.h>
 #include <vector>
 #include <poll.h>
@@ -52,5 +53,8 @@ void	test_send(int	clientSocket);
 # define MAGENTA	"\033[35m"
 # define CYAN		"\033[36m"
 # define WHITE		"\033[37m"
+
+
+
 
 #endif // FT_IRC_HPP

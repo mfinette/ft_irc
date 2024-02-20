@@ -28,4 +28,6 @@ class Server
 		void		closeSocket(int socket);
 };
 
+std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap);
+
 #endif

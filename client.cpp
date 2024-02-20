@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 14:51:49 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:47:22 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,8 @@ string	Client::getUsername() const{
 	return _username;
 }
 
-
+std::ostream	&operator<<(std::ostream &o, const Client &client)
+{
+	o << client.getNickname();
+	return o;
+}

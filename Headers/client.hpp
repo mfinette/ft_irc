@@ -30,4 +30,6 @@ class Client
 		// Add other Client-related data and methods as needed
 };
 
+std::ostream	&operator<<(std::ostream &o, const Client &client);
+
 #endif

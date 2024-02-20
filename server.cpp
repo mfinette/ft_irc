@@ -6,11 +6,18 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 16:54:54 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:45:38 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
+
+std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap) {
+    for (std::map<int, Client>::const_iterator it = myMap.begin(); it != myMap.end(); ++it) {
+        os << "socket : " << it->first << " " << it->second << endl;
+    }
+    return os;
+}
 
 Server::Server(int port, string password) : _serverSocket(-1) , _port(port), _password(password) 
 {
@@ -121,7 +128,10 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	fds[numClients + 1].fd = clientSocket; // Start from index 1
 	fds[numClients + 1].events = POLLIN;
 	fds[numClients + 1].revents = 0;
+	Client	tmp(clientSocket, static_cast<const string>("nickname"));
+	this->l_client.insert(std::make_pair(clientSocket, tmp));
 	numClients++;
+	cout << l_client;
 	// Check if maximum number of clients reached
 }
 
@@ -168,7 +178,6 @@ void Server::start(void)
 	}
 }
 
-// void	Server::setup()
-// {
-	
-// }
+void	Server::setup()
+{
+}
