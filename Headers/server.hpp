@@ -12,8 +12,10 @@ class Server
 		void	setup();
 		void	stop();
 		void	privmsg(std::string msg, int target, int from);
+
 		Client	&getClientWithSocket(int socket);
 		Client	&getClientWithNickname(std::string nickname);
+		
 		string 	getServPassword();
 		void printClientMap();
 

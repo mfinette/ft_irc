@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:04:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 15:27:21 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:52:12 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void Command::execNICK(Client &client) {
 	_server.printClientMap();
 	client.setNickname(this->params[0]);
 	_server.printClientMap();
-	(void)client;
 }
+
 

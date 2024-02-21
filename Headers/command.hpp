@@ -4,6 +4,13 @@
 #include "ft_irc.hpp"
 #include "server.hpp"
 
+#define USERLEN 15
+
+#define NOTHINGVALIDATED 0
+#define PASSVALIDATED 1
+#define NICKVALIDATED 2
+#define ALLLOGINDATAENTERED 3
+
 class Command
 {
 	public:
@@ -18,7 +25,6 @@ class Command
 		Server &_server;
 		string cmdName;
 		// Client *client;
-		// Server *server;
 		std::vector<string> params;
 		string msg;
 		// Add command-specific methods as needed

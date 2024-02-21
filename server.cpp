@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 15:19:59 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:06:37 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void Server::handleClient(int clientSocket)
 		{
 			// Print message received from client
 			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
-			if (client.getLoginStage() != 3)
+			if (client.getLoginStage() != ALLLOGINDATAENTERED)
 				getLoginData(string(buffer, bytesRead), getClientWithSocket(clientSocket), *this);
 		//	if (clientSocket != 4)
 		//		this->privmsg(buffer, 4, clientSocket);

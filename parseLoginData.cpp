@@ -58,19 +58,19 @@ bool isUserCmdValid(string input) {
 }
 
 void getLoginData(string input, Client &client, Server &server) {
-	if (client.getLoginStage() == 0) {
+	if (client.getLoginStage() == NOTHINGVALIDATED) {
 		if (isPassCmdValid(input, server.getServPassword()))
 			client.incrementLoginStage();
 	}
-	if (client.getLoginStage() == 1) {
+	if (client.getLoginStage() == PASSVALIDATED) {
 		if (isNickCmdValid(input)) {
-			client.incrementLoginStage(); // & exec Nick cmd
+			client.incrementLoginStage();
 			cout << "input" << input << endl;
 			Command command(input, server);
 			command.execNICK(client);
 		}
 	}
-	if (client.getLoginStage() == 2) {
+	if (client.getLoginStage() == NICKVALIDATED) {
 		if (isUserCmdValid(input))
 			client.incrementLoginStage(); // & exec User cmd
 	}
