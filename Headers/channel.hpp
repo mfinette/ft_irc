@@ -16,6 +16,15 @@ class Channel
 		void	SendMessage(const std::string& message);
 		bool	isOperator(int socket);
 
+		std::string	getName();
+		std::string	getTopic();
+		std::string	getPassword();
+		bool		isInviteOnly();
+		bool		hasPassword();
+		int			getUserLimit();
+
+		int		nbClient();
+
 		void	changeOperatorStatusToOff(int socket);
 		void	changeOperatorStatusToOn(int socket);
 		void	changeUserLimit(int user_limit);

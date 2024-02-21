@@ -67,13 +67,16 @@ void getLoginData(string input, Client &client, Server &server) {
 			client.incrementLoginStage();
 			cout << "input" << input << endl;
 			Command command(input, server);
-			command.execNICK(client);
+			command.NICK(client);
 		}
 	}
 	if (client.getLoginStage() == NICKVALIDATED) {
 		if (isUserCmdValid(input))
 			client.incrementLoginStage(); // & exec User cmd
 	}
+	RPL_WELCOME(client, "Welcome");
+	Command command(input, server);
+	command.PRIVMSG("input", "nick test", client);
 	cout << client.getLoginStage() << endl;
 
 }

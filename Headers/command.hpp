@@ -17,7 +17,9 @@ class Command
 		Command(string input, Server &server);
 		void printCmd();
 		
-		void execNICK(Client &client);
+		void	PRIVMSG(std::string msg, std::string target, Client &client);
+		void	JOIN(Client &client, std::string channel_name, std::string password);
+		void	NICK(Client &client);
 
 		string getCmdName();
 

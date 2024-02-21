@@ -5,8 +5,8 @@ void	test_send(int	clientSocket){
 	c_pchapuis.setUsername("pchapuis");
 	
 	RPL_WELCOME(c_pchapuis, "Welcome");
-	JOIN_CHANNEL(c_pchapuis, "#pp");
-	RPL_NameReply(c_pchapuis, ":newUser");
+//	JOIN_CHANNEL(c_pchapuis, "#pp");
+//	RPL_NameReply(c_pchapuis, ":newUser");
 }
 
 void	send_msg(Client client, std::string msg){

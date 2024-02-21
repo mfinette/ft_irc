@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:01:53 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 16:23:43 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:25:34 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,34 @@ bool	Channel::isOperator(int socket){
 	}
 	std::cout << "not found" << std::endl;
 	return false;
+}
+
+std::string	Channel::getName(){
+	return _name;
+}
+
+std::string	Channel::getTopic(){
+	return _topic;
+}
+
+std::string	Channel::getPassword(){
+	return _password;
+}
+
+bool	Channel::isInviteOnly(){
+	return _invite_only;
+}
+
+bool	Channel::hasPassword(){
+	return _has_password;
+}
+
+int	Channel::getUserLimit(){
+	return _user_limit;
+}
+
+int	Channel::nbClient(){
+	return _client.size();
 }
 
 void	Channel::changeOperatorStatusToOff(int socket){
