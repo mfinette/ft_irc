@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:04:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 16:13:53 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:40:39 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 //Parse input of hexchat into a "command" object,
 //the msg variable is filled if there's a message at the end of the input.
-Command::Command(string input)
+Command::Command(string input, Server &server) : _server(server)
 {
 	size_t start = 0;
 	size_t end = input.find(" ");
@@ -44,12 +44,19 @@ Command::Command(string input)
 
 void	Command::printCmd()
 {
-	std::cout << endl << "------- COMMAND -------" << this->prefix << endl;
+	std::cout << endl << "------- COMMAND -------" << endl;
 	std::cout << "[cmdname] " << this->cmdName << endl;
 	std::cout << "[msg] " << this->msg << endl;
 	std::cout << "[params] ";
 	for (std::vector<std::string>::iterator it = this->params.begin(); it != this->params.end(); ++it)
 		std::cout << *it << "|";
-	std::cout << endl << "-------------------" << this->prefix << endl;
+	std::cout << endl << "-------------------" << endl;
 	// Parse command and execute it
 }
+void Command::NICK(Client &client) {
+	_server.printClientMap();
+	client.setNickname(this->params[0]);
+	_server.printClientMap();
+	(void)client;
+}
+

@@ -6,7 +6,7 @@
 #    By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/21 14:47:05 by pchapuis         ###   ########.fr        #
+#    Updated: 2024/02/21 17:56:31 by pchapuis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ RM			= rm -rf
 
 OBJDIR = .objFiles
 
-FILES		= main server channel command client send_msg privmsg parseLoginData join
+FILES		= main server channel command client send_msg privmsg parseLoginData join topic
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))
@@ -34,7 +34,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ) $(HEADER)
 	@$(CC) $(OBJ) -o $(NAME)
-	@printf "$(_SUCCESS) $(GREEN)- Executable ready.\n$(RESET)"
+	@printf "$(GREEN)- Executable ready.\n$(RESET)"
 
 $(OBJDIR)/%.o: %.cpp $(HEADER)
 	@mkdir -p $(dir $@)

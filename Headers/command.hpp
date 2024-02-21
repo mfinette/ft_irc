@@ -7,11 +7,17 @@
 class Command
 {
 	public:
-		Command(string input);
+		Command(string input, Server &server);
 		void printCmd();
+		
+		void	PRIVMSG(std::string msg, std::string target, Client &client);
+		void	JOIN(Client &client, std::string channel_name, std::string password);
+		void	NICK(Client &client);
+
+		string getCmdName();
 
 	private:
-		string prefix;
+		Server &_server;
 		string cmdName;
 		// Client *client;
 		// Server *server;

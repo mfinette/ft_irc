@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 14:15:53 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:17:07 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ void Server::handleClient(int clientSocket)
 			// Print message received from client
 			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
 			if (client.getLoginStage() != 3)
-				getLoginData(string(buffer, bytesRead), getClient(clientSocket), getServPassword());
-			// Test privmsg
-			this->privmsg(buffer, "nickTest", clientSocket);
+				getLoginData(string(buffer, bytesRead), getClient(clientSocket), *this);
 			break;
 		}
 		else if (bytesRead == 0)
@@ -91,6 +89,7 @@ void Server::handleClient(int clientSocket)
 			// Client disconnected
 			cout << "Client disconnected (" << clientSocket << ")" << endl;
 			// Close client socket
+			
 			closeSocket(clientSocket);
 			break;
 		}
@@ -125,7 +124,6 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 		return;
 	}
 	cout << "Client connected (" << clientSocket << ")" << endl;
-	test_send(clientSocket);
 	// Add the new client socket to the set of file descriptors to monitor
 	if (numClients + 1 >= MAX_CLIENTS)
 	{
@@ -138,9 +136,8 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	fds[numClients + 1].events = POLLIN;
 	fds[numClients + 1].revents = 0;
 	Client	tmp(clientSocket, static_cast<const string>("nickname"));
-	this->l_client.insert(std::make_pair(clientSocket, tmp));
+	this->_clientList.insert(std::make_pair(clientSocket, tmp));
 	numClients++;
-	cout << l_client;
 }
 
 void Server::start(void)
@@ -192,9 +189,9 @@ void	Server::setup()
 
 Client&	Server::getClient(int socket){
 	std::map<int, Client>::iterator it;
-	std::map<int, Client>::iterator ite = l_client.end();
+	std::map<int, Client>::iterator ite = this->_clientList.end();
 
-	for(it = l_client.begin(); it != l_client.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->first == socket)
 			return it->second;
 	}
@@ -203,10 +200,21 @@ Client&	Server::getClient(int socket){
 
 Client&	Server::getClient(std::string nickname){
 	std::map<int, Client>::iterator it;
-	std::map<int, Client>::iterator ite = l_client.end();
+	std::map<int, Client>::iterator ite = this->_clientList.end();
 
-	for(it = l_client.begin(); it != l_client.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->second.getNickname() == nickname)
+			return it->second;
+	}
+	return ite->second;
+}
+
+Channel	&Server::getChannel(std::string name){
+	std::map<std::string, Channel>::iterator it;
+	std::map<std::string, Channel>::iterator ite = this->_channelList.end();
+
+	for(it = _channelList.begin(); it != _channelList.end(); ++it){
+		if (it->first == name)
 			return it->second;
 	}
 	return ite->second;
@@ -215,7 +223,7 @@ Client&	Server::getClient(std::string nickname){
 bool	Server::isClientAway(int socket){
 	std::map<int, Client>::iterator it;
 
-	for(it = l_client.begin(); it != l_client.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->first == socket)
 			return false;
 	}
@@ -225,7 +233,7 @@ bool	Server::isClientAway(int socket){
 bool	Server::isClientAway(std::string nickname){
 	std::map<int, Client>::iterator it;
 
-	for(it = l_client.begin(); it != l_client.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->second.getNickname() == nickname)
 			return false;
 	}
@@ -235,9 +243,12 @@ bool	Server::isClientAway(std::string nickname){
 bool	Server::channelExisting(std::string channel_name){
 	std::map<std::string, Channel>::iterator it;
 
-	for(it = l_channel.begin(); it != l_channel.end(); ++it){
+	for(it = _channelList.begin(); it != _channelList.end(); ++it){
 		if (it->first == channel_name)
 			return true;
 	}
 	return false;
+}
+void Server::printClientMap() {
+	cout << this->_clientList << endl;
 }

@@ -30,7 +30,7 @@ bool isNickCmdValid(string input) {
 		if (word == "NICK") {
 			tokens >> word;
 			if (word.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-			abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|")) {
+			abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos) {
 				return true;
 			}
 			// else ERR_ERRONEUSNICKNAME 				
@@ -49,7 +49,7 @@ bool isUserCmdValid(string input) {
 		if (word == "USER") {
 			tokens >> word;
 			if (word.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-			abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|")) {
+			abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos) {
 				return true;
 			}
 		}
@@ -57,17 +57,26 @@ bool isUserCmdValid(string input) {
 	return false;
 }
 
-void getLoginData(string input, Client &client, string servPassword) {
+void getLoginData(string input, Client &client, Server &server) {
 	if (client.getLoginStage() == 0) {
-		if (isPassCmdValid(input, servPassword))
+		if (isPassCmdValid(input, server.getServPassword()))
 			client.incrementLoginStage();
 	}
 	if (client.getLoginStage() == 1) {
-		if (isNickCmdValid(input))
+		if (isNickCmdValid(input)) {
 			client.incrementLoginStage(); // & exec Nick cmd
+			cout << "input" << input << endl;
+			Command command(input, server);
+			command.NICK(client);
+		}
 	}
 	if (client.getLoginStage() == 2) {
 		if (isUserCmdValid(input))
 			client.incrementLoginStage(); // & exec User cmd
 	}
+	RPL_WELCOME(client, "Welcome");
+	Command command(input, server);
+	command.PRIVMSG("input", "nick test", client);
+	cout << client.getLoginStage() << endl;
+
 }
