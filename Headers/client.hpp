@@ -24,10 +24,14 @@ class Client
 		void	setUsername(string username);
 		void	setNickname(string nickname);
 		
+		void 	incrementLoginStage();
+		int 	getLoginStage();
+
 	private:
 		int			_socket;
 		string		_nickname;
 		string		_username;
+		int			loginStage; //Each step increments by one this variable -> 3 means we have all infos
 		std::map<std::string, Channel> l_channel;
 
 		// Add other Client-related data and methods as needed

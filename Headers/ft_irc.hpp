@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 19:26:09 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:14:56 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <poll.h>
 #include <fcntl.h>
 #include <map>
+#include <sstream>
 #include "channel.hpp"
 #include "client.hpp"
 #include "command.hpp"
@@ -42,7 +43,7 @@ using std::cerr;
 using std::memset;
 
 void	test_send(int	clientSocket);
-
+void  	getLoginData(string input, Client &client, string servPassword);
 
 # define RESET				"\033[0m"
 # define BLACK				"\033[30m"

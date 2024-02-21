@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 18:22:35 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/21 01:56:01 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Client::Client(int socket, const std::string& nickname) : _socket(socket) , _nickname(nickname)
+Client::Client(int socket, const std::string &nickname) : _socket(socket), _nickname(nickname), loginStage(0)
 {
 }
 
@@ -40,6 +40,14 @@ void	Client::setUsername(string username){
 
 void	Client::setNickname(string nickname){
 	_nickname = nickname;
+}
+
+void Client::incrementLoginStage() {
+	loginStage++;
+}
+
+int Client::getLoginStage() {
+	return loginStage;
 }
 
 int		Client::getSocket() const{

@@ -8,13 +8,12 @@ class Command
 {
 	public:
 		Command(string input);
-		Command parseMsgToCmd(string input);
 		void printCmd();
 
 	private:
 		string prefix;
 		string cmdName;
-		// User *user;
+		// Client *client;
 		// Server *server;
 		std::vector<string> params;
 		string msg;

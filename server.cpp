@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/20 19:51:01 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:13:45 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ Server::~Server()
 {
 	if (_serverSocket != -1)
 		close(_serverSocket);
+}
+
+string Server::getServPassword() {
+       return _password;
 }
 
 void	Server::bindServerSocket(int serverSocket, int port)
@@ -66,6 +70,7 @@ void Server::handleClient(int clientSocket)
 {
 	char buffer[1024];
 	int bytesRead;
+	Client client = getClientWithSocket(clientSocket);
 
 	while (true)
 	{
@@ -75,6 +80,8 @@ void Server::handleClient(int clientSocket)
 		{
 			// Print message received from client
 			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
+			if (client.getLoginStage() != 3)
+				getLoginData(string(buffer, bytesRead), getClientWithSocket(clientSocket), getServPassword());
 		//	if (clientSocket != 4)
 		//		this->privmsg(buffer, 4, clientSocket);
 			break;
