@@ -17,10 +17,27 @@
 //If <target> is a user and that user has been set as away, the server may reply with an 
 //RPL_AWAY (301) numeric and the command will continue.
 
-void	Server::privmsg(std::string msg, int target, int from){
-	Client client_target = this->getClientWithSocket(target);
-	Client client_from = this->getClientWithSocket(from);
-	
+void	Server::privmsg(std::string msg, std::string target, int from){
+	Client client_from = this->getClient(from);
+
+	if (isClientAway(target) && !channelExisting(target)){
+	 	RPL_AWAY(client_from, "targetTest", ":The user is currently away");
+	 	return;
+	}
+	//if the msg cannot be delivered to the channel
+	if (isClientAway(target)){
+		ERR_CANNOTSENDTOCHAN(client_from, "thischannel");
+		return;
+	}
+	Client client_target = this->getClient(target);
 	std::string message = ":" + client_from.getNickname() + " PRIVMSG " + client_target.getNickname() + " :" + msg;
 	send_msg(client_target, message);
 }
+
+//si client et serveur n'existe pas ==> msg client pas trouver
+
+//si client trouver ==> essayer d'envoyer un msg vers le client
+
+//si client pas trouver ==> alors envoie msg vers un channel
+
+

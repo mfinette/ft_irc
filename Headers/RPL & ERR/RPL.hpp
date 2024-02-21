@@ -22,8 +22,16 @@ send_msg(client, HEADER_CMD(client) + "JOIN " + channel + RN)
 # define RPL_WELCOME(client, msg) \
 send_msg(client, HEADER(client) + " 001 " + client.getNickname() + " :" + msg + RN)
 
+//301 RPL_AWAY
+# define RPL_AWAY(client, nick, msg) \
+send_msg(client, HEADER(client) + " 301 " + client.getNickname() + " " + nick + " " + msg + RN)
+
 //353 RPL_NameReply
 # define RPL_NameReply(client, msg) \
 send_msg(client, HEADER(client) + " 353 " + client.getNickname() + " = channeltest " + msg + RN)
+
+// 404 ERR_CANNOTSENDTOCHAN
+# define ERR_CANNOTSENDTOCHAN(client, channel) \
+send_msg(client, HEADER(client) + " 404 " + client.getNickname() + " " + channel + " :Cannot send to channel" + RN)
 
 #endif

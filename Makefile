@@ -3,22 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: colas <colas@student.42.fr>                +#+  +:+       +#+         #
+#    By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/21 01:13:54 by colas            ###   ########.fr        #
+#    Updated: 2024/02/21 14:47:05 by pchapuis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ircserv
 	
 CC			= c++
-FLAGS		= -Wall -Wextra -Werror -g3 -std=c++98
+FLAGS		= -Wall -Wextra -Werror -g3 -std=c++98 
 RM			= rm -rf
 
 OBJDIR = .objFiles
 
-FILES		= main server channel command client send_msg privmsg parseLoginData
+FILES		= main server channel command client send_msg privmsg parseLoginData join
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))

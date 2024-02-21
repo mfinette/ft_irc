@@ -3,6 +3,11 @@
 
 #include "../ft_irc.hpp"
 
+
+// 404 ERR_CANNOTSENDTOCHAN
+
+
+
 // # define CODE_WELCOME "001"
 // # define CODE_YOURHOST "002"
 // # define CODE_CREATED "003"

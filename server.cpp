@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 02:13:45 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/21 14:15:53 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void Server::handleClient(int clientSocket)
 {
 	char buffer[1024];
 	int bytesRead;
-	Client client = getClientWithSocket(clientSocket);
+	Client client = getClient(clientSocket);
 
 	while (true)
 	{
@@ -81,9 +81,9 @@ void Server::handleClient(int clientSocket)
 			// Print message received from client
 			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
 			if (client.getLoginStage() != 3)
-				getLoginData(string(buffer, bytesRead), getClientWithSocket(clientSocket), getServPassword());
-		//	if (clientSocket != 4)
-		//		this->privmsg(buffer, 4, clientSocket);
+				getLoginData(string(buffer, bytesRead), getClient(clientSocket), getServPassword());
+			// Test privmsg
+			this->privmsg(buffer, "nickTest", clientSocket);
 			break;
 		}
 		else if (bytesRead == 0)
@@ -190,9 +190,9 @@ void	Server::setup()
 {
 }
 
-Client&	Server::getClientWithSocket(int socket){
+Client&	Server::getClient(int socket){
 	std::map<int, Client>::iterator it;
-	std::map<int, Client>::iterator ite = this->l_client.end();
+	std::map<int, Client>::iterator ite = l_client.end();
 
 	for(it = l_client.begin(); it != l_client.end(); ++it){
 		if (it->first == socket)
@@ -201,13 +201,43 @@ Client&	Server::getClientWithSocket(int socket){
 	return ite->second;
 }
 
-Client&	Server::getClientWithNickname(std::string nickname){
+Client&	Server::getClient(std::string nickname){
 	std::map<int, Client>::iterator it;
-	std::map<int, Client>::iterator ite = this->l_client.end();
+	std::map<int, Client>::iterator ite = l_client.end();
 
 	for(it = l_client.begin(); it != l_client.end(); ++it){
 		if (it->second.getNickname() == nickname)
 			return it->second;
 	}
 	return ite->second;
+}
+
+bool	Server::isClientAway(int socket){
+	std::map<int, Client>::iterator it;
+
+	for(it = l_client.begin(); it != l_client.end(); ++it){
+		if (it->first == socket)
+			return false;
+	}
+	return true;
+}
+
+bool	Server::isClientAway(std::string nickname){
+	std::map<int, Client>::iterator it;
+
+	for(it = l_client.begin(); it != l_client.end(); ++it){
+		if (it->second.getNickname() == nickname)
+			return false;
+	}
+	return true;
+}
+
+bool	Server::channelExisting(std::string channel_name){
+	std::map<std::string, Channel>::iterator it;
+
+	for(it = l_channel.begin(); it != l_channel.end(); ++it){
+		if (it->first == channel_name)
+			return true;
+	}
+	return false;
 }

@@ -11,9 +11,13 @@ class Server
 		void	start();
 		void	setup();
 		void	stop();
-		void	privmsg(std::string msg, int target, int from);
-		Client	&getClientWithSocket(int socket);
-		Client	&getClientWithNickname(std::string nickname);
+		void	privmsg(std::string msg, std::string target, int from);
+		void	join();
+		Client	&getClient(int socket);
+		Client	&getClient(std::string nickname);
+		bool	isClientAway(int socket);
+		bool	isClientAway(std::string nickname);
+		bool	channelExisting(std::string channel_name);
 		string 	getServPassword();
 
 	private:
