@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 02:13:45 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/21 15:19:59 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void Server::handleClient(int clientSocket)
 	char buffer[1024];
 	int bytesRead;
 	Client client = getClientWithSocket(clientSocket);
-
+	
 	while (true)
 	{
 		// Receive message from client
@@ -81,7 +81,7 @@ void Server::handleClient(int clientSocket)
 			// Print message received from client
 			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
 			if (client.getLoginStage() != 3)
-				getLoginData(string(buffer, bytesRead), getClientWithSocket(clientSocket), getServPassword());
+				getLoginData(string(buffer, bytesRead), getClientWithSocket(clientSocket), *this);
 		//	if (clientSocket != 4)
 		//		this->privmsg(buffer, 4, clientSocket);
 			break;
@@ -91,6 +91,7 @@ void Server::handleClient(int clientSocket)
 			// Client disconnected
 			cout << "Client disconnected (" << clientSocket << ")" << endl;
 			// Close client socket
+			
 			closeSocket(clientSocket);
 			break;
 		}
@@ -138,9 +139,8 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	fds[numClients + 1].events = POLLIN;
 	fds[numClients + 1].revents = 0;
 	Client	tmp(clientSocket, static_cast<const string>("nickname"));
-	this->l_client.insert(std::make_pair(clientSocket, tmp));
+	this->_clientList.insert(std::make_pair(clientSocket, tmp));
 	numClients++;
-	cout << l_client;
 }
 
 void Server::start(void)
@@ -192,9 +192,9 @@ void	Server::setup()
 
 Client&	Server::getClientWithSocket(int socket){
 	std::map<int, Client>::iterator it;
-	std::map<int, Client>::iterator ite = this->l_client.end();
+	std::map<int, Client>::iterator ite = this->_clientList.end();
 
-	for(it = l_client.begin(); it != l_client.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->first == socket)
 			return it->second;
 	}
@@ -203,11 +203,15 @@ Client&	Server::getClientWithSocket(int socket){
 
 Client&	Server::getClientWithNickname(std::string nickname){
 	std::map<int, Client>::iterator it;
-	std::map<int, Client>::iterator ite = this->l_client.end();
+	std::map<int, Client>::iterator ite = this->_clientList.end();
 
-	for(it = l_client.begin(); it != l_client.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->second.getNickname() == nickname)
 			return it->second;
 	}
 	return ite->second;
+}
+
+void Server::printClientMap() {
+	cout << this->_clientList << endl;
 }

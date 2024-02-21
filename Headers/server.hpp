@@ -15,14 +15,15 @@ class Server
 		Client	&getClientWithSocket(int socket);
 		Client	&getClientWithNickname(std::string nickname);
 		string 	getServPassword();
+		void printClientMap();
 
 	private:
 		int								_serverSocket;
 		int								_port;
 		bool							_running;
 		string							_password;
-		std::map<int, Client>			l_client;
-		std::map<std::string, Channel>	l_channel;
+		std::map<int, Client>			_clientList;
+		std::map<std::string, Channel>	_channelList;
 
 		void		bindServerSocket(int serverSocket, int port);
 		void		listenForConnections(int serverSocket, int backlog);
@@ -30,6 +31,7 @@ class Server
 		void		handleClient(int clientSocket);
 		void		handleServer(int serverSocket, struct pollfd fds[], int& numClients, const int MAX_CLIENTS);
 		void		closeSocket(int socket);
+
 };
 
 std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap);

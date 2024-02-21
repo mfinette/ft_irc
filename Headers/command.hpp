@@ -7,11 +7,15 @@
 class Command
 {
 	public:
-		Command(string input);
+		Command(string input, Server &server);
 		void printCmd();
+		
+		void execNICK(Client &client);
+
+		string getCmdName();
 
 	private:
-		string prefix;
+		Server &_server;
 		string cmdName;
 		// Client *client;
 		// Server *server;
