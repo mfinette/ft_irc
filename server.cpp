@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 18:11:56 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:07 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ Server::~Server()
 		close(_serverSocket);
 }
 
-string Server::getServPassword() {
+string Server::getServPassword()
+{
        return _password;
 }
 
@@ -151,10 +152,10 @@ void Server::start(void)
 		return;
 	}
 	if( setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0 )   
-    {   
-        cerr << "setsockopt" << std::endl;   
-        exit(EXIT_FAILURE);   
-    }   
+	{
+		cerr << "setsockopt" << std::endl;   
+		exit(EXIT_FAILURE);   
+	}
 	bindServerSocket(serverSocket, this->_port);
 	listenForConnections(serverSocket, 10);
 	cout << "Server listening on port " << this->_port << endl;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 15:15:33 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:58 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ using std::cerr;
 using std::memset;
 
 void	test_send(int	clientSocket);
-void  	getLoginData(string input, Client &client, Server &server);
+void	getLoginData(string input, Client &client, Server &server);
 
 # define RESET				"\033[0m"
 # define BLACK				"\033[30m"

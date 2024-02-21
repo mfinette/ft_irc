@@ -15,7 +15,10 @@ class Server
 		Client	&getClient(int socket);
 		Client	&getClient(std::string nickname);
 		Channel	&getChannel(std::string name);
-
+		void	addClientToServer(int socket, Client& client, string nickname);
+		void	removeClientFromServer(Client& client);
+		void	addChannelToServer(string name, Channel& channel);
+		void	removeChannelFromServer(string name, Channel& channel);
 		bool	isClientAway(int socket);
 		bool	isClientAway(std::string nickname);
 		bool	channelExisting(std::string channel_name);

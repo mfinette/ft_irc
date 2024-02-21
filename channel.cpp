@@ -3,33 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:01:53 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 17:25:34 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:53:43 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false){
+Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false)
+{
 	(void)_user_limit;
 	(void)_invite_only;
 	(void)_has_password;
 }
 
-Channel::~Channel(){
-}
-
-void	Channel::AddClient(Client* client){
-	(void)client;
-	// Add Client to channel
-}
-
-void	Channel::RemoveClient(Client* client)
+Channel::~Channel()
 {
-	(void)client;
+}
+
+void	Channel::AddClientToChannel(Client* client)
+{
+	// Add Client to channel
+	_client.insert(std::pair<Client *, bool>(client, false));
+}
+
+void	Channel::RemoveClientFromChannel(Client* client)
+{
 	// Remove Client from channel
+	_client.erase(_client.find(client));
 }
 
 void	Channel::SendMessage(const string& message)
@@ -38,86 +41,103 @@ void	Channel::SendMessage(const string& message)
 	// Send message to all users in channel
 }
 
-bool	Channel::isOperator(int socket){
+bool	Channel::isOperator(int socket)
+{
 	std::map<Client *, bool>::iterator it;
 
-	for(it = _client.begin(); it != _client.end(); ++it){
-		if (it->first->getSocket() == socket){
+	for(it = _client.begin(); it != _client.end(); ++it)
+	{
+		if (it->first->getSocket() == socket)
 			return it->second;
-		}
 	}
 	std::cout << "not found" << std::endl;
 	return false;
 }
 
-std::string	Channel::getName(){
+std::string	Channel::getName()
+{
 	return _name;
 }
 
-std::string	Channel::getTopic(){
+std::string	Channel::getTopic()
+{
 	return _topic;
 }
 
-std::string	Channel::getPassword(){
+std::string	Channel::getPassword()
+{
 	return _password;
 }
 
-bool	Channel::isInviteOnly(){
+bool	Channel::isInviteOnly()
+{
 	return _invite_only;
 }
 
-bool	Channel::hasPassword(){
+bool	Channel::hasPassword()
+{
 	return _has_password;
 }
 
-int	Channel::getUserLimit(){
+int	Channel::getUserLimit()
+{
 	return _user_limit;
 }
 
-int	Channel::nbClient(){
+int	Channel::nbClient()
+{
 	return _client.size();
 }
 
-void	Channel::changeOperatorStatusToOff(int socket){
+void	Channel::changeOperatorStatusToOff(int socket)
+{
 	std::map<Client *, bool>::iterator it;
 
-	for(it = _client.begin(); it != _client.end(); ++it){
-		if (it->first->getSocket() == socket){
+	for(it = _client.begin(); it != _client.end(); ++it)
+	{
+		if (it->first->getSocket() == socket)
+		{
 			it->second = false;
 			break;
 		}
 	}
 }
 
-void	Channel::changeOperatorStatusToOn(int socket){
+void	Channel::changeOperatorStatusToOn(int socket)
+{
 	std::map<Client *, bool>::iterator it;
 
-	for(it = _client.begin(); it != _client.end(); ++it){
-		if (it->first->getSocket() == socket){
+	for(it = _client.begin(); it != _client.end(); ++it)
+	{
+		if (it->first->getSocket() == socket)
+		{
 			it->second = true;
 			break;
 		}
 	}
 }
 
-void	Channel::changeUserLimit(int user_limit){
+void	Channel::changeUserLimit(int user_limit)
+{
 	_user_limit = user_limit;
 }
 
-void	Channel::changeInviteOnlyStatusToOn(){
+void	Channel::changeInviteOnlyStatusToOn()
+{
 	_invite_only = true;
 }
 
-void	Channel::changeInviteOnlyStatusToOff(){
+void	Channel::changeInviteOnlyStatusToOff()
+{
 	_invite_only = false;
 }
 
-void	Channel::changePasswordStatusToOn(){
+void	Channel::changePasswordStatusToOn()
+{
 	_has_password = true;
 }
 
-void	Channel::changePasswordStatusToOff(){
+void	Channel::changePasswordStatusToOff()
+{
 	_has_password = false;
 }
-
-
