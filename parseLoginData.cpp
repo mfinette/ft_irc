@@ -58,25 +58,26 @@ bool isUserCmdValid(string input) {
 }
 
 void getLoginData(string input, Client &client, Server &server) {
-	if (client.getLoginStage() == NOTHINGVALIDATED) {
+	if (client.getLoginStage() == NOTHING_VALIDATED) {
 		if (isPassCmdValid(input, server.getServPassword()))
 			client.incrementLoginStage();
 	}
-	if (client.getLoginStage() == PASSVALIDATED) {
+	if (client.getLoginStage() == PASS_VALIDATED) {
 		if (isNickCmdValid(input)) {
 			client.incrementLoginStage();
-			cout << "input" << input << endl;
 			Command command(input, server);
 			command.NICK(client);
 		}
 	}
-	if (client.getLoginStage() == NICKVALIDATED) {
+	if (client.getLoginStage() == NICK_VALIDATED) {
 		if (isUserCmdValid(input))
 			client.incrementLoginStage(); // & exec User cmd
 	}
+	cout << client.getLoginStage() << endl;
+}
+
+void execCMD(string input, Client &client, Server &server) {
 	RPL_WELCOME(client, "Welcome");
 	Command command(input, server);
 	command.PRIVMSG("input", "nick test", client);
-	cout << client.getLoginStage() << endl;
-
 }

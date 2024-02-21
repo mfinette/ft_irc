@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 18:38:07 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:46:52 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,12 @@ void Server::handleClient(int clientSocket)
 		{
 			// Print message received from client
 			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
-			if (client.getLoginStage() != ALLLOGINDATAENTERED)
+			if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
 				getLoginData(string(buffer, bytesRead), getClient(clientSocket), *this);
+			else {
+				execCMD(string(buffer, bytesRead), getClient(clientSocket), *this);
+			}
+			
 			break;
 		}
 		else if (bytesRead == 0)
