@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:04:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 18:10:14 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/22 12:17:11 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	Command::printCmd()
 	std::cout << endl << "-------------------" << endl;
 	// Parse command and execute it
 }
+
 void Command::NICK(Client &client) {
 	_server.printClientMap();
 	client.setNickname(this->params[0]);

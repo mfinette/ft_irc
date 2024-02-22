@@ -6,7 +6,6 @@
 // puis la key
 
 void	Command::JOIN(Client &client, std::string channel_name, std::string password){
-	(void)client;
 	if (_server.channelExisting(channel_name)){
 		Channel channel = _server.getChannel(channel_name);
 		if (!channel.isInviteOnly()){

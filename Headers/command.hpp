@@ -20,6 +20,7 @@ class Command
 		void	PRIVMSG(std::string msg, std::string target, Client &client);
 		void	JOIN(Client &client, std::string channel_name, std::string password);
 		void	NICK(Client &client);
+		void	TOPIC(Client &client, std::string channel_name, std::string topic);
 
 		string getCmdName();
 

@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 01:56:01 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/22 12:16:58 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Client::Client(int socket, const std::string &nickname) : _socket(socket), _nickname(nickname), loginStage(0)
-{
+Client::Client(int socket, const std::string &nickname) : _socket(socket), _nickname(nickname), loginStage(0){
 }
 
-Client::~Client()
-{
+Client::~Client(){
 }
 
 Client& Client::operator=(const Client& rhs){
@@ -29,8 +27,7 @@ Client& Client::operator=(const Client& rhs){
 	return *this;
 }
 
-void Client::SendMessage(const std::string& message)
-{
+void Client::SendMessage(const std::string& message){
 	send(_socket, message.c_str(), message.size(), 0);
 }
 
@@ -62,8 +59,7 @@ string	Client::getUsername() const{
 	return _username;
 }
 
-std::ostream	&operator<<(std::ostream &o, const Client &client)
-{
+std::ostream	&operator<<(std::ostream &o, const Client &client){
 	o << client.getNickname();
 	return o;
 }
