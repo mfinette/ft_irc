@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 12:54:50 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/22 14:12:10 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@ std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap)
 {
 	for (std::map<int, Client>::const_iterator it = myMap.begin(); it != myMap.end(); ++it) {
 		os << "socket : " << it->first << " " << it->second << endl;
+	}
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& os, std::map<std::string, Channel>& myChannel)
+{
+	for (std::map<std::string, Channel>::const_iterator it = myChannel.begin(); it != myChannel.end(); ++it) {
+		os << "channel : " << it->first << " " << it->second << endl;
 	}
 	return os;
 }
@@ -139,8 +147,7 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	fds[numClients + 1].fd = clientSocket; // Start from index 1
 	fds[numClients + 1].events = POLLIN;
 	fds[numClients + 1].revents = 0;
-	Client	tmp(clientSocket);
-	this->_clientList.insert(std::make_pair(clientSocket, tmp));
+	this->setupClient(clientSocket);
 	numClients++;
 }
 

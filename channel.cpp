@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:01:53 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 18:53:43 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:17:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
+
+std::ostream& operator<<(std::ostream& os, const Channel& channel)
+{
+	os << "Channel name: " << channel.getName() << std::endl;
+	return os;
+}
 
 Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false)
 {
@@ -54,7 +60,7 @@ bool	Channel::isOperator(int socket)
 	return false;
 }
 
-std::string	Channel::getName()
+std::string	Channel::getName() const
 {
 	return _name;
 }

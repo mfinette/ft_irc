@@ -16,7 +16,7 @@ class Channel
 		void	SendMessage(const std::string& message);
 		bool	isOperator(int socket);
 
-		std::string	getName();
+		std::string	getName() const;
 		std::string	getTopic();
 		std::string	getPassword();
 		bool		isInviteOnly();
@@ -44,5 +44,8 @@ class Channel
 
 		// Add other channel-related data and methods as needed
 };
+
+////////////////// OPERATOR OVERLOADS //////////////////
+std::ostream& operator<<(std::ostream& os, const Channel& channel);
 
 #endif
