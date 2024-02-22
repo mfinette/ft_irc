@@ -22,7 +22,8 @@ class Server
 		bool	isClientAway(int socket);
 		bool	isClientAway(std::string nickname);
 		bool	channelExisting(std::string channel_name);
-		
+		std::map<int, Client> &getClientList();
+
 		string 	getServPassword();
 		void printClientMap();
 
@@ -40,7 +41,6 @@ class Server
 		void		handleClient(int clientSocket);
 		void		handleServer(int serverSocket, struct pollfd fds[], int& numClients, const int MAX_CLIENTS);
 		void		closeSocket(int socket);
-
 };
 
 std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap);

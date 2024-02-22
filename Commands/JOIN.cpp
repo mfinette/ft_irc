@@ -1,4 +1,4 @@
-#include "Headers/ft_irc.hpp"
+#include "../Headers/ft_irc.hpp"
 
 //quand on join un serveur si il n'existe pas, on le creer et on devient l'admin
 // si il existe deja, on check si invite only

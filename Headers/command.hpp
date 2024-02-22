@@ -6,9 +6,9 @@
 
 #define USERLEN 15
 
-#define NOTHING_VALIDATED 0
-#define PASS_VALIDATED 1
-#define NICK_VALIDATED 2
+#define STAGE_1 0
+#define STAGE_2 1
+#define STAGE_3 2
 #define ALL_LOGIN_DATA_ENTERED 3
 
 class Command
@@ -17,9 +17,11 @@ class Command
 		Command(string input, Server &server);
 		void printCmd();
 		
+		bool	PASS(Client &client);
+		bool	NICK(Client &client);
+		bool	USER(Client &client);
 		void	PRIVMSG(std::string msg, std::string target, Client &client);
 		void	JOIN(Client &client, std::string channel_name, std::string password);
-		void	NICK(Client &client);
 
 		string getCmdName();
 

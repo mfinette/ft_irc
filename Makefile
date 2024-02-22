@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+         #
+#    By: colas <colas@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/21 18:54:28 by mfinette         ###   ########.fr        #
+#    Updated: 2024/02/22 12:27:59 by colas            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,10 @@ RM			= rm -rf
 
 OBJDIR = .objFiles
 
-FILES		= main server channel command client send_msg privmsg parseLoginData join topic clientChannelManagement
+FILES		= 	main \
+				server channel command client \
+				send_msg parseLoginData topic clientChannelManagement \
+				Commands/NICK Commands/PASS Commands/PRIVMSG Commands/JOIN Commands/USER \
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))

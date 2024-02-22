@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:04:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 18:10:14 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:35:04 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ Command::Command(string input, Server &server) : _server(server)
 		i++;
 	}
 	// Enlever le \r\n du dernier parametre.
-	if (input[start] != ':')
+	if (input[start] != ':' && this->params.size())
 		this->params[this->params.size() - 1].erase(this->params[this->params.size() - 1].length() - 2);
 	printCmd();
 }
@@ -53,10 +53,9 @@ void	Command::printCmd()
 	std::cout << endl << "-------------------" << endl;
 	// Parse command and execute it
 }
-void Command::NICK(Client &client) {
-	_server.printClientMap();
-	client.setNickname(this->params[0]);
-	_server.printClientMap();
+
+string Command::getCmdName() {
+	return cmdName;
 }
 
 

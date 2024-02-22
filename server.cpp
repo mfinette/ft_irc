@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 23:46:52 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/22 12:54:50 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void Server::handleClient(int clientSocket)
 			else {
 				execCMD(string(buffer, bytesRead), getClient(clientSocket), *this);
 			}
-			
 			break;
 		}
 		else if (bytesRead == 0)
@@ -140,7 +139,7 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	fds[numClients + 1].fd = clientSocket; // Start from index 1
 	fds[numClients + 1].events = POLLIN;
 	fds[numClients + 1].revents = 0;
-	Client	tmp(clientSocket, static_cast<const string>("nickname"));
+	Client	tmp(clientSocket);
 	this->_clientList.insert(std::make_pair(clientSocket, tmp));
 	numClients++;
 }
@@ -256,4 +255,8 @@ bool	Server::channelExisting(std::string channel_name){
 }
 void Server::printClientMap() {
 	cout << this->_clientList << endl;
+}
+
+std::map<int, Client> &Server::getClientList() {
+	return _clientList;
 }

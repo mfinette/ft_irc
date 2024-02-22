@@ -6,13 +6,13 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/21 01:56:01 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/22 12:54:44 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Client::Client(int socket, const std::string &nickname) : _socket(socket), _nickname(nickname), loginStage(0)
+Client::Client(int socket) : _socket(socket), _loginStage(0)
 {
 }
 
@@ -42,12 +42,16 @@ void	Client::setNickname(string nickname){
 	_nickname = nickname;
 }
 
+void	Client::setRealname(string realname){
+	_realname = realname;
+}
+
 void Client::incrementLoginStage() {
-	loginStage++;
+	_loginStage++;
 }
 
 int Client::getLoginStage() {
-	return loginStage;
+	return _loginStage;
 }
 
 int		Client::getSocket() const{

@@ -1,4 +1,4 @@
-#include "Headers/ft_irc.hpp"
+#include "../Headers/ft_irc.hpp"
 
 // target is a string, can be the nickname of a client or the name of a channel
 
