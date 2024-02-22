@@ -50,13 +50,37 @@ send_msg(client, HEADER(client) + " 403 " + client.getNickname() + " " + channel
 # define ERR_CANNOTSENDTOCHAN(client, channel) \
 send_msg(client, HEADER(client) + " 404 " + client.getNickname() + " " + channel + " :Cannot send to channel" + RN)
 
+//431 ERR_NONICKNAMEGIVEN
+#define ERR_NONICKNAMEGIVEN(client, nick) \
+send_msg(client, HEADER(client) + " 431 " + nick + " :No nickname given" + RN)
+
+//432 ERR_ERRONEUSNICKNAME
+#define ERR_ERRONEUSNICKNAME(client, nick) \
+send_msg(client, HEADER(client) + " 432 " + nick + " :Erroneus nickname" + RN)
+
+//433 ERR_ERRONEUSNICKNAME
+#define ERR_NICKNAMEINUSE(client, nick) \
+send_msg(client, HEADER(client) + " 433 " + nick + " :Nickname is already in use" + RN)
+
 //442 ERR_NOTONCHANNEL
 # define ERR_NOTONCHANNEL(client, channel) \
 send_msg(client, HEADER(client) + " 442 " + client.getNickname() + " " + channel + " :You're not on that channel" + RN)
 
+//451 ERR_NOTREGISTERED
+#define ERR_NOTREGISTERED(client, nick) \
+send_msg(client, HEADER(client) + " 451 " + nick + ":You have not registered" + RN)
+
 //461 ERR_NEEDMOREPARAMS
 # define ERR_NEEDMOREPARAMS(client, command) \
 send_msg(client, HEADER(client) + " 461 " + client.getNickname() + " " + command + " :Not enough parameters" + RN)
+
+//462 ERR_ALREADYREGISTERED
+#define ERR_ALREADYREGISTERED(client) \
+send_msg(client, HEADER(client) + " 462 " + client.getNickname() + ":You may not reregister" + RN)
+
+//464 ERR_PASSWDMISSMATCH
+#define ERR_PASSWDMISSMATCH(client, nick) \
+send_msg(client, HEADER(client) + " 464 " + nick + ":Password incorrect" + RN)
 
 //471 ERR_CHANNELISFULL
 # define ERR_CHANNELISFULL(client, channel) \
@@ -73,4 +97,5 @@ send_msg(client, HEADER(client) + " 475 " + client.getNickname() + " " + channel
 //482 ERR_CHANOPRIVSNEEDED
 # define ERR_CHANOPRIVSNEEDED(client, channel) \
 send_msg(client, HEADER(client) + " 482 " + client.getNickname() + " " + channel + " :You're not channel operator" + RN)
+
 #endif

@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 17:10:41 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 13:22:06 by pchapuis         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/02/22 14:42:06 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef FT_IRC_HPP
 #define FT_IRC_HPP
@@ -33,7 +34,6 @@
 #include "client.hpp"
 #include "command.hpp"
 #include "server.hpp"
-#include "RPL & ERR/ERR.hpp"
 #include "RPL & ERR/RPL.hpp"
 
 using std::string;

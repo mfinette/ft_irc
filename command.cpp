@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 19:04:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 12:17:11 by pchapuis         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/02/22 14:34:17 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "Headers/ft_irc.hpp"
 
@@ -37,7 +38,7 @@ Command::Command(string input, Server &server) : _server(server)
 		i++;
 	}
 	// Enlever le \r\n du dernier parametre.
-	if (input[start] != ':')
+	if (input[start] != ':' && this->params.size())
 		this->params[this->params.size() - 1].erase(this->params[this->params.size() - 1].length() - 2);
 	printCmd();
 }
@@ -54,10 +55,9 @@ void	Command::printCmd()
 	// Parse command and execute it
 }
 
-void Command::NICK(Client &client) {
-	_server.printClientMap();
-	client.setNickname(this->params[0]);
-	_server.printClientMap();
+
+string Command::getCmdName() {
+	return cmdName;
 }
 
 

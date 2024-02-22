@@ -1,7 +1,7 @@
 #include "Headers/ft_irc.hpp"
 
 void	test_send(int	clientSocket){
-	Client	c_pchapuis(clientSocket, "pchapuis");
+	Client	c_pchapuis(clientSocket);
 	c_pchapuis.setUsername("pchapuis");
 	
 	RPL_WELCOME(c_pchapuis, "Welcome");

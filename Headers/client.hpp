@@ -10,7 +10,7 @@ class Channel;
 class Client
 {
 	public:
-		Client(int socket, const string& nickname);
+		Client(int socket);
 		~Client();
 
 		Client& operator=(const Client& rhs);
@@ -23,6 +23,7 @@ class Client
 
 		void	setUsername(string username);
 		void	setNickname(string nickname);
+		void	setRealname(string realName);
 		
 		void 	incrementLoginStage();
 		int 	getLoginStage();
@@ -31,7 +32,8 @@ class Client
 		int			_socket;
 		string		_nickname;
 		string		_username;
-		int			loginStage; //Each step increments by one this variable -> 3 means we have all infos
+		string		_realname;
+		int			_loginStage; //Each step increments by one this variable -> 3 means we have all infos
 		std::map<std::string, Channel> l_channel;
 
 		// Add other Client-related data and methods as needed

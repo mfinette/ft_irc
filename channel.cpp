@@ -5,12 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 19:01:53 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 14:05:04 by pchapuis         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/02/22 14:39:48 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "Headers/ft_irc.hpp"
+
+std::ostream& operator<<(std::ostream& os, const Channel& channel)
+{
+	os << "Channel name: " << channel.getName() << std::endl;
+	return os;
+}
 
 Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false){
 	(void)_user_limit;
@@ -48,7 +55,8 @@ bool	Channel::isOperator(int socket){
 	return false;
 }
 
-std::string	Channel::getName(){
+std::string	Channel::getName() const
+{
 	return _name;
 }
 
