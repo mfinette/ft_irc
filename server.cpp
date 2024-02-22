@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 14:12:10 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/22 21:53:20 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,10 +187,8 @@ void Server::start(void)
 			handleServer(serverSocket, fds, numClients, MAX_CLIENTS);
 		// Check for events on client sockets
 		for (int i = 1; i <= numClients; ++i)
-		{
 			if (fds[i].revents & POLLIN)
 				handleClient(fds[i].fd);
-		}
 	}
 }
 
@@ -198,72 +196,74 @@ void	Server::setup()
 {
 }
 
-Client&	Server::getClient(int socket){
+Client&	Server::getClient(int socket)
+{
 	std::map<int, Client>::iterator it;
 	std::map<int, Client>::iterator ite = this->_clientList.end();
 
-	for(it = _clientList.begin(); it != _clientList.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it)
 		if (it->first == socket)
 			return it->second;
-	}
 	return ite->second;
 }
 
-Client&	Server::getClient(std::string nickname){
+Client&	Server::getClient(std::string nickname)
+{
 	std::map<int, Client>::iterator it;
 	std::map<int, Client>::iterator ite = this->_clientList.end();
 
-	for(it = _clientList.begin(); it != _clientList.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it)
 		if (it->second.getNickname() == nickname)
 			return it->second;
-	}
 	return ite->second;
 }
 
-Channel	&Server::getChannel(std::string name){
+Channel	&Server::getChannel(std::string name)
+{
 	std::map<std::string, Channel>::iterator it;
 	std::map<std::string, Channel>::iterator ite = this->_channelList.end();
 
-	for(it = _channelList.begin(); it != _channelList.end(); ++it){
+	for(it = _channelList.begin(); it != _channelList.end(); ++it)
 		if (it->first == name)
 			return it->second;
-	}
 	return ite->second;
 }
 
-bool	Server::isClientAway(int socket){
+bool	Server::isClientAway(int socket)
+{
 	std::map<int, Client>::iterator it;
 
-	for(it = _clientList.begin(); it != _clientList.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it)
 		if (it->first == socket)
 			return false;
-	}
 	return true;
 }
 
-bool	Server::isClientAway(std::string nickname){
+bool	Server::isClientAway(std::string nickname)
+{
 	std::map<int, Client>::iterator it;
 
-	for(it = _clientList.begin(); it != _clientList.end(); ++it){
+	for(it = _clientList.begin(); it != _clientList.end(); ++it)
 		if (it->second.getNickname() == nickname)
 			return false;
-	}
 	return true;
 }
 
-bool	Server::channelExisting(std::string channel_name){
+bool	Server::channelExisting(std::string channel_name)
+{
 	std::map<std::string, Channel>::iterator it;
 
-	for(it = _channelList.begin(); it != _channelList.end(); ++it){
+	for(it = _channelList.begin(); it != _channelList.end(); ++it)
 		if (it->first == channel_name)
 			return true;
-	}
 	return false;
 }
-void Server::printClientMap() {
+void Server::printClientMap()
+{
 	cout << this->_clientList << endl;
 }
 
-std::map<int, Client> &Server::getClientList() {
+std::map<int, Client> &Server::getClientList()
+{
 	return _clientList;
 }

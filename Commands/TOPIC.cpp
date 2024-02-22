@@ -19,17 +19,23 @@
 
 //if TOPIC function dont have enough params ==> ERR_NEEDMOREPARAMS
 
-void	Command::TOPIC(Client &client, std::string channel_name, std::string topic){
-	if (_server.channelExisting(channel_name)){
+void	Command::TOPIC(Client &client, std::string channel_name, std::string topic)
+{
+	if (_server.channelExisting(channel_name))
+	{
 		Channel channel = _server.getChannel(channel_name);
-		if (channel.isClientInChannel(client.getSocket())){
-			if (params.size() != 0){
+		if (channel.isClientInChannel(client.getSocket()))
+		{
+			if (params.size() != 0)
+			{
 				// want to update the topic
 				(void)topic;
 			}
-			else{
+			else
+			{
 				//want to see the topic
-				if (channel.getTopic().size() != 0){
+				if (channel.getTopic().size() != 0)
+				{
 					RPL_TOPIC(client, channel_name, channel.getTopic());
 					RPL_TOPICWHOTIME(client, channel_name, channel.getTopicAuthor(), channel.getSetAt());
 				}

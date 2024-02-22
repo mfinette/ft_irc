@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/22 14:34:17 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/22 21:49:50 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "Headers/ft_irc.hpp"
 
@@ -55,9 +54,6 @@ void	Command::printCmd()
 	// Parse command and execute it
 }
 
-
 string Command::getCmdName() {
 	return cmdName;
 }
-
-
