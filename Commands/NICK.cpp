@@ -21,6 +21,7 @@ bool Command::NICK(Client &client)
 			if (params[0].find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ\
 				abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos)
 				{
+					NICK_CLIENT(client, this->params[0]);
 					client.setNickname(this->params[0]);
 					return true;
 				}

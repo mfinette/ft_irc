@@ -64,6 +64,8 @@ void execCMD(string input, Client &client, Server &server)
 	cout << "|"<< command.getCmdName() << "|"<< endl;
 	if (command.getCmdName() == "TEST")
 		std::cout << "test\n";
+	if (command.getCmdName() == "NICK")
+		command.NICK(client);
 	// if (command.getCmdName() == "JOIN")
 	// 	command.JOIN(client, command.getCmdParam(0), "");
 	// if (command.getCmdName() == "PRIVMSG")
