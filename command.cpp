@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 14:26:24 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:32:53 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ Command::Command(string input, Server &server) : _server(server)
 	size_t end = input.find(" ");
 	int i = 0;
 
-	this->cmdName = input.substr(start, end - start);
+	if (end == std::string::npos) 
+		this->cmdName = input.substr(start, input.length() - start - 2);
+	else
+		this->cmdName = input.substr(start, end - start);
 	while (end != std::string::npos)
 	{
 		start = end + 1;
