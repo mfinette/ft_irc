@@ -64,10 +64,12 @@ void execCMD(string input, Client &client, Server &server)
 	cout << "|"<< command.getCmdName() << "|"<< endl;
 //	if (command.getCmdName() == "TEST")
 //		std::cout << "test\n";
+	if (command.getCmdName() == "NICK")
+		command.NICK(client);
 	if (command.getCmdName() == "JOIN")
-		command.JOIN(client, command.getCmdParam(0), "");
+		command.JOIN(client);
 	if (command.getCmdName() == "PRIVMSG")
-		command.PRIVMSG("#coucou", client);
+		command.PRIVMSG(client);
 //	cout << "clients connected to coucou : " << server.getChannel("coucou").getClientMap() << endl;
 }
 
