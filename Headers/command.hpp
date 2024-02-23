@@ -24,6 +24,7 @@ class Command
 		void	JOIN(Client &client, std::string channel_name, std::string password);
 		void	TOPIC(Client &client, std::string channel_name, std::string topic);
 		void	KICK(Client &client, std::string channel_name, std::string target, std::string reason);
+		void	INVITE(Client &client, std::string target, std::string channel_name);
 
 		string	getCmdName();
 

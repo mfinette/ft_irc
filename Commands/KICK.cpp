@@ -8,7 +8,9 @@ void	Command::KICK(Client &client, std::string channel_name, std::string target,
 	Channel channel = _server.getChannel(channel_name);
 	if (!channel.isOperator(client.getSocket())) //si pas les droit de kick
 		return ERR_CHANOPRIVSNEEDED(client, channel_name);
-	if (!_server.isClientLog(target) || !channel.isClientInChannel(_server.getClient(target).getSocket())) //si la target a kick est bien sur le serveur et sur le channel
+	if (!_server.isClientLog(target)) //si la target n'est pas sur le serveur
+		return ERR_NOSUCHNICK(client, target);
+	if (!channel.isClientInChannel(_server.getClient(target).getSocket())) //si la target a kick est bien sur le channel
 		return ERR_USERNOTINCHANNEL(client, target, channel_name);
 	if (!channel.isClientInChannel(client.getSocket())) //si le client n'est pas sur le serveur
 		return ERR_NOTONCHANNEL(client, channel_name);

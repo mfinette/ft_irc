@@ -1,6 +1,7 @@
 #include "../Headers/ft_irc.hpp"
 
-bool	Command::PASS(Client &client) {
+bool	Command::PASS(Client &client)
+{
 	if (params.size() == 0)
 		ERR_NEEDMOREPARAMS(client, cmdName);
 	if (params[0] == _server.getServPassword())

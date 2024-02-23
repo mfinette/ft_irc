@@ -37,6 +37,14 @@ send_msg(client, HEADER(client) + " 332 " + client.getNickname() + " " + channel
 # define RPL_TOPICWHOTIME(client, channel, author, setAt) \
 send_msg(client, HEADER(client) + " 333 " + client.getNickname() + " " + channel + " " + author + " " + setAt + RN);
 
+//336 RPL_INVITELIST
+# define RPL_INVITELIST(client, channel) \
+send_msg(client, HEADER(client) + " 336 " + client.getNickname() + " " + channel + RN);
+
+//341 RPL_INVITING
+# define RPL_INVITING(client, nick, channel) \
+send_msg(client, HEADER(client) + " 341 " + client.getNickname() + " " + nick + " " + channel + RN);
+
 //353 RPL_NameReply
 # define RPL_NameReply(client, msg) \
 send_msg(client, HEADER(client) + " 353 " + client.getNickname() + " = channeltest " + msg + RN)
@@ -72,6 +80,10 @@ send_msg(client, HEADER(client) + " 441 " + client.getNickname() + " " + nick + 
 //442 ERR_NOTONCHANNEL
 # define ERR_NOTONCHANNEL(client, channel) \
 send_msg(client, HEADER(client) + " 442 " + client.getNickname() + " " + channel + " :You're not on that channel" + RN)
+
+//443 ERR_USERONCHANNEL
+# define ERR_USERONCHANNEL(client, nick, channel) \
+send_msg(client, HEADER(client) + " 443 " + client.getNickname() + " " + nick + " " + channel + " :is already on channel" + RN)
 
 //451 ERR_NOTREGISTERED
 #define ERR_NOTREGISTERED(client, nick) \

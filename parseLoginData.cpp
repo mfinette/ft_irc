@@ -1,24 +1,26 @@
 #include "Headers/ft_irc.hpp"
 
-bool isUserCmdValid(string input) {
+bool isUserCmdValid(string input)
+{
 	std::istringstream iss(input);
 	string word;
 	while (std::getline(iss, input))
 	{
 		std::istringstream tokens(input);
 		tokens >> word;
-		if (word == "USER") {
+		if (word == "USER")
+		{
 			tokens >> word;
 			if (word.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-			abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos) {
+			abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos)
 				return true;
-			}
 		}
 	}
 	return false;
 }
 
-void getLoginData(string input, Client &client, Server &server) {
+void getLoginData(string input, Client &client, Server &server)
+{
 	std::istringstream iss(input);
 	while (std::getline(iss, input))
 	{
@@ -30,12 +32,14 @@ void getLoginData(string input, Client &client, Server &server) {
 			ERR_NOTREGISTERED(client, "channel name");
 		else if (client.getLoginStage() == STAGE_1)
 		{
-			if (cmd.getCmdName() == "PASS") {
+			if (cmd.getCmdName() == "PASS")
+			{
 				if (cmd.PASS(client))
 					client.incrementLoginStage();
 			}
 		}
-		else if (client.getLoginStage() == STAGE_2) {
+		else if (client.getLoginStage() == STAGE_2)
+		{
 			if (cmd.getCmdName() == "NICK")
 			{
 				cmd.NICK(client);
@@ -54,10 +58,12 @@ void getLoginData(string input, Client &client, Server &server) {
 	cout << client.getLoginStage() << endl;
 }
 
-void execCMD(string input, Client &client, Server &server) {
+void execCMD(string input, Client &client, Server &server)
+{
 	RPL_WELCOME(client, "Welcome");
 	Command command(input, server);
-	command.PRIVMSG("input", "nick test", client);
+	if (command.getCmdName() == "PRIVMSG")
+		command.PRIVMSG("input", "nick test", client);
 }
 
 // sera a finir d'implementer dans les Commandes de login : ERR_NEEDMOREPARAMS et ERR_NOTREGISTERED
