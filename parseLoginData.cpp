@@ -64,11 +64,11 @@ void execCMD(string input, Client &client, Server &server)
 	cout << "|"<< command.getCmdName() << "|"<< endl;
 	if (command.getCmdName() == "TEST")
 		std::cout << "test\n";
-	if (command.getCmdName() == "JOIN")
-		command.JOIN(client, command.getCmdParam(0), "");
-	if (command.getCmdName() == "PRIVMSG")
-		command.PRIVMSG("onsenfou", "coucou", client);
-	cout << "clients connected to coucou : " << server.getChannel("coucou").getClientMap() << endl;
+	// if (command.getCmdName() == "JOIN")
+	// 	command.JOIN(client, command.getCmdParam(0), "");
+	// if (command.getCmdName() == "PRIVMSG")
+	// 	command.PRIVMSG("onsenfou", "coucou", client);
+	// cout << "clients connected to coucou : " << server.getChannel("coucou").getClientMap() << endl;
 }
 
 // sera a finir d'implementer dans les Commandes de login : ERR_NEEDMOREPARAMS et ERR_NOTREGISTERED
