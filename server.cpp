@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 21:53:20 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/23 11:51:34 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ void Server::handleClient(int clientSocket)
 		{
 			// Client disconnected
 			cout << "Client disconnected (" << clientSocket << ")" << endl;
+			// Remove client from list
+			cout << "\n\n\n\n\n\nALALLAALLALALAALA\n\n\n\n\n\n\n\n";
+			removeClientFromServer(client);
 			// Close client socket
 			
 			closeSocket(clientSocket);
@@ -161,21 +164,24 @@ void Server::start(void)
 		cerr << "Error creating socket: " << strerror(errno) << endl;
 		return;
 	}
-	if( setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0 )   
+	if(setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
 	{
 		cerr << "setsockopt" << std::endl;   
 		exit(EXIT_FAILURE);   
 	}
+	// Bind server socket to port
 	bindServerSocket(serverSocket, this->_port);
+	// Listen for connections on server socket
 	listenForConnections(serverSocket, 10);
 	cout << "Server listening on port " << this->_port << endl;
 	const int MAX_CLIENTS = 10; // Maximum number of clients
 	struct pollfd fds[MAX_CLIENTS + 1]; // +1 for server socket
-	fds[0].fd = serverSocket;
-	fds[0].events = POLLIN;
+	fds[SERVER].fd = serverSocket;
+	fds[SERVER].events = POLLIN;
 	int numClients = 0; // Number of connected clients
 	while (true)
 	{
+		// Poll for events and revents in every fd (POLLIN == data to read)
 		int ret = poll(fds, numClients + 1, -1);
 		if (ret == -1)
 		{
@@ -183,9 +189,10 @@ void Server::start(void)
 			closeSocket(serverSocket);
 			return;
 		}
-		if (fds[0].revents & POLLIN)
+		// Check for events on server socket (new client connection)
+		if (fds[SERVER].revents & POLLIN)
 			handleServer(serverSocket, fds, numClients, MAX_CLIENTS);
-		// Check for events on client sockets
+		// Check for events on client sockets (message received / client disconnected)
 		for (int i = 1; i <= numClients; ++i)
 			if (fds[i].revents & POLLIN)
 				handleClient(fds[i].fd);
