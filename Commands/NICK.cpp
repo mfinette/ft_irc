@@ -3,11 +3,14 @@
 bool isExistingNick(Server server, string newNick)
 {
 	std::map<int, Client>::const_iterator it;
+	int i = 0;
 
 	for (it = server.getClientList().begin(); it != server.getClientList().end(); ++it)
 	{
+		cout << it->second.getNickname() << endl;
         if (it->second.getNickname() == newNick)
             return true;
+		i++;
     }
 	return false;
 }

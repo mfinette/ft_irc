@@ -4,7 +4,7 @@ void	send_msg(Client client, std::string msg){
 	if (send(client.getSocket(), msg.c_str(), msg.length(), 0) == -1)
 	{
 		// Handle error (printing an error message, closing the socket, etc.)
-		cerr << ("Error sending RPL_NAMREPLY");
+		cerr << ("Error sending a message");
 	}
 }
 

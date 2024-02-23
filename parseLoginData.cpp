@@ -1,24 +1,5 @@
 #include "Headers/ft_irc.hpp"
 
-bool isUserCmdValid(string input)
-{
-	std::istringstream iss(input);
-	string word;
-	while (std::getline(iss, input))
-	{
-		std::istringstream tokens(input);
-		tokens >> word;
-		if (word == "USER")
-		{
-			tokens >> word;
-			if (word.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-			abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos)
-				return true;
-		}
-	}
-	return false;
-}
-
 void getLoginData(string input, Client &client, Server &server) {
 	std::istringstream iss(input);
 	while (std::getline(iss, input))
