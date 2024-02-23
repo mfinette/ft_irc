@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 14:12:10 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/22 16:58:16 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,25 +231,46 @@ Channel	&Server::getChannel(std::string name){
 	return ite->second;
 }
 
-bool	Server::isClientAway(int socket){
+bool	Server::isClientLog(int socket){
 	std::map<int, Client>::iterator it;
 
 	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->first == socket)
-			return false;
+			return true;
 	}
-	return true;
+	return false;
 }
 
-bool	Server::isClientAway(std::string nickname){
+bool	Server::isClientLog(std::string nickname){
 	std::map<int, Client>::iterator it;
 
 	for(it = _clientList.begin(); it != _clientList.end(); ++it){
 		if (it->second.getNickname() == nickname)
-			return false;
+			return true;
 	}
-	return true;
+	return false;
 }
+
+bool	Server::getClientStatus(int socket){
+	std::map<int, Client>::iterator it;
+
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
+		if (it->first == socket)
+			return it->second.getStatus();
+	}
+	return false;
+}
+
+bool	Server::getClientStatus(std::string nickname){
+	std::map<int, Client>::iterator it;
+
+	for(it = _clientList.begin(); it != _clientList.end(); ++it){
+		if (it->second.getNickname() == nickname)
+			return it->second.getStatus();
+	}
+	return false;
+}
+
 
 bool	Server::channelExisting(std::string channel_name){
 	std::map<std::string, Channel>::iterator it;

@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 14:25:47 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:52:16 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	Client::setRealname(string realname){
 	_realname = realname;
 }
 
+void	Client::setStatus(int status){
+	_status = status;
+}
+
 void Client::incrementLoginStage() {
 	_loginStage++;
 }
@@ -62,6 +66,10 @@ string	Client::getNickname() const{
 
 string	Client::getUsername() const{
 	return _username;
+}
+
+int		Client::getStatus() const{
+	return _status;
 }
 
 std::ostream	&operator<<(std::ostream &o, const Client &client){

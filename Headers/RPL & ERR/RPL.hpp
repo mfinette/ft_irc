@@ -17,7 +17,6 @@ void send_msg(Client client, std::string msg);
 # define JOIN_CHANNEL(client, channel) \
 send_msg(client, HEADER_CMD(client) + "JOIN " + channel + RN)
 
-
 //001 RPL_WELCOME
 # define RPL_WELCOME(client, msg) \
 send_msg(client, HEADER(client) + " 001 " + client.getNickname() + " :" + msg + RN)
@@ -42,6 +41,10 @@ send_msg(client, HEADER(client) + " 333 " + client.getNickname() + " " + channel
 # define RPL_NameReply(client, msg) \
 send_msg(client, HEADER(client) + " 353 " + client.getNickname() + " = channeltest " + msg + RN)
 
+//401 ERR_NOSUCHNICK
+# define ERR_NOSUCHNICK(client, nick) \
+send_msg(client, HEADER(client) + " 401 " + client.getNickname() + " " + nick + " :No such nick/channel" + RN)
+
 //403 ERR_NOSUCHCHANNEL
 # define ERR_NOSUCHCHANNEL(client, channel) \
 send_msg(client, HEADER(client) + " 403 " + client.getNickname() + " " + channel + " :No such channel" + RN)
@@ -61,6 +64,10 @@ send_msg(client, HEADER(client) + " 432 " + nick + " :Erroneus nickname" + RN)
 //433 ERR_ERRONEUSNICKNAME
 #define ERR_NICKNAMEINUSE(client, nick) \
 send_msg(client, HEADER(client) + " 433 " + nick + " :Nickname is already in use" + RN)
+
+//441 ERR_USERNOTINCHANNEL
+# define ERR_USERNOTINCHANNEL(client, nick, channel) \
+send_msg(client, HEADER(client) + " 441 " + client.getNickname() + " " + nick + " " + channel + " :They aren't on that channel" + RN)
 
 //442 ERR_NOTONCHANNEL
 # define ERR_NOTONCHANNEL(client, channel) \

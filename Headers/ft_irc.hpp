@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/22 14:42:06 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:12:40 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ using std::endl;
 using std::cerr;
 using std::memset;
 
-void	test_send(int	clientSocket);
 void	getLoginData(string input, Client &client, Server &server);
 void	execCMD(string input, Client &client, Server &server);
 

@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/22 14:39:48 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:56:24 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ bool	Channel::hasPassword(){
 	return _has_password;
 }
 
+bool	Channel::hasTopicRestriction(){
+	return _topic_restriction;
+}
+
 int	Channel::getUserLimit(){
 	return _user_limit;
 }
@@ -145,6 +149,15 @@ void	Channel::changePasswordStatusToOn(){
 void	Channel::changePasswordStatusToOff(){
 	_has_password = false;
 }
+
+void	Channel::setTopic(std::string topic){
+	_topic = topic;
+}
+
+void	Channel::setTopicAuthor(std::string nickname){
+	_topic_author = nickname;
+}
+
 
 bool	Channel::isClientInChannel(int socket){
 	std::map<Client *, bool>::iterator it;
