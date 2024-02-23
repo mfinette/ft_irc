@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 13:37:29 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:47:39 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,10 @@ bool	Channel::hasPassword()
 	return _has_password;
 }
 
+bool	Channel::hasTopicRestriction(){
+	return _topic_restriction;
+}
+
 int	Channel::getUserLimit()
 {
 	return _user_limit;
@@ -159,6 +163,14 @@ void	Channel::changePasswordStatusToOn()
 void	Channel::changePasswordStatusToOff()
 {
 	_has_password = false;
+}
+
+void	Channel::setTopic(std::string topic){
+	_topic = topic;
+}
+
+void	Channel::setTopicAuthor(std::string nickname){
+	_topic_author = nickname;
 }
 
 bool	Channel::isClientInChannel(int socket)

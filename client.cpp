@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/22 22:14:34 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/23 12:18:22 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ void	Client::setRealname(string realname)
 	_realname = realname;
 }
 
+void	Client::setStatus(int status){
+	_status = status;
+}
+
 void Client::incrementLoginStage()
 {
 	_loginStage++;
@@ -71,6 +75,10 @@ string	Client::getNickname() const{
 
 string	Client::getUsername() const{
 	return _username;
+}
+
+int		Client::getStatus() const{
+	return _status;
 }
 
 std::ostream	&operator<<(std::ostream &o, const Client &client)

@@ -28,8 +28,10 @@ class Server
 
 		////////////////// stuff //////////////////
 		void							printClientMap();
-		bool							isClientAway(int socket);
-		bool							isClientAway(std::string nickname);
+		bool							isClientLog(int socket);
+		bool							isClientLog(std::string nickname);
+		bool							getClientStatus(int socket);
+		bool							getClientStatus(std::string nickname);
 		bool							channelExisting(std::string channel_name);
 
 	private:

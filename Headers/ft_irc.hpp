@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 11:45:03 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:47:05 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ using std::endl;
 using std::cerr;
 using std::memset;
 
-void	test_send(int	clientSocket);
 void	getLoginData(string input, Client &client, Server &server);
 void	execCMD(string input, Client &client, Server &server);
 

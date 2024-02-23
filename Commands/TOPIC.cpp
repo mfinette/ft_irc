@@ -1,51 +1,39 @@
 #include "../Headers/ft_irc.hpp"
 
-//RPL_TOPIC send when the topic is ask (RPL_TOPICWHOTIME should be sent at the same time)
-//RPL_NOTOPIC if no topic
+void	Channel::updateEveryClient(){
+	std::map<Client *, bool>::iterator it;
 
-//topic can't be an empty string
-
-//if want to see the topic or change it and not in the channel ==> ERR_NOTONCHANNEL
-
-//if topic restrictions is on, check if client have appropriate permission to modify, if not ==> ERR_CHANOPRIVSNEEDED
-
-// when the topic change, the author of the topic will change
-
-// when the topic, every client on the server will receive RPL_TOPIC
-
-// when new user join a channel, they receive RPL_TOPIC or not if there is no topic
-
-//if channel as params didnt exist ==> ERR_NOSUCHCHANNEL
-
-//if TOPIC function dont have enough params ==> ERR_NEEDMOREPARAMS
-
-void	Command::TOPIC(Client &client, std::string channel_name, std::string topic)
-{
-	if (_server.channelExisting(channel_name))
-	{
-		Channel channel = _server.getChannel(channel_name);
-		if (channel.isClientInChannel(client.getSocket()))
-		{
-			if (params.size() != 0)
-			{
-				// want to update the topic
-				(void)topic;
-			}
-			else
-			{
-				//want to see the topic
-				if (channel.getTopic().size() != 0)
-				{
-					RPL_TOPIC(client, channel_name, channel.getTopic());
-					RPL_TOPICWHOTIME(client, channel_name, channel.getTopicAuthor(), channel.getSetAt());
-				}
-				else
-					RPL_NOTOPIC(client, channel_name);
-			}
+	for(it = _client.begin(); it != _client.end(); ++it){
+		Client client = *it->first;
+		if (_topic.size() != 0){
+			RPL_TOPIC(client, _name, _topic);
+			RPL_TOPICWHOTIME(client, _name, _topic_author, getSetAt());
 		}
 		else
-			ERR_NOTONCHANNEL(client, channel_name);
+			RPL_NOTOPIC(client, _name);
 	}
-	else
-		ERR_NOSUCHCHANNEL(client, channel_name);
+}
+
+void	Command::TOPIC(Client &client, std::string channel_name, std::string topic){
+	if (channel_name == "") //check if a name as been given as parameters
+		return ERR_NEEDMOREPARAMS(client, "TOPIC");
+	if (!_server.channelExisting(channel_name)) //si le channel n'existe pas
+		return ERR_NOSUCHCHANNEL(client, channel_name);
+	Channel channel = _server.getChannel(channel_name);
+	if (!channel.isClientInChannel(client.getSocket())) //si le clien n'est pas dans le channel
+		return ERR_NOTONCHANNEL(client, channel_name);
+	if (params.size() != 0){ //si il y a des parametres ==> modifications du topic
+		if (channel.hasTopicRestriction()) //check si le topic peut etre changer uniquement en tant que moderateur
+			if (!channel.isOperator(client.getSocket())) //check si le client est ops
+				return ERR_CHANOPRIVSNEEDED(client, channel_name); //si pas ops ERR
+		channel.setTopic(topic);
+		channel.setTopicAuthor(client.getNickname());
+		channel.updateEveryClient();
+	}
+	else{ //si il n'y a pas de parametre ==> affichage du topic
+		if (channel.getTopic().size() == 0)
+			return RPL_NOTOPIC(client, channel_name);
+		RPL_TOPIC(client, channel_name, channel.getTopic());
+		RPL_TOPICWHOTIME(client, channel_name, channel.getTopicAuthor(), channel.getSetAt());			
+	}
 }

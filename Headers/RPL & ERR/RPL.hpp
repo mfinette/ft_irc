@@ -17,7 +17,6 @@ void send_msg(Client client, std::string msg);
 # define JOIN_CHANNEL(client, channel) \
 send_msg(client, HEADER_CMD(client) + "JOIN " + channel + RN)
 
-
 //001 RPL_WELCOME
 # define RPL_WELCOME(client, msg) \
 send_msg(client, HEADER(client) + " 001 " + client.getNickname() + " :" + msg + RN)
@@ -38,9 +37,21 @@ send_msg(client, HEADER(client) + " 332 " + client.getNickname() + " " + channel
 # define RPL_TOPICWHOTIME(client, channel, author, setAt) \
 send_msg(client, HEADER(client) + " 333 " + client.getNickname() + " " + channel + " " + author + " " + setAt + RN);
 
+//336 RPL_INVITELIST
+# define RPL_INVITELIST(client, channel) \
+send_msg(client, HEADER(client) + " 336 " + client.getNickname() + " " + channel + RN);
+
+//341 RPL_INVITING
+# define RPL_INVITING(client, nick, channel) \
+send_msg(client, HEADER(client) + " 341 " + client.getNickname() + " " + nick + " " + channel + RN);
+
 //353 RPL_NameReply
 # define RPL_NameReply(client, msg) \
 send_msg(client, HEADER(client) + " 353 " + client.getNickname() + " = channeltest " + msg + RN)
+
+//401 ERR_NOSUCHNICK
+# define ERR_NOSUCHNICK(client, nick) \
+send_msg(client, HEADER(client) + " 401 " + client.getNickname() + " " + nick + " :No such nick/channel" + RN)
 
 //403 ERR_NOSUCHCHANNEL
 # define ERR_NOSUCHCHANNEL(client, channel) \
@@ -62,9 +73,17 @@ send_msg(client, HEADER(client) + " 432 " + nick + " :Erroneus nickname" + RN)
 #define ERR_NICKNAMEINUSE(client, nick) \
 send_msg(client, HEADER(client) + " 433 " + nick + " :Nickname is already in use" + RN)
 
+//441 ERR_USERNOTINCHANNEL
+# define ERR_USERNOTINCHANNEL(client, nick, channel) \
+send_msg(client, HEADER(client) + " 441 " + client.getNickname() + " " + nick + " " + channel + " :They aren't on that channel" + RN)
+
 //442 ERR_NOTONCHANNEL
 # define ERR_NOTONCHANNEL(client, channel) \
 send_msg(client, HEADER(client) + " 442 " + client.getNickname() + " " + channel + " :You're not on that channel" + RN)
+
+//443 ERR_USERONCHANNEL
+# define ERR_USERONCHANNEL(client, nick, channel) \
+send_msg(client, HEADER(client) + " 443 " + client.getNickname() + " " + nick + " " + channel + " :is already on channel" + RN)
 
 //451 ERR_NOTREGISTERED
 #define ERR_NOTREGISTERED(client, nick) \

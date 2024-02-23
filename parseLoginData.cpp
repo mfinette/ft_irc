@@ -62,7 +62,8 @@ void execCMD(string input, Client &client, Server &server)
 {
 	RPL_WELCOME(client, "Welcome");
 	Command command(input, server);
-	command.PRIVMSG("input", "nick test", client);
+	if (command.getCmdName() == "PRIVMSG")
+		command.PRIVMSG("input", "nick test", client);
 }
 
 // sera a finir d'implementer dans les Commandes de login : ERR_NEEDMOREPARAMS et ERR_NOTREGISTERED

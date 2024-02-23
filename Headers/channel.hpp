@@ -23,6 +23,7 @@ class Channel
 		std::string	getSetAt();
 		bool		isInviteOnly();
 		bool		hasPassword();
+		bool		hasTopicRestriction();
 		int			getUserLimit();
 
 		int		nbClient();
@@ -35,7 +36,11 @@ class Channel
 		void	changePasswordStatusToOn();
 		void	changePasswordStatusToOff();
 
+		void	setTopic(std::string topic);
+		void	setTopicAuthor(std::string nickname);
+
 		bool	isClientInChannel(int socket);
+		void	updateEveryClient();
 
 	private:
 		std::map<Client *, bool>	_client;
@@ -47,6 +52,7 @@ class Channel
 		int						_user_limit;
 		bool					_invite_only;
 		bool					_has_password;
+		bool					_topic_restriction;
 
 		// Add other channel-related data and methods as needed
 };
