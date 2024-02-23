@@ -16,11 +16,11 @@ void setFallBackValues(Client &client, string newUsername, string newRealname)
 
 bool Command::USER(Client &client)
 {
-	if (params.size() > 3 && params[1] == "0" && params[2] == "*")
+	if (params.size() >= 3 && params[1] == "0" && params[2] == "*")
 	{
 		if (params[0].length() > USERLEN)
 			params[0] = params[0].substr(0, USERLEN);
-		if (client.getLoginStage() == ALL_LOGIN_DATA_ENTERED)
+		if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
 		{
 			setFallBackValues(client, params[0], msg);
 			return true;

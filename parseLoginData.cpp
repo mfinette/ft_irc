@@ -40,18 +40,14 @@ void getLoginData(string input, Client &client, Server &server) {
 		else if (client.getLoginStage() == STAGE_2)
 		{
 			if (cmd.getCmdName() == "NICK")
-			{
-				cmd.NICK(client);
-				client.incrementLoginStage();
-			}
+				if (cmd.NICK(client))
+					client.incrementLoginStage();
 		}
 		else if (client.getLoginStage() == STAGE_3)
 		{
 			if (cmd.getCmdName() == "USER") 
-			{
-				cmd.USER(client);
-				client.incrementLoginStage();
-			}
+				if (cmd.USER(client))
+					client.incrementLoginStage();
 		}
 	}
 	cout << client.getLoginStage() << endl;
