@@ -64,7 +64,7 @@ send_msg(client, HEADER(client) + " 333 " + client.getNickname() + " " + channel
 
 //451 ERR_NOTREGISTERED
 #define ERR_NOTREGISTERED(client, nick) \
-send_msg(client, HEADER(client) + " 451 " + nick + ":You have not registered" + RN)
+send_msg(client, HEADER(client) + " 451 " + nick + " :You have not registered" + RN)
 
 //461 ERR_NEEDMOREPARAMS
 # define ERR_NEEDMOREPARAMS(client, command) \
@@ -72,7 +72,7 @@ send_msg(client, HEADER(client) + " 461 " + client.getNickname() + " " + command
 
 //462 ERR_ALREADYREGISTERED
 #define ERR_ALREADYREGISTERED(client) \
-send_msg(client, HEADER(client) + " 462 " + client.getNickname() + ":You may not reregister" + RN)
+send_msg(client, HEADER(client) + " 462 " + client.getNickname() + " :You may not reregister" + RN)
 
 //464 ERR_PASSWDMISSMATCH
 #define ERR_PASSWDMISSMATCH(client, nick) \
@@ -115,11 +115,11 @@ send_msg(client, HEADER(client) + " 401 " + client.getNickname() + " " + nick + 
 
 //431 ERR_NONICKNAMEGIVEN
 #define ERR_NONICKNAMEGIVEN(client, nick) \
-send_msg(client, HEADER_CMD(client) + "431 " + client.getNickname() + nick + "No nickname given" + RN)
+send_msg(client, HEADER_CMD(client) + "431 " + client.getNickname() + " " + nick + " :No nickname given" + RN)
 
 //432 ERR_ERRONEUSNICKNAME
 #define ERR_ERRONEUSNICKNAME(client, nick) \
-send_msg(client, HEADER_CMD(client) + " 432 " + client.getNickname() + " " + nick + " Erroneus nickname" + RN)
+send_msg(client, HEADER_CMD(client) + " 432 " + client.getNickname() + " " + nick + " :Erroneus nickname" + RN)
 
 //433 ERR_NICKNAMEINUSE
 #define ERR_NICKNAMEINUSE(client, nick) \
