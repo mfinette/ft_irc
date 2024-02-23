@@ -24,9 +24,9 @@ void getLoginData(string input, Client &client, Server &server)
 	std::istringstream iss(input);
 	while (std::getline(iss, input))
 	{
-		if (input == "CAP LS 302")
-			std::getline(iss, input);
-		input.append("\r\n"); // Rajout du \r\n pour que ca marche avec le constructeur de cmd
+		if (input == "CAP LS 302\r")
+			continue;
+		input.append("\n"); // Rajout du \r\n pour que ca marche avec le constructeur de cmd
 		Command cmd(input, server);
 		if (cmd.getCmdName() != "PASS" && cmd.getCmdName() != "NICK" && cmd.getCmdName() != "USER")
 			ERR_NOTREGISTERED(client, "channel name");

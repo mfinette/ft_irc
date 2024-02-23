@@ -25,9 +25,11 @@ bool Command::USER(Client &client)
 			setFallBackValues(client, params[0], msg);
 			return true;
 		}
-		ERR_ALREADYREGISTERED(client);
+		else
+			ERR_ALREADYREGISTERED(client);
 	}
-	ERR_NEEDMOREPARAMS(client, cmdName);
+	else
+		ERR_NEEDMOREPARAMS(client, cmdName);
 	return false;
 }
 
