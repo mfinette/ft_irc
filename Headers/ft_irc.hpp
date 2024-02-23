@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/22 14:42:06 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 11:45:03 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	execCMD(string input, Client &client, Server &server);
 # define HOT_PINK			"\033[38;5;205m"
 # define BABY_PINK			"\033[38;5;225m"
 # define NEON_PINK			"\033[38;5;207m"
-
-
-
+# define SERVER 0
 
 #endif // FT_IRC_HPP

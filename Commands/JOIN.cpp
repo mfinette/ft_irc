@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 21:58:20 by maxime            #+#    #+#             */
-/*   Updated: 2024/02/22 21:58:21 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/23 13:29:26 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	Command::JOIN(Client &client, std::string channel_name, std::string passwor
 	}
 	else
 	{
+		Channel new_channel(channel_name);
 		std::cout << "channel not existing\n";
-		//need to create the channel
+		new_channel.AddClientToChannel(&client);
+		_server.addChannelToServer(channel_name, new_channel);
 	}
 }
