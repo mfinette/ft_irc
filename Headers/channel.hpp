@@ -40,6 +40,7 @@ class Channel
 
 		void	setTopic(std::string topic);
 		void	setTopicAuthor(std::string nickname);
+		void	setSetAt();
 
 		bool	isClientInChannel(int socket);
 		void	updateEveryClient();

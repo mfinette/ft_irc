@@ -59,7 +59,7 @@ void getLoginData(string input, Client &client, Server &server) {
 
 void execCMD(string input, Client &client, Server &server)
 {
-	RPL_WELCOME(client, "Welcome");
+//	RPL_WELCOME(client, "Welcome");
 	Command command(input, server);
 	cout << "|"<< command.getCmdName() << "|"<< endl;
 //	if (command.getCmdName() == "TEST")
@@ -68,8 +68,14 @@ void execCMD(string input, Client &client, Server &server)
 		command.NICK(client);
 	if (command.getCmdName() == "JOIN")
 		command.JOIN(client);
+	if (command.getCmdName() == "INVITE")
+		command.INVITE(client);
 	if (command.getCmdName() == "PRIVMSG")
 		command.PRIVMSG(client);
+	if (command.getCmdName() == "KICK")
+		command.KICK(client);
+	if (command.getCmdName() == "TOPIC")
+		command.TOPIC(client);
 //	cout << "clients connected to coucou : " << server.getChannel("coucou").getClientMap() << endl;
 }
 

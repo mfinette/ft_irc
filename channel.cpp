@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 16:04:06 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 18:14:47 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,10 @@ void	Channel::setTopic(std::string topic){
 
 void	Channel::setTopicAuthor(std::string nickname){
 	_topic_author = nickname;
+}
+
+void	Channel::setSetAt(){
+	_setAt = std::time(NULL);
 }
 
 bool	Channel::isClientInChannel(int socket)

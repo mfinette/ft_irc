@@ -24,7 +24,6 @@ send_msg(client, HEADER(client) + " NICK :" + newNick + RN);
 # define RPL_WELCOME(client, msg) \
 send_msg(client, HEADER(client) + " 001 " + client.getNickname() + " :" + msg + RN)
 
-
 //301 RPL_AWAY
 # define RPL_AWAY(client, nick, msg) \
 send_msg(client, HEADER(client) + " 301 " + client.getNickname() + " " + nick + " " + msg + RN)
@@ -54,8 +53,8 @@ send_msg(client, HEADER(client) + " 341 " + client.getNickname() + " " + nick + 
 send_msg(client, HEADER(client) + " 353 " + client.getNickname() + " = channeltest " + msg + RN)
 
 //401 ERR_NOSUCHNICK
-# define ERR_NOSUCHNICK(client, nick) \
-send_msg(client, HEADER(client) + " 401 " + client.getNickname() + " " + nick + " :No such nick/channel" + RN)
+# define ERR_NOSUCHNICK(client, nick, msg) \
+send_msg(client, HEADER(client) + " 401 " + client.getNickname() + " " + nick + " :No such " + msg + RN)
 
 //403 ERR_NOSUCHCHANNEL
 # define ERR_NOSUCHCHANNEL(client, channel) \

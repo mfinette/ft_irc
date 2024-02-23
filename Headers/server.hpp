@@ -23,8 +23,8 @@ class Server
 		void							addClientToServer(Client& client);
 		void							setupClient(int socket);
 		void							removeClientFromServer(Client& client);
-		void							addChannelToServer(string name, Channel& channel);
-		void							removeChannelFromServer(string name, Channel& channel);
+		void							addChannelToServer(Channel& channel);
+		void							removeChannelFromServer(Channel& channel);
 
 		////////////////// stuff //////////////////
 		void							printClientMap();

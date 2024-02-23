@@ -10,7 +10,7 @@ void	send_msg(Client client, std::string msg){
 
 void	Command::PRIVMSG(Client &client){
 	if (!_server.isClientLog(this->params[0]) && !_server.channelExisting(this->params[0])) //si ce n'est ni un client, ni un serveur ==> ERR pas de client avec ce nick
-		return ERR_NOSUCHNICK(client, this->params[0]);
+		return ERR_NOSUCHNICK(client, this->params[0], "nick/channel");
 	if (!_server.isClientLog(this->params[0])){ //si ce n'est pas un client alors c'est un serveur
 		//check du moderate mode
 

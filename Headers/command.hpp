@@ -22,9 +22,10 @@ class Command
 		bool	USER(Client &client);
 		void	PRIVMSG(Client &client);
 		void	JOIN(Client &client);
-		void	TOPIC(Client &client, std::string channel_name, std::string topic);
-		void	KICK(Client &client, std::string channel_name, std::string target, std::string reason);
-		void	INVITE(Client &client, std::string target, std::string channel_name);
+		void	JoinServeur(Client &client, Channel &channel);
+		void	TOPIC(Client &client);
+		void	KICK(Client &client);
+		void	INVITE(Client &client);
 
 		string	getCmdName();
 		string	getCmdParam(int index);
