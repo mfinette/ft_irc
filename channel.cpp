@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 15:08:51 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:04:06 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,32 @@ Channel::~Channel()
 {
 }
 
-void	Channel::AddClientToChannel(Client* client)
-{
-	cout << "added client : " << client->getNickname() << "to channel " << _name << std::endl;
+void Channel::printList(){
+	std::map<Client *, bool>::iterator it;
+
+	cout << "\n------------\nclient list\n-------------\n";
+	for(it = _client.begin(); it != _client.end(); ++it)
+	{
+		cout << "client socket: " << it->first->getSocket() << " nickname: " <<  it->first->getNickname() << endl; 
+	}
+}
+
+void	Channel::AddClientToChannel(Client* client){
 	_client.insert(std::pair<Client *, bool>(client, false));
 }
 
-void	Channel::RemoveClientFromChannel(Client* client)
-{
+void	Channel::RemoveClientFromChannel(Client* client){
 	_client.erase(_client.find(client));
 }
 
-void	Channel::SendMessageToChannel(const string& message)
-{
-	// Send message to all users in channel
-	cout << "on ne m'a pas oublie au fond du code :DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD" << endl;
+void	Channel::SendMessageToChannel(string message, string target, int socket)
+{	
 	for (std::map<Client *, bool>::iterator it = _client.begin(); it != _client.end(); ++it)
 	{
-		cout << "j'ai envoye un message au socket " << it->first->getSocket() << "du nom de " << it->first->getNickname() << endl;
-		send(it->first->getSocket(), message.c_str(), message.size(), 0);
+		if (it->first->getSocket() == socket)
+			continue;
+		std::string msg = ":" + it->first->getNickname() + " PRIVMSG " + target + " " + message + "\r\n";
+		send_msg(*it->first, msg);
 	}
 }
 

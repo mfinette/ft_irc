@@ -20,7 +20,7 @@ class Command
 		bool	PASS(Client &client);
 		bool	NICK(Client &client);
 		bool	USER(Client &client);
-		void	PRIVMSG(std::string msg, std::string target, Client &client);
+		void	PRIVMSG(std::string target, Client &client);
 		void	JOIN(Client &client, std::string channel_name, std::string password);
 		void	TOPIC(Client &client, std::string channel_name, std::string topic);
 		void	KICK(Client &client, std::string channel_name, std::string target, std::string reason);

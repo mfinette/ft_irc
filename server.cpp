@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/23 13:47:31 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:24:13 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void Server::handleClient(int clientSocket)
 			// Client disconnected
 			cout << "Client disconnected (" << clientSocket << ")" << endl;
 			// Remove client from list
-			cout << "\n\n\n\n\n\nALALLAALLALALAALA\n\n\n\n\n\n\n\n";
 			removeClientFromServer(client);
 			// Close client socket
 			
