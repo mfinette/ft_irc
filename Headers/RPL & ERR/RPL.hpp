@@ -94,10 +94,6 @@ send_msg(client, HEADER(client) + " 336 " + client.getNickname() + " " + channel
 # define RPL_INVITING(client, nick, channel) \
 send_msg(client, HEADER(client) + " 341 " + client.getNickname() + " " + nick + " " + channel + RN);
 
-//353 RPL_NAMREPLY
-# define RPL_NAMREPLY(client, msg) \
-send_msg(client, HEADER(client) + " 353 " + client.getNickname() + " = channeltest " + msg + RN)
-
 //473 ERR_INVITEONLYCHAN
 # define ERR_INVITEONLYCHAN(client, channel) \
 send_msg(client, HEADER(client) + " 473 " + client.getNickname() + " " + channel + " :Cannot join channel (+i)" + RN)

@@ -44,6 +44,7 @@ class Channel
 
 		bool	isClientInChannel(int socket);
 		void	updateEveryClient();
+		void	updateClientList(Client &client);
 
 		void printList();
 
