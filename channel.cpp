@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 13:47:39 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:08:51 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 std::ostream& operator<<(std::ostream& os, const Channel& channel)
 {
 	os << "Channel name: " << channel.getName() << std::endl;
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& os, std::map<Client *, bool> myClientMap)
+{
+	for (std::map<Client *, bool>::const_iterator it = myClientMap.begin(); it != myClientMap.end(); ++it) {
+		os << "name:" << it->first->getNickname() << endl;
+	}
 	return os;
 }
 
@@ -28,6 +36,7 @@ Channel::~Channel()
 
 void	Channel::AddClientToChannel(Client* client)
 {
+	cout << "added client : " << client->getNickname() << "to channel " << _name << std::endl;
 	_client.insert(std::pair<Client *, bool>(client, false));
 }
 
@@ -39,8 +48,12 @@ void	Channel::RemoveClientFromChannel(Client* client)
 void	Channel::SendMessageToChannel(const string& message)
 {
 	// Send message to all users in channel
+	cout << "on ne m'a pas oublie au fond du code :DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD" << endl;
 	for (std::map<Client *, bool>::iterator it = _client.begin(); it != _client.end(); ++it)
+	{
+		cout << "j'ai envoye un message au socket " << it->first->getSocket() << "du nom de " << it->first->getNickname() << endl;
 		send(it->first->getSocket(), message.c_str(), message.size(), 0);
+	}
 }
 
 bool	Channel::isOperator(int socket)
@@ -105,6 +118,11 @@ bool	Channel::hasTopicRestriction(){
 int	Channel::getUserLimit()
 {
 	return _user_limit;
+}
+
+std::map<Client*, bool> 	Channel::getClientMap()
+{
+	return _client;
 }
 
 int	Channel::nbClient()

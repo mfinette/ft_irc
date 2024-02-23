@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/22 21:49:50 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/23 14:26:24 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,12 @@ void	Command::printCmd()
 
 string Command::getCmdName() {
 	return cmdName;
+}
+
+string Command::getCmdParam(int index) {
+	return params[index];
+}
+
+string Command::getCmdMessage() {
+	return msg;
 }

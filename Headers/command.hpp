@@ -27,6 +27,8 @@ class Command
 		void	INVITE(Client &client, std::string target, std::string channel_name);
 
 		string	getCmdName();
+		string	getCmdParam(int index);
+		string	getCmdMessage();
 
 	private:
 		Server &_server;

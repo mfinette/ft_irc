@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/23 12:18:22 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:58:03 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,31 @@ Client& Client::operator=(const Client& rhs)
 	return *this;
 }
 
-void Client::SendMessage(const std::string& message)
-{
+void Client::SendMessage(const std::string& message) {
 	send(_socket, message.c_str(), message.size(), 0);
 }
 
-void	Client::setUsername(string username)
-{
+void	Client::setUsername(string username) {
 	_username = username;
 }
 
-void	Client::setNickname(string nickname)
-{
+void	Client::setNickname(string nickname) {
 	_nickname = nickname;
 }
 
-void	Client::setRealname(string realname)
-{
+void	Client::setRealname(string realname) {
 	_realname = realname;
 }
 
-void	Client::setStatus(int status){
+void	Client::setStatus(int status) {
 	_status = status;
 }
 
-void Client::incrementLoginStage()
-{
+void Client::incrementLoginStage() {
 	_loginStage++;
 }
 
-int Client::getLoginStage()
-{
+int Client::getLoginStage() {
 	return _loginStage;
 }
 
@@ -81,8 +75,7 @@ int		Client::getStatus() const{
 	return _status;
 }
 
-std::ostream	&operator<<(std::ostream &o, const Client &client)
-{
+std::ostream	&operator<<(std::ostream &o, const Client &client) {
 	o << client.getNickname();
 	return o;
 }

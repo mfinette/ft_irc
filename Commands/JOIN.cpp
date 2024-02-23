@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 21:58:20 by maxime            #+#    #+#             */
-/*   Updated: 2024/02/23 13:47:50 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:10:55 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	Command::JOIN(Client &client, std::string channel_name, std::string passwor
 		if (channel.getPassword() != password) //si le password n'est pas valide
 			return ERR_BADCHANNELKEY(client, channel_name);
 		JOIN_CHANNEL(client, channel_name);
+		channel.AddClientToChannel(&client);
 		if (channel.getTopic().size() == 0) //si il n'y a pas de topic
 			return RPL_NOTOPIC(client, channel_name);
 		RPL_TOPIC(client, channel_name, channel.getTopic());
@@ -33,5 +34,6 @@ void	Command::JOIN(Client &client, std::string channel_name, std::string passwor
 		std::cout << "channel not existing\n";
 		new_channel.AddClientToChannel(&client);
 		_server.addChannelToServer(channel_name, new_channel);
+		JOIN_CHANNEL(client, channel_name);
 	}
 }

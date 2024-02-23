@@ -19,14 +19,13 @@ bool isUserCmdValid(string input)
 	return false;
 }
 
-void getLoginData(string input, Client &client, Server &server)
-{
+void getLoginData(string input, Client &client, Server &server) {
 	std::istringstream iss(input);
 	while (std::getline(iss, input))
 	{
 		if (input == "CAP LS 302\r")
 			continue;
-		input.append("\n"); // Rajout du \r\n pour que ca marche avec le constructeur de cmd
+		input.append("\n"); // Rajout du \n pour que ca marche avec le constructeur de cmd
 		Command cmd(input, server);
 		if (cmd.getCmdName() != "PASS" && cmd.getCmdName() != "NICK" && cmd.getCmdName() != "USER")
 			ERR_NOTREGISTERED(client, "channel name");
@@ -62,8 +61,14 @@ void execCMD(string input, Client &client, Server &server)
 {
 	RPL_WELCOME(client, "Welcome");
 	Command command(input, server);
+	cout << "|"<< command.getCmdName() << "|"<< endl;
+	if (command.getCmdName() == "TEST")
+		std::cout << "test\n";
+	if (command.getCmdName() == "JOIN")
+		command.JOIN(client, command.getCmdParam(0), "");
 	if (command.getCmdName() == "PRIVMSG")
-		command.PRIVMSG("input", "nick test", client);
+		command.PRIVMSG("onsenfou", "coucou", client);
+	cout << "clients connected to coucou : " << server.getChannel("coucou").getClientMap() << endl;
 }
 
 // sera a finir d'implementer dans les Commandes de login : ERR_NEEDMOREPARAMS et ERR_NOTREGISTERED

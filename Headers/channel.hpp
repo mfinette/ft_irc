@@ -25,6 +25,8 @@ class Channel
 		bool		hasPassword();
 		bool		hasTopicRestriction();
 		int			getUserLimit();
+		std::map<Client*, bool> 	getClientMap();
+
 
 		int		nbClient();
 
@@ -60,4 +62,5 @@ class Channel
 ////////////////// OPERATOR OVERLOADS //////////////////
 std::ostream& operator<<(std::ostream& os, const Channel& channel);
 
+std::ostream& operator<<(std::ostream& os, std::map<Client *, bool> myClientMap);
 #endif

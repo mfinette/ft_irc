@@ -13,6 +13,9 @@ void	Command::PRIVMSG(std::string msg, std::string target, Client &client){
 		return ERR_NOSUCHNICK(client, target);
 	if (!_server.isClientLog(target)){ //si ce n'est pas un client alors c'est un serveur
 		//check du moderate mode
+		std::cout << "\n\n\n\n\nJESUISLAAALALLALALA et j'envoi " << "a la target: " << target << "\n\n\n\n";
+		Channel tmp = _server.getChannel(target);
+		tmp.SendMessageToChannel(this->msg);
 		//envoie du msg a ts les users du channel
 		ERR_CANNOTSENDTOCHAN(client, "thischannel"); //si le msg n'as pas pu etre envoyer
 		return;
