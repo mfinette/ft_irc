@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 21:58:20 by maxime            #+#    #+#             */
-/*   Updated: 2024/02/23 13:44:28 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:47:50 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	Command::JOIN(Client &client, std::string channel_name, std::string passwor
 	}
 	else
 	{
+		Channel new_channel(channel_name);
 		std::cout << "channel not existing\n";
-		//need to create the channel
+		new_channel.AddClientToChannel(&client);
+		_server.addChannelToServer(channel_name, new_channel);
 	}
 }

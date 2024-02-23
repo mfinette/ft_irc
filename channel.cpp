@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 12:19:33 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:47:39 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ std::ostream& operator<<(std::ostream& os, const Channel& channel)
 
 Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false)
 {
-	(void)_user_limit;
-	(void)_invite_only;
-	(void)_has_password;
 }
 
 Channel::~Channel()
@@ -31,20 +28,19 @@ Channel::~Channel()
 
 void	Channel::AddClientToChannel(Client* client)
 {
-	// Add Client to channel
 	_client.insert(std::pair<Client *, bool>(client, false));
 }
 
 void	Channel::RemoveClientFromChannel(Client* client)
 {
-	// Remove Client from channel
 	_client.erase(_client.find(client));
 }
 
-void	Channel::SendMessage(const string& message)
+void	Channel::SendMessageToChannel(const string& message)
 {
-	(void)message;
 	// Send message to all users in channel
+	for (std::map<Client *, bool>::iterator it = _client.begin(); it != _client.end(); ++it)
+		send(it->first->getSocket(), message.c_str(), message.size(), 0);
 }
 
 bool	Channel::isOperator(int socket)
@@ -83,13 +79,12 @@ std::string	Channel::getPassword()
 std::string	Channel::getSetAt()
 {
 	std::string timeString;
-    const int bufferSize = 20; // Sufficient size for a Unix timestamp
-    char buffer[bufferSize];
+	const int bufferSize = 20; // Sufficient size for a Unix timestamp
+	char buffer[bufferSize];
 
-    // Use std::strftime to format the time
-    if (std::strftime(buffer, bufferSize, "%Y-%m-%d %H:%M:%S", std::localtime(&_setAt))) {
-        timeString = buffer;
-    }
+	// Use std::strftime to format the time
+	if (std::strftime(buffer, bufferSize, "%Y-%m-%d %H:%M:%S", std::localtime(&_setAt)))
+		timeString = buffer;
 	return timeString;
 }
 
