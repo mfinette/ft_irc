@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:09:36 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/19 16:28:09 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:24:08 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,29 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	Server server(atoi(argv[1]), argv[2]);
-	server.start();
+	try
+	{
+		signal(SIGINT, signalHandler);
+		server.start();
+	}
+	catch (const CtrlCException &e)
+	{
+		std::cout << "\nCtrl + C detected, closing server" << std::endl;
+		server.closeServer();
+		return 1;
+	}
+	// commenter les deux catch d'en dessous pour coder sans crash toutes les 2 secondes
+	catch (const std::exception &e)
+	{
+		std::cerr << "\nError: " << e.what() << std::endl;
+		server.closeServer();
+		return 1;
+	}
+	catch (...)
+	{
+		std::cerr << "Unknown error but it'll take more to crash us hihi" << std::endl;
+		server.closeServer();
+		return 1;
+	}
 	return 0;
 }

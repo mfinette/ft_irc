@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 13:47:05 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:30:22 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@
 #include <vector>
 #include <poll.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <ctime>
 #include <map>
+#include <exception>
 #include <sstream>
 #include "channel.hpp"
 #include "client.hpp"
@@ -45,7 +47,15 @@ using std::memset;
 
 void	getLoginData(string input, Client &client, Server &server);
 void	execCMD(string input, Client &client, Server &server);
+void	signalHandler(int signum);
 
+class CtrlCException : public std::exception
+{
+public:
+    virtual const char* what() const throw() {
+        return "Ctrl + C";
+    }
+};
 
 # define RESET				"\033[0m"
 # define BLACK				"\033[30m"

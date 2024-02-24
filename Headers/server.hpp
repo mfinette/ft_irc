@@ -3,6 +3,8 @@
 
 #include "ft_irc.hpp"
 
+# define CLIENT_LIMIT 10
+
 class Server
 {
 	public:
@@ -10,7 +12,7 @@ class Server
 										~Server();
 		void							start();
 		void							setup();
-		void							stop();
+		void							closeServer();
 		
 		////////////////// MAP GETTERS //////////////////
 		Client							&getClient(int socket);
@@ -41,13 +43,14 @@ class Server
 		string							_password;
 		std::map<int, Client>			_clientList;
 		std::map<std::string, Channel>	_channelList;
+		struct pollfd					_fds[CLIENT_LIMIT + 1]; // Define fds as a private member
 
 		////////////////// SERVER MANAGEMENT //////////////////
 		void							bindServerSocket(int serverSocket, int port);
 		void							listenForConnections(int serverSocket, int backlog);
 		int								acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
 		void							handleClient(int clientSocket);
-		void							handleServer(int serverSocket, struct pollfd fds[], int& numClients, const int MAX_CLIENTS);
+		void							handleServer(int serverSocket, int& numClients);
 		void							closeSocket(int socket);
 };
 

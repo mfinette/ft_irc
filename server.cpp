@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/23 15:24:13 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:28:28 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void Server::handleClient(int clientSocket)
 			// Remove client from list
 			removeClientFromServer(client);
 			// Close client socket
-			
 			closeSocket(clientSocket);
 			break;
 		}
@@ -126,7 +125,7 @@ void	Server::closeSocket(int socket)
 	close(socket);
 }
 
-void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients, const int MAX_CLIENTS)
+void Server::handleServer(int serverSocket, int& numClients)
 {
 	// Check for events on server socket
 	sockaddr_in clientAddr;
@@ -139,16 +138,16 @@ void Server::handleServer(int serverSocket, struct pollfd fds[], int& numClients
 	}
 	cout << "Client connected (" << clientSocket << ")" << endl;
 	// Add the new client socket to the set of file descriptors to monitor
-	if (numClients + 1 >= MAX_CLIENTS)
+	if (numClients + 1 >= CLIENT_LIMIT)
 	{
 		// Check if maximum number of clients reached
 		cerr << "Maximum number of clients reached" << endl;
 		closeSocket(serverSocket);
 		return;
 	}
-	fds[numClients + 1].fd = clientSocket; // Start from index 1
-	fds[numClients + 1].events = POLLIN;
-	fds[numClients + 1].revents = 0;
+	this->_fds[numClients + 1].fd = clientSocket; // Start from index 1
+	this->_fds[numClients + 1].events = POLLIN;
+	this->_fds[numClients + 1].revents = 0;
 	this->setupClient(clientSocket);
 	numClients++;
 }
@@ -173,15 +172,14 @@ void Server::start(void)
 	// Listen for connections on server socket
 	listenForConnections(serverSocket, 10);
 	cout << "Server listening on port " << this->_port << endl;
-	const int MAX_CLIENTS = 10; // Maximum number of clients
-	struct pollfd fds[MAX_CLIENTS + 1]; // +1 for server socket
-	fds[SERVER].fd = serverSocket;
-	fds[SERVER].events = POLLIN;
+	_fds[CLIENT_LIMIT + 1]; // +1 for server socket
+	_fds[SERVER].fd = serverSocket;
+	_fds[SERVER].events = POLLIN;
 	int numClients = 0; // Number of connected clients
 	while (true)
 	{
 		// Poll for events and revents in every fd (POLLIN == data to read)
-		int ret = poll(fds, numClients + 1, -1);
+		int ret = poll(_fds, numClients + 1, -1);
 		if (ret == -1)
 		{
 			cerr << "Error in poll: " << strerror(errno) << endl;
@@ -189,17 +187,20 @@ void Server::start(void)
 			return;
 		}
 		// Check for events on server socket (new client connection)
-		if (fds[SERVER].revents & POLLIN)
-			handleServer(serverSocket, fds, numClients, MAX_CLIENTS);
+		if (_fds[SERVER].revents & POLLIN)
+			handleServer(serverSocket, numClients);
 		// Check for events on client sockets (message received / client disconnected)
 		for (int i = 1; i <= numClients; ++i)
-			if (fds[i].revents & POLLIN)
-				handleClient(fds[i].fd);
+			if (_fds[i].revents & POLLIN)
+				handleClient(_fds[i].fd);
 	}
 }
 
-void	Server::setup()
+void	Server::closeServer()
 {
+	for (std::map<int, Client>::iterator it = _clientList.begin(); it != _clientList.end(); ++it)
+		closeSocket(it->first);
+	closeSocket(_serverSocket);
 }
 
 Client&	Server::getClient(int socket)
@@ -295,3 +296,4 @@ std::map<int, Client> &Server::getClientList()
 {
 	return _clientList;
 }
+

@@ -3,23 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+         #
+#    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/23 17:36:11 by pchapuis         ###   ########.fr        #
+#    Updated: 2024/02/24 19:26:00 by maxime           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ircserv
 	
 CC			= c++
-FLAGS		= -Wall -Wextra -Werror -g3 -std=c++98 
+FLAGS		= -Wall -Wextra  -g3 -std=c++98 #-Werror 
 RM			= rm -rf
 
 OBJDIR = .objFiles
 
 FILES		= 	main \
-				server channel command client \
+				server channel command client signal \
 				parseLoginData clientChannelManagement \
 				Commands/NICK Commands/PASS Commands/PRIVMSG Commands/JOIN Commands/USER  Commands/TOPIC Commands/INVITE Commands/KICK\
 
@@ -52,5 +52,8 @@ fclean: clean
 	@printf "$(YELLOW)    - Executable removed.$(RESET)\n"
 
 re: fclean all
+
+valgrind: all
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) 6667 1
 
 .PHONY: all clean fclean re bonus norm
