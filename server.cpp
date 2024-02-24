@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/24 19:28:28 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/24 20:26:39 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void Server::handleClient(int clientSocket)
 			// Remove client from list
 			removeClientFromServer(client);
 			// Close client socket
-			closeSocket(clientSocket);
+			// closeSocket(clientSocket);
 			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)

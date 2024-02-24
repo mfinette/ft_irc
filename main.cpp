@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:09:36 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/24 19:24:08 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/24 20:26:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int main(int argc, char **argv)
 	{
 		std::cout << "\nCtrl + C detected, closing server" << std::endl;
 		server.closeServer();
-		return 1;
+		exit(1);
 	}
 	// commenter les deux catch d'en dessous pour coder sans crash toutes les 2 secondes
 	catch (const std::exception &e)
 	{
-		std::cerr << "\nError: " << e.what() << std::endl;
+		std::cerr << "Error: " << e.what() << std::endl;
 		server.closeServer();
 		return 1;
 	}
