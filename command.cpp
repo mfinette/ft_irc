@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/24 12:11:34 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/24 12:13:12 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ void printWithNonPrintable(string input) {
 }
 
 bool findNextWord(string input, size_t &start, size_t &end) {
-	cout << "b" << start << "|" << end << endl;
 	start = input.find_first_not_of(' ', end);
 	end = input.find(' ', start);
-	cout << "a" << start << "|" << end << endl;
 	if (start == string::npos)
 		return false;
 	return true;
@@ -45,9 +43,7 @@ Command::Command(string input, Server &server) : _server(server)
 	size_t start = input.find_first_not_of(' ');
 	size_t end = input.find(' ', start);
 	int i = 0;
-	cout << "premier : " << start << "|" << end << endl;
 	input.erase(input.find('\r'));
-	printWithNonPrintable(input);
 	if (end == std::string::npos)
 		this->cmdName = input.substr(start, input.length() - start);
 	else
