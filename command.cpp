@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/24 11:00:24 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/24 12:11:34 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,42 +29,41 @@ void printWithNonPrintable(string input) {
 	cout << endl;
 }
 
-void findNextWord(string input, size_t &start, size_t &end) {
-	while (input[end] == ' ') {
-		start = end + 1;
-		end = input.find(" ", start);
-	}
+bool findNextWord(string input, size_t &start, size_t &end) {
+	cout << "b" << start << "|" << end << endl;
+	start = input.find_first_not_of(' ', end);
+	end = input.find(' ', start);
+	cout << "a" << start << "|" << end << endl;
+	if (start == string::npos)
+		return false;
+	return true;
 }
 //Parse input of hexchat into a "command" object,
 //the msg variable is filled if there's a message at the end of the input.
 Command::Command(string input, Server &server) : _server(server)
 {
-	size_t start = 0;
-	size_t end = input.find(" ");
+	size_t start = input.find_first_not_of(' ');
+	size_t end = input.find(' ', start);
 	int i = 0;
-
-	findNextWord(input, start, end);
-	if (end == std::string::npos){
-		this->cmdName = input.substr(start, input.length() - start - 2);
-	}
+	cout << "premier : " << start << "|" << end << endl;
+	input.erase(input.find('\r'));
+	printWithNonPrintable(input);
+	if (end == std::string::npos)
+		this->cmdName = input.substr(start, input.length() - start);
 	else
 		this->cmdName = input.substr(start, end - start);
 	while (end != std::string::npos)
 	{
-		findNextWord(input, start, end);
-		if (end == std::string::npos)
+		if (!findNextWord(input, start, end))
 			break;
-		if (input[end] == ':')
+		if (input[start] == ':')
 		{
-			this->msg = input.substr(start + 1, input.length() - 2 - start); //-2 pour enlever le \r\n
+			this->msg = input.substr(start + 1, input.length() - start);
 			break;
 		}
 		this->params.push_back(input.substr(start, end - start));
 		i++;
 	}
-	// Enlever le \r\n du dernier parametre.
-	if (input[start] != ':' && this->params.size())
-		this->params[this->params.size() - 1].erase(this->params[this->params.size() - 1].length() - 2);
 	printCmd();
 }
 
@@ -77,7 +76,6 @@ void	Command::printCmd()
 	for (std::vector<std::string>::iterator it = this->params.begin(); it != this->params.end(); ++it)
 		std::cout << *it << "|";
 	std::cout << endl << "-------------------" << endl;
-	// Parse command and execute it
 }
 
 string Command::getCmdName() {
