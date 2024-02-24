@@ -4,7 +4,7 @@ bool	Command::PASS(Client &client)
 {
 	if (params.size() == 0)
 		ERR_NEEDMOREPARAMS(client, cmdName);
-	if (params[0] == _server.getServPassword())
+	else if (params[0] == _server.getServPassword())
 		return true;
 	else 
 		ERR_PASSWDMISSMATCH(client, "unknow");

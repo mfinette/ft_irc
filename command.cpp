@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 15:32:53 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/24 11:00:24 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@
 // 	return std::string(":" + servName + " " + getcode(msg) + " " + nickname + " ");
 // }
 
+void printWithNonPrintable(string input) {
+	int i = 0;
+	while (input[i]) {
+		int res = input[i];
+		if (res < 32 || res >= 127)
+			cout << "|" << res;
+		else
+			cout << input[i];
+		i++;
+	}
+	cout << endl;
+}
+
+void findNextWord(string input, size_t &start, size_t &end) {
+	while (input[end] == ' ') {
+		start = end + 1;
+		end = input.find(" ", start);
+	}
+}
 //Parse input of hexchat into a "command" object,
 //the msg variable is filled if there's a message at the end of the input.
 Command::Command(string input, Server &server) : _server(server)
@@ -24,18 +43,22 @@ Command::Command(string input, Server &server) : _server(server)
 	size_t end = input.find(" ");
 	int i = 0;
 
-	if (end == std::string::npos) 
+	findNextWord(input, start, end);
+	if (end == std::string::npos){
 		this->cmdName = input.substr(start, input.length() - start - 2);
+	}
 	else
 		this->cmdName = input.substr(start, end - start);
 	while (end != std::string::npos)
 	{
-		start = end + 1;
-		end = input.find(" ", start);
-		if (input[start] == ':') {
-				this->msg = input.substr(start + 1, input.length() - 2 - start); //-2 pour enlever le \r\n
-				break;
-			}
+		findNextWord(input, start, end);
+		if (end == std::string::npos)
+			break;
+		if (input[end] == ':')
+		{
+			this->msg = input.substr(start + 1, input.length() - 2 - start); //-2 pour enlever le \r\n
+			break;
+		}
 		this->params.push_back(input.substr(start, end - start));
 		i++;
 	}
