@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/24 12:13:12 by colas            ###   ########.fr       */
+/*   Updated: 2024/02/25 09:06:39 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ Command::Command(string input, Server &server) : _server(server)
 	size_t start = input.find_first_not_of(' ');
 	size_t end = input.find(' ', start);
 	int i = 0;
-	input.erase(input.find('\r'));
+	size_t rpos = input.find('\r');
+	if (rpos != string::npos)
+		input.erase(rpos);
 	if (end == std::string::npos)
 		this->cmdName = input.substr(start, input.length() - start);
 	else
