@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/24 20:26:39 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/25 10:02:33 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void Server::handleClient(int clientSocket)
 			// Remove client from list
 			removeClientFromServer(client);
 			// Close client socket
-			// closeSocket(clientSocket);
+			closeSocket(clientSocket);
 			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -172,7 +172,6 @@ void Server::start(void)
 	// Listen for connections on server socket
 	listenForConnections(serverSocket, 10);
 	cout << "Server listening on port " << this->_port << endl;
-	_fds[CLIENT_LIMIT + 1]; // +1 for server socket
 	_fds[SERVER].fd = serverSocket;
 	_fds[SERVER].events = POLLIN;
 	int numClients = 0; // Number of connected clients

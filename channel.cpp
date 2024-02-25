@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 18:14:47 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/23 18:34:34 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ std::ostream& operator<<(std::ostream& os, std::map<Client *, bool> myClientMap)
 	return os;
 }
 
-Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false)
+Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false), _topic_restriction(false)
 {
 }
 

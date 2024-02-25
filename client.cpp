@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/24 20:19:26 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/25 09:28:51 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ Client::Client(int socket) : _socket(socket), _loginStage(0)
 
 Client::~Client()
 {
-	close(this->_socket);
 }
 
 Client& Client::operator=(const Client& rhs)

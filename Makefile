@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maxime <maxime@student.42.fr>              +#+  +:+       +#+         #
+#    By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/24 19:26:00 by maxime           ###   ########.fr        #
+#    Updated: 2024/02/25 10:01:02 by mfinette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ircserv
 	
 CC			= c++
-FLAGS		= -Wall -Wextra  -g3 -std=c++98 #-Werror 
+FLAGS		= -Wall -Wextra  -g3 -std=c++98 -Werror 
 RM			= rm -rf
 
 OBJDIR = .objFiles
