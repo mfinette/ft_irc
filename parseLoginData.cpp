@@ -4,9 +4,11 @@ void getLoginData(string input, Client &client, Server &server) {
 	std::istringstream iss(input);
 	while (std::getline(iss, input))
 	{
-		if (input == "CAP LS 302\r")
-			continue;
 		Command cmd(input, server);
+		if (cmd.getCmdName() == "CAP")
+			continue;
+		if (cmd.getCmdName() == "QUIT")
+			cmd.QUIT(client);
 		if (cmd.getCmdName() != "PASS" && cmd.getCmdName() != "NICK" && cmd.getCmdName() != "USER" && cmd.getCmdName() != "")
 			ERR_NOTREGISTERED(client, "channel name");
 		else if (client.getLoginStage() == STAGE_1)
@@ -28,30 +30,37 @@ void getLoginData(string input, Client &client, Server &server) {
 			if (cmd.getCmdName() == "USER") 
 				if (cmd.USER(client)) {
 					client.incrementLoginStage();
-					cout << COLOR_1 << "\nUSER ("  << COLOR_2 << client.getSocket()  << COLOR_1 << ") SUCCESSFULLY LOGGED AS : " << COLOR_2 << client.getNickname() << COLOR_1 << " !" << RESET;
+					cout << COLOR_1 << "\nUSER ("  << COLOR_2 << client.getSocket()  << COLOR_1 << ") SUCCESSFULLY LOGGED AS : " << COLOR_2 << client.getNickname() << COLOR_1 << " !" << RESET << endl;
 				}
 		}
 	}
+			cout << client.getLoginStage() << endl;
 }
 
 void execCMD(string input, Client &client, Server &server)
 {
 //	RPL_WELCOME(client, "Welcome");
-	Command command(input, server);
-//	if (command.getCmdName() == "TEST")
-//		std::cout << "test\n";
-	if (command.getCmdName() == "NICK")
-		command.NICK(client);
-	if (command.getCmdName() == "JOIN")
-		command.JOIN(client);
-	if (command.getCmdName() == "INVITE")
-		command.INVITE(client);
-	if (command.getCmdName() == "PRIVMSG")
-		command.PRIVMSG(client);
-	if (command.getCmdName() == "KICK")
-		command.KICK(client);
-	if (command.getCmdName() == "TOPIC")
-		command.TOPIC(client);
+	Command cmd(input, server);
+	if (cmd.getCmdName() == "QUIT")
+		cmd.QUIT(client);
+	if (cmd.getCmdName() == "NICK")
+		cmd.NICK(client);
+	if (cmd.getCmdName() == "JOIN")
+		cmd.JOIN(client);
+	if (cmd.getCmdName() == "INVITE")
+		cmd.INVITE(client);
+	if (cmd.getCmdName() == "PRIVMSG")
+		cmd.PRIVMSG(client);
+	if (cmd.getCmdName() == "KICK")
+		cmd.KICK(client);
+	if (cmd.getCmdName() == "TOPIC")
+		cmd.TOPIC(client);
+	if (cmd.getCmdName() == "MODE")
+		cmd.TOPIC(client);
+	if (cmd.getCmdName() == "PASS")
+		ERR_ALREADYREGISTERED(client);
+	if (cmd.getCmdName() == "USER")
+		ERR_ALREADYREGISTERED(client);
 //	cout << "clients connected to coucou : " << server.getChannel("coucou").getClientMap() << endl;
 }
 

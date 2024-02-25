@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/25 14:26:55 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/25 15:08:11 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 #include "client.hpp"
 #include "command.hpp"
 #include "server.hpp"
-#include "RPL & ERR/RPL.hpp"
+#include "RPL.hpp"
 
 using std::string;
 using std::vector;

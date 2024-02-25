@@ -20,6 +20,8 @@ class Command
 		bool	PASS(Client &client);
 		bool	NICK(Client &client);
 		bool	USER(Client &client);
+		
+		void	QUIT(Client &client);
 		void	PRIVMSG(Client &client);
 		void	JOIN(Client &client);
 		void	JoinServeur(Client &client, Channel &channel);
