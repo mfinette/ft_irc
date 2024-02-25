@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clientChannelManagement.cpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:05:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 12:32:01 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 13:19:46 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	Server::setupClient(int socket)
 {
 		Client newClient(socket);
-	newClient.setNickname("unknown");
-	newClient.setUsername("unknown");
-	newClient.setRealname("unknown");
+	newClient.setNickname("");
+	newClient.setUsername("");
+	newClient.setRealname("");
 		this->addClientToServer(newClient);
 	}
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/25 12:21:58 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 14:26:55 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,7 @@ public:
 # define BABY_PINK			"\033[38;5;225m"
 # define NEON_PINK			"\033[38;5;207m"
 # define SERVER 0
+# define COLOR_1 RED
+# define COLOR_2 DARK_PINK
 
 #endif // FT_IRC_HPP

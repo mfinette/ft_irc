@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/25 09:06:39 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/25 14:04:34 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ Command::Command(string input, Server &server) : _server(server)
 		this->params.push_back(input.substr(start, end - start));
 		i++;
 	}
-	printCmd();
+	// printCmd();
 }
 
 void	Command::printCmd()

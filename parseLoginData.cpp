@@ -6,9 +6,8 @@ void getLoginData(string input, Client &client, Server &server) {
 	{
 		if (input == "CAP LS 302\r")
 			continue;
-		input.append("\n"); // Rajout du \n pour que ca marche avec le constructeur de cmd
 		Command cmd(input, server);
-		if (cmd.getCmdName() != "PASS" && cmd.getCmdName() != "NICK" && cmd.getCmdName() != "USER")
+		if (cmd.getCmdName() != "PASS" && cmd.getCmdName() != "NICK" && cmd.getCmdName() != "USER" && cmd.getCmdName() != "")
 			ERR_NOTREGISTERED(client, "channel name");
 		else if (client.getLoginStage() == STAGE_1)
 		{
@@ -27,18 +26,18 @@ void getLoginData(string input, Client &client, Server &server) {
 		else if (client.getLoginStage() == STAGE_3)
 		{
 			if (cmd.getCmdName() == "USER") 
-				if (cmd.USER(client))
+				if (cmd.USER(client)) {
 					client.incrementLoginStage();
+					cout << COLOR_1 << "\nUSER ("  << COLOR_2 << client.getSocket()  << COLOR_1 << ") SUCCESSFULLY LOGGED AS : " << COLOR_2 << client.getNickname() << COLOR_1 << " !" << RESET;
+				}
 		}
 	}
-	cout << client.getLoginStage() << endl;
 }
 
 void execCMD(string input, Client &client, Server &server)
 {
 //	RPL_WELCOME(client, "Welcome");
 	Command command(input, server);
-	cout << "|"<< command.getCmdName() << "|"<< endl;
 //	if (command.getCmdName() == "TEST")
 //		std::cout << "test\n";
 	if (command.getCmdName() == "NICK")
