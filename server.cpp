@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 12:32:27 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:51:55 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	Server::handleClient(int clientSocket)
 	Client client = getClient(clientSocket);
 	while (true)
 	{
-		cout << "LOOP IN HANDLECLIENT\n";
 		// Receive message from client
 		bytesRead = recv(clientSocket, buffer, sizeof(buffer), MSG_DONTWAIT);
 		if (bytesRead > 0)
@@ -99,7 +98,7 @@ void	Server::handleClient(int clientSocket)
 		else if (bytesRead == 0)
 		{
 			// Client disconnected
-			cout << "Client disconnected (" << clientSocket << ")" << endl;
+			cout << BLUE << "Client disconnected (" << clientSocket << ")" << RESET << endl;
 			// Remove client from list
 			closeSocket(clientSocket);
 			removeClientFromServer(client);
@@ -122,23 +121,22 @@ void	Server::handleClient(int clientSocket)
 
 void	Server::closeSocket(int socket)
 {
-	cout << "Closing socket " << socket << endl;
+	cout << BLUE << "Closing socket " << socket << RESET << endl;
 	close(socket);
 }
 
 void Server::handleServer(int serverSocket, int& numClients, pollfd fds[])
 {
-	cout << "ENTERING HANDLESERVER\n";
 	// Check for events on server socket
 	sockaddr_in clientAddr;
 	int clientSocket = acceptClientConnection(serverSocket, clientAddr);
 	if (clientSocket < 0)
 	{
-		cerr << "Error accepting connection: " << strerror(errno) << endl;
+		cerr << BLUE << "Error accepting connection: " << strerror(errno) << RESET << endl;
 		closeServer();
 		return ;
 	}
-	cout << "Client connected (" << clientSocket << ")" << endl;
+	cout << BLUE << "Client connected (" << clientSocket << ")" << RESET << endl;
 	// Add the new client socket to the set of file descriptors to monitor
 	if (numClients + 1 >= CLIENT_LIMIT)
 	{
@@ -152,7 +150,6 @@ void Server::handleServer(int serverSocket, int& numClients, pollfd fds[])
 	fds[numClients + 1].revents = 0;
 	this->setupClient(clientSocket);
 	numClients++;
-	cout << "EXITING HANDLESERVER\n";
 }
 
 void Server::start(void)
@@ -162,7 +159,7 @@ void Server::start(void)
 	int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (serverSocket < 0)
 	{
-		cerr << "Error creating socket: " << strerror(errno) << endl;
+		cerr << BLUE << "Error creating socket: " << strerror(errno) << RESET << endl;
 		return;
 	}
 	if(setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
@@ -175,10 +172,10 @@ void Server::start(void)
 	bindServerSocket(serverSocket, this->_port);
 	// Listen for connections on server socket
 	listenForConnections(serverSocket, 10);
-	cout << "Server listening on port " << this->_port << endl;
+	cout << BLUE << "Server listening on port " << this->_port << RESET << endl;
 	struct pollfd fds[CLIENT_LIMIT + 1];
 	fds[SERVER].fd = serverSocket;
-	cout << "serverSocket = " << serverSocket << endl;
+	cout << BLUE << "serverSocket = " << serverSocket << RESET << endl;
 	fds[SERVER].events = POLLIN;
 	int numClients = 0; // Number of connected clients
 	while (true)
@@ -188,7 +185,7 @@ void Server::start(void)
 		int ret = poll(fds, numClients + 1, -1);
 		if (ret == -1)
 		{
-			cerr << "Error in poll: " << strerror(errno) << endl;
+			cerr << BLUE << "Error in poll: " << strerror(errno) << RESET << endl;
 			closeServer();
 			return;
 		}
@@ -207,9 +204,6 @@ void	Server::closeServer()
 	for (std::map<int, Client>::iterator it = _clientList.begin(); it != _clientList.end(); ++it)
 		closeSocket(it->first);
 	closeSocket(_serverSocket);
-	cout << "\n\nserverSocket after closing = " << _serverSocket << endl;
-	for (std::map<int, Client>::iterator it = _clientList.begin(); it != _clientList.end(); ++it)
-		cout << "clientSocket after closing = " << it->first << endl;
 }
 
 Client&	Server::getClient(int socket)
