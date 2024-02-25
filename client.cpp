@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 09:28:51 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:31:18 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 Client::Client(int socket) : _socket(socket), _loginStage(0)
 {
-}
+	}
 
 Client::~Client()
 {
-}
+	}
 
 Client& Client::operator=(const Client& rhs)
 {
-	if (this != &rhs)
+		if (this != &rhs)
 	{
 		_socket = rhs._socket;
 		_nickname = rhs._nickname;
@@ -31,7 +31,7 @@ Client& Client::operator=(const Client& rhs)
 	return *this;
 }
 
-void Client::SendMessage(const std::string& message) {
+void	Client::SendMessage(const std::string& message) {
 	send(_socket, message.c_str(), message.size(), 0);
 }
 
@@ -51,11 +51,11 @@ void	Client::setStatus(int status) {
 	_status = status;
 }
 
-void Client::incrementLoginStage() {
+void	Client::incrementLoginStage() {
 	_loginStage++;
 }
 
-int Client::getLoginStage() {
+int	Client::getLoginStage() {
 	return _loginStage;
 }
 

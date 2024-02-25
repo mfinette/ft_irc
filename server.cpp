@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 10:02:33 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:32:27 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ Server::Server(int port, string password) : _serverSocket(-1) , _port(port), _pa
  
 Server::~Server()
 {
-	if (_serverSocket != -1)
+if (_serverSocket != -1)
 		close(_serverSocket);
 }
 
@@ -53,7 +53,7 @@ void	Server::bindServerSocket(int serverSocket, int port)
 	if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0)
 	{
 		cerr << "Error binding socket: " << strerror(errno) << endl;
-		closeSocket(serverSocket);
+		closeServer();
 		exit(EXIT_FAILURE);
 	}
 }
@@ -63,7 +63,7 @@ void	Server::listenForConnections(int serverSocket, int backlog)
 	if (listen(serverSocket, backlog) < 0)
 	{
 		cerr << "Error listening on socket: " << strerror(errno) << endl;
-		closeSocket(serverSocket);
+		closeServer();
 		exit(EXIT_FAILURE);
 	}
 }
@@ -75,14 +75,14 @@ int	Server::acceptClientConnection(int serverSocket, sockaddr_in& clientAddr)
 	return clientSocket;
 }
 
-void Server::handleClient(int clientSocket)
+void	Server::handleClient(int clientSocket)
 {
 	char buffer[1024];
 	int bytesRead;
 	Client client = getClient(clientSocket);
-
 	while (true)
 	{
+		cout << "LOOP IN HANDLECLIENT\n";
 		// Receive message from client
 		bytesRead = recv(clientSocket, buffer, sizeof(buffer), MSG_DONTWAIT);
 		if (bytesRead > 0)
@@ -101,9 +101,9 @@ void Server::handleClient(int clientSocket)
 			// Client disconnected
 			cout << "Client disconnected (" << clientSocket << ")" << endl;
 			// Remove client from list
+			closeSocket(clientSocket);
 			removeClientFromServer(client);
 			// Close client socket
-			closeSocket(clientSocket);
 			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -122,19 +122,21 @@ void Server::handleClient(int clientSocket)
 
 void	Server::closeSocket(int socket)
 {
+	cout << "Closing socket " << socket << endl;
 	close(socket);
 }
 
-void Server::handleServer(int serverSocket, int& numClients)
+void Server::handleServer(int serverSocket, int& numClients, pollfd fds[])
 {
+	cout << "ENTERING HANDLESERVER\n";
 	// Check for events on server socket
 	sockaddr_in clientAddr;
 	int clientSocket = acceptClientConnection(serverSocket, clientAddr);
 	if (clientSocket < 0)
 	{
 		cerr << "Error accepting connection: " << strerror(errno) << endl;
-		closeSocket(serverSocket);
-		return;
+		closeServer();
+		return ;
 	}
 	cout << "Client connected (" << clientSocket << ")" << endl;
 	// Add the new client socket to the set of file descriptors to monitor
@@ -142,14 +144,15 @@ void Server::handleServer(int serverSocket, int& numClients)
 	{
 		// Check if maximum number of clients reached
 		cerr << "Maximum number of clients reached" << endl;
-		closeSocket(serverSocket);
-		return;
+		closeServer();
+		return ;
 	}
-	this->_fds[numClients + 1].fd = clientSocket; // Start from index 1
-	this->_fds[numClients + 1].events = POLLIN;
-	this->_fds[numClients + 1].revents = 0;
+	fds[numClients + 1].fd = clientSocket; // Start from index 1
+	fds[numClients + 1].events = POLLIN;
+	fds[numClients + 1].revents = 0;
 	this->setupClient(clientSocket);
 	numClients++;
+	cout << "EXITING HANDLESERVER\n";
 }
 
 void Server::start(void)
@@ -167,31 +170,35 @@ void Server::start(void)
 		cerr << "setsockopt" << std::endl;   
 		exit(EXIT_FAILURE);   
 	}
+	_serverSocket = serverSocket;
 	// Bind server socket to port
 	bindServerSocket(serverSocket, this->_port);
 	// Listen for connections on server socket
 	listenForConnections(serverSocket, 10);
 	cout << "Server listening on port " << this->_port << endl;
-	_fds[SERVER].fd = serverSocket;
-	_fds[SERVER].events = POLLIN;
+	struct pollfd fds[CLIENT_LIMIT + 1];
+	fds[SERVER].fd = serverSocket;
+	cout << "serverSocket = " << serverSocket << endl;
+	fds[SERVER].events = POLLIN;
 	int numClients = 0; // Number of connected clients
 	while (true)
 	{
+		// cout << "LOOP IN START\n";
 		// Poll for events and revents in every fd (POLLIN == data to read)
-		int ret = poll(_fds, numClients + 1, -1);
+		int ret = poll(fds, numClients + 1, -1);
 		if (ret == -1)
 		{
 			cerr << "Error in poll: " << strerror(errno) << endl;
-			closeSocket(serverSocket);
+			closeServer();
 			return;
 		}
 		// Check for events on server socket (new client connection)
-		if (_fds[SERVER].revents & POLLIN)
-			handleServer(serverSocket, numClients);
+		if (fds[SERVER].revents & POLLIN)
+			handleServer(serverSocket, numClients, fds);
 		// Check for events on client sockets (message received / client disconnected)
 		for (int i = 1; i <= numClients; ++i)
-			if (_fds[i].revents & POLLIN)
-				handleClient(_fds[i].fd);
+			if (fds[i].revents & POLLIN)
+				handleClient(fds[i].fd);
 	}
 }
 
@@ -200,6 +207,9 @@ void	Server::closeServer()
 	for (std::map<int, Client>::iterator it = _clientList.begin(); it != _clientList.end(); ++it)
 		closeSocket(it->first);
 	closeSocket(_serverSocket);
+	cout << "\n\nserverSocket after closing = " << _serverSocket << endl;
+	for (std::map<int, Client>::iterator it = _clientList.begin(); it != _clientList.end(); ++it)
+		cout << "clientSocket after closing = " << it->first << endl;
 }
 
 Client&	Server::getClient(int socket)

@@ -22,7 +22,7 @@ class Server
 		string 							getServPassword();
 
 		////////////////// MAP MANAGEMENT //////////////////
-		void							addClientToServer(Client& client);
+		void							addClientToServer(const Client& client);
 		void							setupClient(int socket);
 		void							removeClientFromServer(Client& client);
 		void							addChannelToServer(Channel& channel);
@@ -50,7 +50,7 @@ class Server
 		void							listenForConnections(int serverSocket, int backlog);
 		int								acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
 		void							handleClient(int clientSocket);
-		void							handleServer(int serverSocket, int& numClients);
+		void							handleServer(int serverSocket, int& numClients, pollfd fds[]);
 		void							closeSocket(int socket);
 };
 

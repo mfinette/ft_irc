@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:09:36 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/24 20:26:04 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/25 12:20:27 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	{
 		std::cout << "\nCtrl + C detected, closing server" << std::endl;
 		server.closeServer();
-		exit(1);
+		return (1);
 	}
 	// commenter les deux catch d'en dessous pour coder sans crash toutes les 2 secondes
 	catch (const std::exception &e)

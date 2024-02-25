@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/24 19:30:22 by maxime           ###   ########.fr       */
+/*   Updated: 2024/02/25 12:21:58 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ void	signalHandler(int signum);
 class CtrlCException : public std::exception
 {
 public:
-    virtual const char* what() const throw() {
-        return "Ctrl + C";
-    }
+	virtual const char* what() const throw()
+	{
+		return "Ctrl + C";
+	}
 };
 
 # define RESET				"\033[0m"
