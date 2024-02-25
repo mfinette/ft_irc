@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 12:51:55 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 13:04:06 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
+#include <iomanip>
 
 std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap)
 {
 	for (std::map<int, Client>::const_iterator it = myMap.begin(); it != myMap.end(); ++it) {
-		os << "socket : " << it->first << " " << it->second << endl;
+		os << "|Socket : " << std::setw(1) << it->first << " |Nick : " << std::setw(8) << it->second << " |Username : " << std::setw(5) << it->second.getUsername() << " |RealName : " << std::setw(5) << it->second.getRealname() << endl;
 	}
 	return os;
 }
+
 
 std::ostream& operator<<(std::ostream& os, std::map<std::string, Channel>& myChannel)
 {

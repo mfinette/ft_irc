@@ -20,6 +20,7 @@ class Client
 		int		getSocket() const;
 		string	getNickname() const;
 		string	getUsername() const;
+		string	getRealname() const;
 		int		getStatus() const;
 
 		void	setUsername(string username);

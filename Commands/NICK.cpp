@@ -7,7 +7,6 @@ bool isExistingNick(Server server, string newNick)
 
 	for (it = server.getClientList().begin(); it != server.getClientList().end(); ++it)
 	{
-		cout << it->second.getNickname() << endl;
         if (it->second.getNickname() == newNick)
             return true;
 		i++;
@@ -24,7 +23,8 @@ bool Command::NICK(Client &client)
 			if (params[0].find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ\
 				abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos)
 				{
-					NICK_CLIENT(client, this->params[0]);
+					NICK_CLIENT(client.getNickname(), client, this->params[0]);
+					cout << client.getNickname() << "NICK :" << this->params[0] << endl;
 					client.setNickname(this->params[0]);
 					return true;
 				}
@@ -36,5 +36,9 @@ bool Command::NICK(Client &client)
 	}
 	else 
 		ERR_NONICKNAMEGIVEN(client, "unknow");
+	if (client.getNickname() == "") {
+		client.setNickname(this->params[0]);
+		return true;
+	}
 	return false;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 12:31:18 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 13:05:09 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ string	Client::getNickname() const{
 
 string	Client::getUsername() const{
 	return _username;
+}
+
+string	Client::getRealname() const{
+	return _realname;
 }
 
 int		Client::getStatus() const{
