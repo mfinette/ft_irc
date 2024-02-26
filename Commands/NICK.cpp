@@ -24,7 +24,6 @@ bool Command::NICK(Client &client)
 				abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos)
 				{
 					NICK_CLIENT(client.getNickname(), client, this->params[0]);
-					cout << client.getNickname() << "NICK :" << this->params[0] << endl;
 					client.setNickname(this->params[0]);
 					return true;
 				}
@@ -35,9 +34,12 @@ bool Command::NICK(Client &client)
 			ERR_NICKNAMEINUSE(client, this->params[0]);
 	}
 	else 
-		ERR_NONICKNAMEGIVEN(client, "unknow");
+		ERR_NONICKNAMEGIVEN(client, "unknown");
 	if (client.getNickname() == "") {
-		client.setNickname(this->params[0]);
+		std::stringstream iss;
+		iss << client.getSocket();
+		string nbr = iss.str();
+		client.setNickname("USER*" + nbr);
 		return true;
 	}
 	return false;

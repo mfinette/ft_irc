@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/26 13:01:11 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:07:26 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void Server::handleServer(int serverSocket, int& numClients, pollfd fds[])
 		closeServer();
 		return ;
 	}
-	cout << BLUE << "Client connected (" << clientSocket << ")" << RESET << endl;
+	cout << COLOR_1 << "USER ("  << COLOR_2 << clientSocket << COLOR_1 << ") APPEARED, WAITING FOR AUTHENTICATION : " << RESET << endl;
 	// Add the new client socket to the set of file descriptors to monitor
 	if (numClients + 1 >= CLIENT_LIMIT)
 	{

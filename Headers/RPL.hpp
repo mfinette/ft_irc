@@ -1,7 +1,7 @@
 #ifndef RPL_HPP
 #define RPL_HPP
 
-#include "../ft_irc.hpp"
+#include "ft_irc.hpp"
 
 # define RN + "\r\n"
 # define HOST + "127.0.0.1"
@@ -26,6 +26,9 @@ send_msg(client, HEADER_CMD(client) + "JOIN " + channel + RN)
 
 #define NICK_CLIENT(tempNick, client, newNick) \
 send_msg(client, (":" + tempNick + "!" + client.getUsername()) + " NICK :" + newNick + RN);
+
+#define QUIT_SERVER(client, reason) \
+send_msg(client, HEADER_CMD(client) + "QUIT :" + reason + RN);
 
 //______              _        ______              _  _            
 //| ___ \            (_)       | ___ \            | |(_)           

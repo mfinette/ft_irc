@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/25 16:08:09 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:08:07 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 #include "client.hpp"
 #include "command.hpp"
 #include "server.hpp"
-#include "RPL & ERR/RPL.hpp"
+#include "RPL.hpp"
 
 using std::string;
 using std::vector;
@@ -79,5 +79,7 @@ public:
 # define BABY_PINK			"\033[38;5;225m"
 # define NEON_PINK			"\033[38;5;207m"
 # define SERVER 0
+# define COLOR_1 RED
+# define COLOR_2 DARK_PINK
 
 #endif // FT_IRC_HPP

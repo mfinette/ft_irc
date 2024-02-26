@@ -20,13 +20,8 @@ bool Command::USER(Client &client)
 	{
 		if (params[0].length() > USERLEN)
 			params[0] = params[0].substr(0, USERLEN);
-		if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
-		{
-			setFallBackValues(client, params[0], msg);
-			return true;
-		}
-		else
-			ERR_ALREADYREGISTERED(client);
+		setFallBackValues(client, params[0], msg);
+		return true;
 	}
 	else
 		ERR_NEEDMOREPARAMS(client, cmdName);
