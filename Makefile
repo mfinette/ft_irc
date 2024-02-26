@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+         #
+#    By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/25 15:08:48 by cgelin           ###   ########.fr        #
+#    Updated: 2024/02/26 17:06:12 by pchapuis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ OBJDIR = .objFiles
 FILES		= 	main \
 				server channel command client signal \
 				parseLoginData clientChannelManagement \
-				Commands/NICK Commands/PASS Commands/PRIVMSG Commands/JOIN Commands/USER  Commands/TOPIC Commands/INVITE Commands/KICK Commands/QUIT
+				Commands/NICK Commands/PASS Commands/PRIVMSG Commands/JOIN Commands/USER  \
+				Commands/TOPIC Commands/INVITE Commands/KICK Commands/QUIT Commands/PART
 
 SRC			= $(FILES:=.cpp)
 OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))

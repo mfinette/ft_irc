@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 18:34:34 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:41:51 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ std::ostream& operator<<(std::ostream& os, std::map<Client *, bool> myClientMap)
 	return os;
 }
 
-Channel::Channel(const string& name) : _name(name), _user_limit(-1), _invite_only(false), _has_password(false), _topic_restriction(false)
+Channel::Channel(const string& name) : _name(name), _topic(""), _user_limit(-1), _invite_only(false), _has_password(false), _topic_restriction(false)
 {
 }
 
@@ -40,7 +40,10 @@ void Channel::printList(){
 	cout << "\n------------\nclient list\n-------------\n";
 	for(it = _client.begin(); it != _client.end(); ++it)
 	{
-		cout << "client socket: " << it->first->getSocket() << " nickname: " <<  it->first->getNickname() << endl; 
+		cout << "client socket: " << it->first->getSocket() << " nickname: " <<  it->first->getNickname();
+		if (it->second)
+			cout << " is an oprator";
+		cout << endl; 
 	}
 }
 
@@ -137,6 +140,19 @@ int	Channel::nbClient()
 	return _client.size();
 }
 
+int	Channel::nbOperator()
+{
+	std::map<Client *, bool>::iterator it;
+	int	nb = 0;
+
+	for(it = _client.begin(); it != _client.end(); ++it)
+	{
+		if (it->second)
+			nb ++;
+	}
+	return nb;
+}
+
 void	Channel::changeOperatorStatusToOff(int socket)
 {
 	std::map<Client *, bool>::iterator it;
@@ -162,6 +178,16 @@ void	Channel::changeOperatorStatusToOn(int socket)
 			it->second = true;
 			break;
 		}
+	}
+}
+
+void	Channel::setNewOperator(){
+	std::map<Client *, bool>::iterator it;
+
+	for(it = _client.begin(); it != _client.end(); ++it)
+	{
+		Client &client = *it->first;
+		changeOperatorStatusToOn(client.getSocket());
 	}
 }
 

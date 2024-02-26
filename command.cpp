@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/25 15:10:16 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/26 15:56:22 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,18 @@ string Command::getCmdParam(int index) {
 
 string Command::getCmdMessage() {
 	return msg;
+}
+
+std::vector<string>	Command::splitWithComa(std::string input){
+	std::vector<string>list;
+	std::string::size_type start = 0;
+    std::string::size_type commaPos = input.find(',');
+
+    while (commaPos != std::string::npos) {
+        list.push_back(input.substr(start, commaPos - start));
+        start = commaPos + 1;
+        commaPos = input.find(',', start);
+    }
+    list.push_back(input.substr(start));
+	return list;
 }

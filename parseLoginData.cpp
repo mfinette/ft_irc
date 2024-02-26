@@ -55,8 +55,10 @@ void execCMD(string input, Client &client, Server &server)
 		cmd.KICK(client);
 	if (cmd.getCmdName() == "TOPIC")
 		cmd.TOPIC(client);
-	if (cmd.getCmdName() == "MODE")
-		cmd.TOPIC(client);
+	if (cmd.getCmdName() == "PART")
+		cmd.PART(client);
+	// if (cmd.getCmdName() == "MODE")
+	//  	cmd.TOPIC(client);
 	if (cmd.getCmdName() == "PASS")
 		ERR_ALREADYREGISTERED(client);
 	if (cmd.getCmdName() == "USER")

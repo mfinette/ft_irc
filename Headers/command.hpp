@@ -28,10 +28,12 @@ class Command
 		void	TOPIC(Client &client);
 		void	KICK(Client &client);
 		void	INVITE(Client &client);
+		void	PART(Client &client);
 
 		string	getCmdName();
 		string	getCmdParam(int index);
 		string	getCmdMessage();
+		std::vector<string>	splitWithComa(std::string input);
 
 	private:
 		Server &_server;

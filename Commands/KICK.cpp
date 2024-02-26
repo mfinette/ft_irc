@@ -1,23 +1,35 @@
 #include "../Headers/ft_irc.hpp"
 
 void	Command::KICK(Client &client){
-	if (params.size() <= 1)
+	if (params.size() < 2)
 		return ERR_NEEDMOREPARAMS(client, "KICK");
+	std::vector<string> client_list = splitWithComa(params[1]);
+	std::vector<string> comment_list = splitWithComa(msg);
 	if (!_server.channelExisting(this->params[0]))// si le channel n'existe pas
 		return ERR_NOSUCHCHANNEL(client, this->params[0]);
 	Channel &channel = _server.getChannel(this->params[0]);
-	if (!channel.isOperator(client.getSocket())) //si pas les droit de kick
-		return ERR_CHANOPRIVSNEEDED(client, channel.getName());
-	if (!_server.isClientLog(this->params[1])) //si la target n'est pas sur le serveur
-		return ERR_NOSUCHNICK(client, this->params[1], "nick");
-	if (!channel.isClientInChannel(_server.getClient(this->params[1]).getSocket())) //si la target a kick est bien sur le channel
-		return ERR_USERNOTINCHANNEL(client, this->params[1], channel.getName());
-	if (!channel.isClientInChannel(client.getSocket())) //si le client n'est pas sur le serveur
-		return ERR_NOTONCHANNEL(client, channel.getName());
-	//ttes les conditions sont remplies
-	//possibilite de kick plusieurs user a la fois
-	Client &client_target = _server.getClient(this->params[1]);
-	std::string msg = ":" + client.getNickname() + " KICK " + channel.getName() + " " + client_target.getNickname() + " " + this->msg + "\r\n";
-	send_msg(client_target, msg);
-	channel.RemoveClientFromChannel(&client_target);
+	for (unsigned int i = 0; i < client_list.size(); i++){
+		if (!channel.isOperator(client.getSocket())) //si pas les droit de kick
+			return ERR_CHANOPRIVSNEEDED(client, channel.getName());
+		if (!_server.isClientLog(client_list[i])) //si la target n'est pas sur le serveur
+			return ERR_NOSUCHNICK(client, client_list[i], "nick");
+		if (!channel.isClientInChannel(_server.getClient(client_list[i]).getSocket())) //si la target a kick est bien sur le channel
+			return ERR_USERNOTINCHANNEL(client, client_list[i], channel.getName());
+		if (!channel.isClientInChannel(client.getSocket())) //si le client n'est pas sur le serveur
+			return ERR_NOTONCHANNEL(client, channel.getName());
+		//ttes les conditions sont remplies
+		Client &client_target = _server.getClient(client_list[i]);
+		std::string msg = ":" + client.getNickname() + " KICK " + channel.getName() + " " + client_target.getNickname() + " ";
+		if (comment_list.size() > i)
+			msg += comment_list[i];
+		msg += "\r\n";
+		send_msg(client_target, msg);
+		channel.RemoveClientFromChannel(&client_target);
+		if (channel.nbClient() == 0)
+			_server.removeChannelFromServer(channel);
+		if (channel.nbOperator() == 0)
+			channel.setNewOperator();
+		channel.updateClientList();
+	}
 }
+

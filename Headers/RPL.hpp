@@ -130,7 +130,11 @@ send_msg(client, HEADER_CMD(client) + "433 " + (client.getNickname().empty() ? "
 //| |    | '_ \  / _` || '_ \ | '_ \  / _ \| |
 //| \__/\| | | || (_| || | | || | | ||  __/| |
 // \____/|_| |_| \__,_||_| |_||_| |_| \___||_|
-                                            
+
+//366 RPL_ENDOFNAMES
+# define RPL_ENDOFNAMES(client, channel) \
+send_msg(client, HEADER(client) + " 366 " + client.getNickname() + " " + channel + " :End of /NAMES list" + RN);
+
 //403 ERR_NOSUCHCHANNEL
 # define ERR_NOSUCHCHANNEL(client, channel) \
 send_msg(client, HEADER(client) + " 403 " + client.getNickname() + " " + channel + " :No such channel" + RN)
