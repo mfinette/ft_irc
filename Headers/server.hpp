@@ -19,6 +19,7 @@ class Server
 		Client							&getClient(std::string nickname);
 		Channel							&getChannel(std::string name);
 		std::map<int, Client>			&getClientList();
+		std::map<std::string, Channel>	&getChannelList();
 		string 							getServPassword();
 
 		////////////////// MAP MANAGEMENT //////////////////

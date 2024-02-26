@@ -20,6 +20,7 @@ class Channel
 		std::string	getTopic();
 		std::string	getTopicAuthor();
 		std::string	getPassword();
+		bool		getInviteStatus();
 		std::string	getSetAt();
 		bool		isInviteOnly();
 		bool		hasPassword();

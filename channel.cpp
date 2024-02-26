@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/23 18:34:34 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:15:50 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ std::string	Channel::getTopicAuthor()
 std::string	Channel::getPassword()
 {
 	return _password;
+}
+
+bool	Channel::getInviteStatus()
+{
+	return _invite_only;
 }
 
 std::string	Channel::getSetAt()

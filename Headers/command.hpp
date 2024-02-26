@@ -29,6 +29,15 @@ class Command
 		void	KICK(Client &client);
 		void	INVITE(Client &client);
 
+		void	MODE(Client &client);
+		void 	oMode(Channel channel, string params, char sign);
+		void 	iMode(Channel channel, char sign);
+		void 	tMode(Channel channel, char sign);
+		void 	kMode(Channel channel, string params, char sign);
+		void 	lMode(Channel channel, string params, char sign);
+
+
+
 		string	getCmdName();
 		string	getCmdParam(int index);
 		string	getCmdMessage();
