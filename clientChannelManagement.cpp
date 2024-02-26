@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:05:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 12:32:01 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:29:24 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 void	Server::setupClient(int socket)
 {
-		Client newClient(socket);
-	newClient.setNickname("unknown");
-	newClient.setUsername("unknown");
-	newClient.setRealname("unknown");
-		this->addClientToServer(newClient);
-	}
+	Client newClient(socket);
+	newClient.setNickname("");
+	newClient.setUsername("");
+	newClient.setRealname("");
+	newClient.setSocketState(true);
+	this->addClientToServer(newClient);
+}
 
 void	Server::addClientToServer(const Client& client)
 {
-		this->_clientList.insert(std::pair<int, Client>(client.getSocket(), client));
-	}
+	this->_clientList.insert(std::pair<int, Client>(client.getSocket(), client));
+}
 
 void	Server::removeClientFromServer(Client& client)
 {
-		_clientList.erase(_clientList.find(client.getSocket()));
+	_clientList.erase(_clientList.find(client.getSocket()));
 }
 
 void	Server::addChannelToServer(Channel& channel)

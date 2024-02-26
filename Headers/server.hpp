@@ -49,15 +49,14 @@ class Server
 		void							bindServerSocket(int serverSocket, int port);
 		void							listenForConnections(int serverSocket, int backlog);
 		int								acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
-		void							handleClient(int clientSocket);
+		void							handleClient(int clientSocket, int &numClients);
 		void							handleServer(int serverSocket, int& numClients, pollfd fds[]);
-		void							closeSocket(int socket);
+		void							closeServerSocket(int socket);
+		void							closeClientSocket(Client &client);
 };
 
 		////////////////// OPERATOR OVERLOADS //////////////////
 std::ostream& operator<<(std::ostream& os, std::map<int, Client>& myMap);
 std::ostream& operator<<(std::ostream& os, std::map<std::string, Channel>& myChannel);
-
-
 
 #endif

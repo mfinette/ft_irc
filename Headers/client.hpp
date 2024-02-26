@@ -23,6 +23,8 @@ class Client
 		string	getRealname() const;
 		int		getStatus() const;
 
+		void	setSocketState(bool state);
+		bool	getSocketState() const;
 		void	setUsername(string username);
 		void	setNickname(string nickname);
 		void	setRealname(string realName);
@@ -33,6 +35,7 @@ class Client
 
 	private:
 		int			_socket;
+		bool		_isOpen;
 		string		_nickname;
 		string		_username;
 		string		_realname;

@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:09:36 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 12:20:27 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:52:03 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int argc, char **argv)
 {
 	if (argc != 3){
-		std::cout << "Usage: ./ircserv <port> <password>" << std::endl;
+		std::cout << MAGENTA << "Usage: ./ircserv <port> <password>" << RESET << std::endl;
 		return 0;
 	}
 	Server server(atoi(argv[1]), argv[2]);
@@ -26,20 +26,20 @@ int main(int argc, char **argv)
 	}
 	catch (const CtrlCException &e)
 	{
-		std::cout << "\nCtrl + C detected, closing server" << std::endl;
+		std::cout << MAGENTA << "\nCtrl + C detected, closing server" << RESET << std::endl;
 		server.closeServer();
 		return (1);
 	}
 	// commenter les deux catch d'en dessous pour coder sans crash toutes les 2 secondes
 	catch (const std::exception &e)
 	{
-		std::cerr << "Error: " << e.what() << std::endl;
+		std::cerr << RED << "Error: " << e.what() << RESET << std::endl;
 		server.closeServer();
 		return 1;
 	}
 	catch (...)
 	{
-		std::cerr << "Unknown error but it'll take more to crash us hihi" << std::endl;
+		std::cerr << RED << "Unknown error but it'll take more to crash us hihi" << RESET << std::endl;
 		server.closeServer();
 		return 1;
 	}

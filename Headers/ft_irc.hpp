@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/25 12:21:58 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:08:09 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ public:
 # define GREEN				"\033[32m"
 # define YELLOW				"\033[33m"
 # define BLUE				"\033[34m"
+# define DARK_BLUE			"\033[34m"
+# define MEDIUM_BLUE		"\033[36m"
+# define DODGER_BLUE		"\033[94m"
+# define STEEL_BLUE			"\033[38;5;67m"
 # define MAGENTA			"\033[35m"
 # define CYAN				"\033[36m"
 # define WHITE				"\033[37m"

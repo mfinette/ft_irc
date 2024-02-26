@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 13:05:09 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/25 14:57:50 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Client::Client(int socket) : _socket(socket), _loginStage(0)
+Client::Client(int socket) : _socket(socket), _isOpen(false), _loginStage(0)
 {
-	}
+}
 
 Client::~Client()
 {
-	}
+}
 
 Client& Client::operator=(const Client& rhs)
 {
@@ -49,6 +49,14 @@ void	Client::setRealname(string realname) {
 
 void	Client::setStatus(int status) {
 	_status = status;
+}
+
+void	Client::setSocketState(bool state) {
+	_isOpen = state;
+}
+
+bool	Client::getSocketState() const {
+	return _isOpen;
 }
 
 void	Client::incrementLoginStage() {
