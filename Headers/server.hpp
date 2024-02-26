@@ -36,6 +36,15 @@ class Server
 		bool							getClientStatus(std::string nickname);
 		bool							channelExisting(std::string channel_name);
 
+		////////////////// SERVER MANAGEMENT //////////////////
+		void							closeClientSocket(Client &client);
+		void							bindServerSocket(int serverSocket, int port);
+		void							listenForConnections(int serverSocket, int backlog);
+		int								acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
+		void							handleClient(int clientSocket, int &numClients);
+		void							handleServer(int serverSocket, int& numClients, pollfd fds[]);
+		void							closeServerSocket(int socket);
+
 	private:
 		int								_serverSocket;
 		int								_port;
@@ -45,14 +54,6 @@ class Server
 		std::map<std::string, Channel>	_channelList;
 		struct pollfd					_fds[CLIENT_LIMIT + 1]; // Define fds as a private member
 
-		////////////////// SERVER MANAGEMENT //////////////////
-		void							bindServerSocket(int serverSocket, int port);
-		void							listenForConnections(int serverSocket, int backlog);
-		int								acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
-		void							handleClient(int clientSocket, int &numClients);
-		void							handleServer(int serverSocket, int& numClients, pollfd fds[]);
-		void							closeServerSocket(int socket);
-		void							closeClientSocket(Client &client);
 };
 
 		////////////////// OPERATOR OVERLOADS //////////////////
