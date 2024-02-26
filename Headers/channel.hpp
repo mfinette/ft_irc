@@ -26,13 +26,13 @@ class Channel
 		bool		hasPassword();
 		bool		hasTopicRestriction();
 		int			getUserLimit();
+		int			nbClient();
+		int			nbOperator();
 		std::map<Client*, bool> 	getClientMap();
-
-
-		int		nbClient();
 
 		void	changeOperatorStatusToOff(int socket);
 		void	changeOperatorStatusToOn(int socket);
+		void	setNewOperator();
 		void	changeUserLimit(int user_limit);
 		void	changeInviteOnlyStatusToOn();
 		void	changeInviteOnlyStatusToOff();
@@ -45,7 +45,7 @@ class Channel
 
 		bool	isClientInChannel(int socket);
 		void	updateEveryClient();
-		void	updateClientList(Client &client);
+		void	updateClientList();
 
 		void printList();
 

@@ -8,8 +8,6 @@ void	Channel::updateEveryClient(){
 		cout << _topic.size() << endl;
 		RPL_TOPIC(client, _name, _topic);
 		RPL_TOPICWHOTIME(client, _name, _topic_author, getSetAt());
-		std::string msg = "TOPIC " + _name + " :" + _topic + "\r\n";
-		send_msg(client, msg);
 	}
 }
 
@@ -28,6 +26,7 @@ void	Command::TOPIC(Client &client){
 		channel.setTopic(this->msg);
 		channel.setTopicAuthor(client.getNickname());
 		channel.setSetAt();
+		
 		channel.updateEveryClient();
 	}
 	else{ //si il n'y a pas de parametre ==> affichage du topic
