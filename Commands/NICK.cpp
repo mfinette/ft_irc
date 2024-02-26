@@ -36,11 +36,9 @@ bool Command::NICK(Client &client)
 	else 
 		ERR_NONICKNAMEGIVEN(client, "unknown");
 	if (client.getNickname() == "") {
-		std::stringstream iss;
-		iss << client.getSocket();
-		string nbr = iss.str();
-		client.setNickname("USER*" + nbr);
+		client.setNickname(this->params[0]);
 		return true;
 	}
+	return false;
 	return false;
 }

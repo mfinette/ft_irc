@@ -1,8 +1,9 @@
 #include "../Headers/ft_irc.hpp"
 
+// si un client quitte le channel sans faire la commande QUIT le serveur doit 
+//mettre un message correspondant a la raison de la deconnexion
+
 void	Command::QUIT(Client &client)
-{
-	if (msg != "")
-		QUIT_SERVER(client, msg);
-	//QUIT
+{	
+	QUIT_SERVER(client, msg);
 }
