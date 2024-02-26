@@ -6,4 +6,7 @@
 void	Command::QUIT(Client &client)
 {	
 	QUIT_SERVER(client, msg);
+	_server.closeClientSocket(client);
+	client.setSocketState(false);
+	_server.removeClientFromServer(client);
 }
