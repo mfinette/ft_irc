@@ -9,14 +9,22 @@ void	Command::KICK(Client &client){
 		return ERR_NOSUCHCHANNEL(client, this->params[0]);
 	Channel &channel = _server.getChannel(this->params[0]);
 	for (unsigned int i = 0; i < client_list.size(); i++){
-		if (!channel.isOperator(client.getSocket())) //si pas les droit de kick
-			return ERR_CHANOPRIVSNEEDED(client, channel.getName());
-		if (!_server.isClientLog(client_list[i])) //si la target n'est pas sur le serveur
-			return ERR_NOSUCHNICK(client, client_list[i], "nick");
-		if (!channel.isClientInChannel(_server.getClient(client_list[i]).getSocket())) //si la target a kick est bien sur le channel
-			return ERR_USERNOTINCHANNEL(client, client_list[i], channel.getName());
-		if (!channel.isClientInChannel(client.getSocket())) //si le client n'est pas sur le serveur
-			return ERR_NOTONCHANNEL(client, channel.getName());
+		if (!channel.isOperator(client.getSocket())){ //si pas les droit de kick
+			ERR_CHANOPRIVSNEEDED(client, channel.getName());
+			continue;
+		}
+		if (!_server.isClientLog(client_list[i])){ //si la target n'est pas sur le serveur
+			ERR_NOSUCHNICK(client, client_list[i], "nick");
+			continue;
+		}
+		if (!channel.isClientInChannel(_server.getClient(client_list[i]).getSocket())){ //si la target a kick est bien sur le channel
+			ERR_USERNOTINCHANNEL(client, client_list[i], channel.getName());
+			continue;
+		}
+		if (!channel.isClientInChannel(client.getSocket())){ //si le client n'est pas sur le serveur
+			ERR_NOTONCHANNEL(client, channel.getName());
+			continue;
+		}
 		//ttes les conditions sont remplies
 		Client &client_target = _server.getClient(client_list[i]);
 		std::string msg = ":" + client.getNickname() + " KICK " + channel.getName() + " " + client_target.getNickname() + " ";
@@ -33,3 +41,4 @@ void	Command::KICK(Client &client){
 	}
 }
 
+//peut etre mettre une limite sur le nombre de kick en une commande

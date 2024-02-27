@@ -2,8 +2,6 @@
 
 
 void	Command::INVITE(Client &client){
-	//si pas de parametres ==> RPL_INVITELIST (aka. la liste des channel ds lesquels ce client est invite)
-	//si pas d'argument ==> ERR_NEEDMOREPARAMS
 	if (params.size() <= 1) //si pas de parametres affiches la liste de channel ds lesquels le client est invite
 		return ERR_NEEDMOREPARAMS(client, "INVITE");
 	if (!_server.channelExisting(this->params[1]))// si le channel n'existe pas
@@ -23,5 +21,5 @@ void	Command::INVITE(Client &client){
 	std::string msg = ":" + client.getNickname() + " INVITE " + client_target.getNickname() + " :" + channel.getName() + "\r\n";
 	send_msg(client_target, msg);
 	JoinServeur(client_target, channel);
-	channel.updateClientList();
+//	channel.updateClientList();
 }

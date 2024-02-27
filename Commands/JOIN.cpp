@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 21:58:20 by maxime            #+#    #+#             */
-/*   Updated: 2024/02/26 17:04:44 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/27 12:50:00 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,18 @@ void	Command::JOIN(Client &client){
 	for (unsigned int i = 0; i < channel_list.size(); i++){
 		if (_server.channelExisting(channel_list[i])){ //si le channel existe
 			Channel& channel = _server.getChannel(channel_list[i]);
-			if (channel.isInviteOnly()) //si c'est en invite only
-				return ERR_INVITEONLYCHAN(client, channel.getName());
-			if (channel.getUserLimit() != -1 && channel.getUserLimit() <= channel.nbClient()) //si la user limit est presente et si elle n'as pas ete depasser
-				return ERR_CHANNELISFULL(client, channel.getName());
-			if (channel.hasPassword() && key_list.size() > i && channel.getPassword() != key_list[i]) //si le password n'est pas valide et il faut check si une key est bien donner
-				return ERR_BADCHANNELKEY(client, channel.getName());			
-			cout << "join serveur \n";
+			if (channel.isInviteOnly()){ //si c'est en invite only
+				ERR_INVITEONLYCHAN(client, channel.getName());
+				continue;
+			}
+			if (channel.getUserLimit() != -1 && channel.getUserLimit() <= channel.nbClient()){ //si la user limit est presente et si elle n'as pas ete depasser
+				ERR_CHANNELISFULL(client, channel.getName());
+				continue;
+			}
+			if (channel.hasPassword() && key_list.size() > i && channel.getPassword() != key_list[i]){ //si le password n'est pas valide et il faut check si une key est bien donner
+				ERR_BADCHANNELKEY(client, channel.getName());			
+				continue;
+			}
 			JoinServeur(client, channel);
 		}
 		else
@@ -76,3 +81,9 @@ void	Command::JOIN(Client &client){
 		}
 	}
 }
+
+//peut etre rajouter une limite de channel possible ed join en une commande
+
+//check si il faut mettre une restriction sur les noms des channels
+
+//si join avec "0" faire un part sur tous ces channels

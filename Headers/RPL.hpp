@@ -65,8 +65,12 @@ send_msg(client, HEADER(client) + " 333 " + client.getNickname() + " " + channel
 //| |_/ /| (_| |\__ \| || (__  | |___| |   | |  | (_) || |   \__ \
 //\____/  \__,_||___/|_| \___| \____/|_|   |_|   \___/ |_|   |___/
 
+//412 ERR_NOTEXTTOSEND
+# define ERR_NOTEXTTOSEND(client) \
+send_msg(client, HEADER(client) + " 412 " + client.getNickname() + " :No text to send" + RN)
+
 //451 ERR_NOTREGISTERED
-#define ERR_NOTREGISTERED(client, nick) \
+# define ERR_NOTREGISTERED(client, nick) \
 send_msg(client, HEADER(client) + " 451 " + nick + " :You have not registered" + RN)
 
 //461 ERR_NEEDMOREPARAMS
