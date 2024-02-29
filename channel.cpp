@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/29 15:09:42 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:26:02 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@ void	Channel::RemoveClientFromChannel(Client* client){
 	_client.erase(_client.find(client));
 }
 
-void	Channel::SendMessageToChannel(string message, string target, int socket)
+void	Channel::SendMessageToChannel(string message, string target, int socket, int restriction)
 {	
 	for (std::map<Client *, bool>::iterator it = _client.begin(); it != _client.end(); ++it)
 	{
 		if (it->first->getSocket() == socket)
+			continue;
+		if (restriction == 1 && !it->second)
 			continue;
 		std::string msg = ":" + it->first->getNickname() + " PRIVMSG " + target + " " + message + "\r\n";
 		send_msg(*it->first, msg);

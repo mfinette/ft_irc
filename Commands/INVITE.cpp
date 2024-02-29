@@ -21,5 +21,4 @@ void	Command::INVITE(Client &client){
 	std::string msg = ":" + client.getNickname() + " INVITE " + client_target.getNickname() + " :" + channel.getName() + "\r\n";
 	send_msg(client_target, msg);
 	JoinServeur(client_target, channel);
-//	channel.updateClientList();
 }
