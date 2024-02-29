@@ -160,11 +160,6 @@ void	Command::MODE(Client &client) {
 		else if (modeStr[i] == 'l')
 			lMode(channel, parameter, sign);
 		else if (isalpha(modeStr[i]))
-<<<<<<< HEAD
-			//ERR_UMODEUNKNOWNFLAG
-		;
-=======
 			ERR_UMODEUNKNOWNFLAG(client);
->>>>>>> e44164f7796ba3d925a43ab28cc17eb2a86355a9
 	}
 }
