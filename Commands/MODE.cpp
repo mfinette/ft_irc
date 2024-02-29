@@ -131,14 +131,6 @@ void	Command::MODE(Client &client) {
 		return RPL_CHANNELMODEIS(client, params[0], _server.getModestring(params[0]));
 	if (params.size() >= 2)
 		modeStr = params[1];
-<<<<<<< HEAD
-	if (!_server.channelExisting(params[0]))
-		// ERR_NOSUCHNICK
-		;
-	if (!_server.channelExisting(params[0]))
-		return;
-=======
->>>>>>> e44164f7796ba3d925a43ab28cc17eb2a86355a9
 	Channel &channel = _server.getChannel(params[0]);
 	if (!channel.isOperator(client.getSocket()))
 		return ERR_CHANOPRIVSNEEDED(client, params[0]);
