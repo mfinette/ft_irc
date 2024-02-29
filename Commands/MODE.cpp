@@ -62,31 +62,42 @@ void Command::tMode(Channel &channel, char sign) {
 
 void Command::kMode(Channel &channel, string param, char sign) {
 	cout << "kFUNC" << endl;
-	if (sign == '-')
+	if (sign == '-') {
+
 		channel.setHasPasswordToFalse();
+		cout << "oui" << endl;
+	}
 	else if (sign == '+' && param != "") {
+		cout << "oui" << endl;
 		channel.setHasPasswordToTrue();
 		channel.setPassword(param);
+		cout << channel.getPassword() << endl;
+		cout << channel.hasPassword() << endl;
 	}
 	else if (channel.hasPassword()) {
 		channel.setHasPasswordToFalse();
 	}
+	else if (!channel.hasPassword() && param != "") {
+		channel.setHasPasswordToTrue();
+		channel.setPassword(param);
+		cout << channel.getPassword() << endl;
+		cout << channel.hasPassword() << endl;
+	}
+
 }
 
 void Command::lMode(Channel &channel, string param, char sign) {
 	cout << "lFUNC" << endl;
-	if (param == "")
-	;
-		//rm channel limit
+	(void) channel;
+	
+	size_t nbr = atoi(param.c_str());
+	cout << nbr << endl;
 	if (sign == '-')
-	;
-		//rm channel limit
-	else if (sign == '+')
-	;
-		//add channel limit
+		channel.changeUserLimit(-1);
+	if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos)
+		channel.changeUserLimit(nbr);
 	else
-	;
-		//rm channel limit 
+		channel.changeUserLimit(-1);
 }
 
 
@@ -106,7 +117,7 @@ void	Command::MODE(Client &client) {
 	if (params.size() >= 2)
 		modeStr = params[1];
 	if (!_server.channelExisting(params[0]))
-		// ERR_NOSUCHNICK(client params[j]
+		// ERR_NOSUCHNICK
 		;
 	if (!_server.channelExisting(params[0]))
 		return;
@@ -144,6 +155,5 @@ void	Command::MODE(Client &client) {
 		else if (isalpha(modeStr[i]))
 			//ERR_UMODEUNKNOWNFLAG
 		;
-		
 	}
 }

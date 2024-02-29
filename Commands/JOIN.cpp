@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 21:58:20 by maxime            #+#    #+#             */
-/*   Updated: 2024/02/29 14:09:30 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:46:25 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,14 @@ void	Command::JOIN(Client &client){
 				ERR_CHANNELISFULL(client, channel.getName());
 				continue;
 			}
-			if (channel.hasPassword() && key_list.size() > i && channel.getPassword() != key_list[i]){ //si le password n'est pas valide et il faut check si une key est bien donner
-				ERR_BADCHANNELKEY(client, channel.getName());			
-				continue;
+			if (channel.hasPassword()){
+				if	(key_list.size() <= i || channel.getPassword() != key_list[i]){ //si le password n'est pas valide et il faut check si une key est bien donner
+					ERR_BADCHANNELKEY(client, channel.getName());			
+					continue;
+				}
 			}
 			JoinServeur(client, channel);
+			
 		}
 		else
 		{

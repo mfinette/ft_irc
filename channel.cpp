@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/29 15:26:02 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/29 16:41:57 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ void	Channel::setHasPasswordToTrue() {
 }
 
 void	Channel::setHasPasswordToFalse() {
-	_has_password = true;
+	_has_password = false;
 }
 
 bool	Channel::isClientInChannel(int socket)
