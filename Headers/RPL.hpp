@@ -78,12 +78,16 @@ send_msg(client, HEADER(client) + " 451 " + nick + " :You have not registered" +
 send_msg(client, HEADER(client) + " 461 " + client.getNickname() + " " + command + " :Not enough parameters" + RN)
 
 //462 ERR_ALREADYREGISTERED
-#define ERR_ALREADYREGISTERED(client) \
+# define ERR_ALREADYREGISTERED(client) \
 send_msg(client, HEADER(client) + " 462 " + client.getNickname() + " :You may not reregister" + RN)
 
 //464 ERR_PASSWDMISSMATCH
-#define ERR_PASSWDMISSMATCH(client, nick) \
+# define ERR_PASSWDMISSMATCH(client, nick) \
 send_msg(client, HEADER(client) + " 464 " + nick + ":Password incorrect" + RN)
+
+//501 ERR_UMODEUNKNOWNFLAG
+# define ERR_UMODEUNKNOWNFLAG(client) \
+send_msg(client, HEADER(client) + " 501 " + client.getNickname() + ":Unknown MODE flag" + RN)
 
 // _____              _  _        
 //|_   _|            (_)| |       
@@ -134,6 +138,10 @@ send_msg(client, HEADER_CMD(client) + "433 " + (client.getNickname().empty() ? "
 //| |    | '_ \  / _` || '_ \ | '_ \  / _ \| |
 //| \__/\| | | || (_| || | | || | | ||  __/| |
 // \____/|_| |_| \__,_||_| |_||_| |_| \___||_|
+
+//324 RPL_CHANNELMODEIS
+# define RPL_CHANNELMODEIS(client, channel, modestring) \
+send_msg(client, HEADER(client) + " 324 " + client.getNickname() + " " + channel + modestring + RN);
 
 //366 RPL_ENDOFNAMES
 # define RPL_ENDOFNAMES(client, channel) \

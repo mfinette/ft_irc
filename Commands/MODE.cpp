@@ -19,8 +19,7 @@
 void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 	cout << "oFUNC" << endl;
 	if (!isExistingNick(_server, param))
-		// ERR_NOSUCHNICK(client, client.getNickname(), channel);
-		return;
+		return ERR_NOSUCHNICK(client, param, "nick");
 	int targetClient = _server.getClient(param).getSocket();
 	cout << targetClient << endl;
 	if (sign == '-' && client.getSocket() != targetClient)
@@ -75,6 +74,7 @@ void Command::kMode(Channel &channel, string param, char sign) {
 
 void Command::lMode(Channel &channel, string param, char sign) {
 	cout << "lFUNC" << endl;
+	(void)channel;
 	if (param == "")
 	;
 		//rm channel limit
@@ -89,6 +89,22 @@ void Command::lMode(Channel &channel, string param, char sign) {
 		//rm channel limit 
 }
 
+std::string	Server::getModestring(std::string channelName){
+	Channel &channel = getChannel(channelName);
+	
+	std::string modestring = " +";
+	if (channel.hasPassword())
+		modestring += "k";
+	if (channel.isInviteOnly())
+		modestring += "i";
+	if (channel.getUserLimit() == -1)
+		modestring += "l";
+	if (channel.hasTopicRestriction())
+		modestring += "t";
+	if (modestring.size() == 2)
+		return ("");
+	return modestring;
+}
 
 void	Command::MODE(Client &client) {
 	string modeStr = "";
@@ -98,26 +114,18 @@ void	Command::MODE(Client &client) {
 
 	cout << "mode fnc" << endl;
 	if (params.size() <= 0)
-		// RPL_CHANNELMODEIS
-		;
+		return ERR_NEEDMOREPARAMS(client, "MODE");
+	if (!_server.channelExisting(params[0]))
+		return ERR_NOSUCHCHANNEL(client, params[0]);
 	if (params.size() <= 1)
-		// ERR_NEEDMOREPARAMS
-		;
+		return RPL_CHANNELMODEIS(client, params[0], _server.getModestring(params[0]));
 	if (params.size() >= 2)
 		modeStr = params[1];
-	if (!_server.channelExisting(params[0]))
-		// ERR_NOSUCHNICK(client params[j]
-		;
-	if (!_server.channelExisting(params[0]))
-		return;
 	Channel &channel = _server.getChannel(params[0]);
-	if (!channel.isOperator(client.getSocket())) {
-		// ERR_CHANOPRIVSNEEDED
-		return;
-	}	
+	if (!channel.isOperator(client.getSocket()))
+		return ERR_CHANOPRIVSNEEDED(client, params[0]);
 	if (modeStr == "")
-		//RPL_CHANNELMODEIS
-	;
+		return RPL_CHANNELMODEIS(client, params[0], _server.getModestring(params[0]));
 	parameter = "";
 	for (size_t i = 0; i < modeStr.size(); i++) {
 		if (j < params.size() && (modeStr[i] == 'o' || modeStr[i] == 'k' || modeStr[i] == 'l'))
@@ -142,8 +150,6 @@ void	Command::MODE(Client &client) {
 		else if (modeStr[i] == 'l')
 			lMode(channel, parameter, sign);
 		else if (isalpha(modeStr[i]))
-			//ERR_UMODEUNKNOWNFLAG
-		;
-		
+			ERR_UMODEUNKNOWNFLAG(client);
 	}
 }
