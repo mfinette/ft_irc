@@ -40,5 +40,3 @@ void	Command::KICK(Client &client){
 		channel.updateClientList();
 	}
 }
-
-//peut etre mettre une limite sur le nombre de kick en une commande

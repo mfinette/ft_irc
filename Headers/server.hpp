@@ -45,6 +45,8 @@ class Server
 		void							handleClient(int clientSocket, int &numClients);
 		void							handleServer(int serverSocket, int& numClients, pollfd fds[]);
 		void							closeServerSocket(int socket);
+		void							leaveAll(Client &client);
+		void							sendAll(Client &client, std::string msg);
 
 	private:
 		int								_serverSocket;

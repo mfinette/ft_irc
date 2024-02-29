@@ -13,7 +13,7 @@ class Channel
 		
 		void	AddClientToChannel(Client* client);
 		void	RemoveClientFromChannel(Client* client);
-		void	SendMessageToChannel(std::string message, std::string target, int socket);
+		void	SendMessageToChannel(std::string message, std::string target, int socket, int restriction);
 		bool	isOperator(int socket);
 
 		std::string	getName() const;

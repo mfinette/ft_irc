@@ -37,8 +37,6 @@ class Command
 		void 	kMode(Channel channel, string params, char sign);
 		void 	lMode(Channel channel, string params, char sign);
 
-
-
 		string	getCmdName();
 		string	getCmdParam(int index);
 		string	getCmdMessage();
