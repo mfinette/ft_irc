@@ -36,6 +36,8 @@ class Server
 		bool							getClientStatus(int socket);
 		bool							getClientStatus(std::string nickname);
 		bool							channelExisting(std::string channel_name);
+		std::string						getModestring(std::string channelName);
+
 
 		////////////////// SERVER MANAGEMENT //////////////////
 		void							closeClientSocket(Client &client);
