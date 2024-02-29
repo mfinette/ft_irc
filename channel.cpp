@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/26 19:06:21 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:09:42 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,16 @@ void	Channel::changePasswordStatusToOff()
 	_has_password = false;
 }
 
+void	Channel::changeTopicRestrictionToOn()
+{
+	_topic_restriction = true;
+}
+
+void	Channel::changeTopicRestrictionToOff()
+{
+	_topic_restriction = false;
+}
+
 void	Channel::setTopic(std::string topic){
 	_topic = topic;
 }
@@ -231,6 +241,18 @@ void	Channel::setTopicAuthor(std::string nickname){
 
 void	Channel::setSetAt(){
 	_setAt = std::time(NULL);
+}
+
+void	Channel::setPassword(string pw) {
+	_password = pw;
+}
+
+void	Channel::setHasPasswordToTrue() {
+	_has_password = true;
+}
+
+void	Channel::setHasPasswordToFalse() {
+	_has_password = true;
 }
 
 bool	Channel::isClientInChannel(int socket)

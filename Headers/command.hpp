@@ -31,11 +31,11 @@ class Command
 		void	PART(Client &client);
 
 		void	MODE(Client &client);
-		void 	oMode(Channel channel, string params, char sign);
-		void 	iMode(Channel channel, char sign);
-		void 	tMode(Channel channel, char sign);
-		void 	kMode(Channel channel, string params, char sign);
-		void 	lMode(Channel channel, string params, char sign);
+		void 	oMode(Client &client, Channel &channel, string params, char sign);
+		void 	iMode(Channel &channel, char sign);
+		void 	tMode(Channel &channel, char sign);
+		void 	kMode(Channel &channel, string params, char sign);
+		void 	lMode(Channel &channel, string params, char sign);
 
 
 

@@ -30,6 +30,7 @@ class Channel
 		int			nbOperator();
 		std::map<Client*, bool> 	getClientMap();
 
+
 		void	changeOperatorStatusToOff(int socket);
 		void	changeOperatorStatusToOn(int socket);
 		void	setNewOperator();
@@ -38,10 +39,15 @@ class Channel
 		void	changeInviteOnlyStatusToOff();
 		void	changePasswordStatusToOn();
 		void	changePasswordStatusToOff();
+		void	changeTopicRestrictionToOff();
+		void	changeTopicRestrictionToOn();
 
 		void	setTopic(std::string topic);
 		void	setTopicAuthor(std::string nickname);
 		void	setSetAt();
+		void	setPassword(std::string pw);
+		void	setHasPasswordToTrue();
+		void	setHasPasswordToFalse();
 
 		bool	isClientInChannel(int socket);
 		void	updateEveryClient();
