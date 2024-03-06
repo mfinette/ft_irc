@@ -1,60 +1,77 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/09 16:53:11 by mfinette          #+#    #+#              #
-#    Updated: 2024/02/26 19:06:33 by cgelin           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME		= ircserv
+NAME		= easyfind
 	
 CC			= c++
-FLAGS		= -Wall -Wextra  -g3 -std=c++98 -Werror 
+FLAGS		= -Wall -Wextra -Werror -std=c++98
 RM			= rm -rf
 
-OBJDIR = .objFiles
+OBJDIR =	 .objs
 
 FILES		= 	main \
 				server channel command client signal \
 				parseLoginData clientChannelManagement \
-				Commands/NICK Commands/PASS Commands/PRIVMSG Commands/JOIN Commands/USER  \
-				Commands/TOPIC Commands/INVITE Commands/KICK Commands/QUIT Commands/PART Commands/MODE
+				Commands/KICK Commands/MODE Commands/NICK Commands/PART Commands/PASS \
+				Commands/QUIT Commands/TOPIC Commands/USER Commands/PRIVMSG Commands/INVITE Commands/JOIN
 
-SRC			= $(FILES:=.cpp)
-OBJ			= $(addprefix $(OBJDIR)/, $(FILES:=.o))
-HEADER		= Headers/*.hpp
-#Colors:
-GREEN		=	\e[92;5;118m
-YELLOW		=	\e[93;5;226m
-GRAY		=	\e[33;2;37m
+HFILES		= 	Headers/channel Headers/client Headers/command Headers/ft_irc Headers/RPL Headers/server
+
+HEADER		= $(HFILES:=.hpp)
+SRCS		= $(FILES:=.cpp)
+OBJS		= $(addprefix $(OBJDIR)/, $(FILES:=.o))
+
+PURPLE		= 	\e[33;1;35m
+GREEN		= 	\e[33;1;32m
+BLUE		= 	\e[33;1;34m
+RED			=	\e[33;1;31m
+WHITEBOLD	=	\e[33;1;37m
 RESET		=	\e[0m
-CURSIVE		=	\e[33;3m
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(HEADER)
-	@$(CC) $(OBJ) -o $(NAME)
-	@printf "$(GREEN)- Executable ready.\n$(RESET)"
+$(NAME): $(OBJS) $(HEADER)
+	@$(CC) $(OBJS) $(FLAGS) -o $(NAME)
+	@$(foreach header, $(HEADER), \
+		if [ -f $(header) ]; then \
+			printf "$(PURPLE)-> ./$(header)$(RESET)\n"; \
+		fi; \
+	)
+	@$(foreach obj, $(OBJS), \
+		if [ -f $(obj) ]; then \
+			printf "$(GREEN)+ $(obj)$(RESET)\n"; \
+		fi; \
+	)
+	@printf "$(BLUE)+ ./$(NAME)$(RESET)\n"
+	@printf "$(WHITEBOLD)The $(RED)\"$(NAME)\" $(WHITEBOLD)program is ready to be executed.$(RESET)\n"
+
+silent: $(OBJS) $(HEADER)
+		@$(CC) $(OBJS) $(FLAGS) -o $(NAME)
+		@printf "$(WHITEBOLD)Program compiled$(RESET).\n"
+
 
 $(OBJDIR)/%.o: %.cpp $(HEADER)
 	@mkdir -p $(dir $@)
-	@$(CC) $(FLAGS) $(OPTS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@$(RM) $(OBJDIR) $(OBJ)
-	@printf "$(YELLOW)    - Object files removed.$(RESET)\n"
+	@$(foreach obj, $(OBJS), \
+		if [ -f $(obj) ]; then \
+			$(RM) $(obj); \
+			printf "$(RED)- $(obj)$(RESET)\n"; \
+		fi; \
+	)
+	@$(RM) $(OBJDIR)
+	@printf "$(WHITEBOLD)All object files have been removed.$(RESET)\n"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@printf "$(YELLOW)    - Executable removed.$(RESET)\n"
+	@printf "$(RED)- ./$(NAME) $(RESET)\n"
+	@printf "$(WHITEBOLD)Executable has been removed$(RESET).\n"
+
+run: silent
+	./$(NAME) 6667 1
+
+valgrind: silent
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) 6667 1
 
 re: fclean all
 
-valgrind: all
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) 6667 1
-
-.PHONY: all clean fclean re bonus norm
+.PHONY: all clean fclean re valgrind silent
