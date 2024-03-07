@@ -1,4 +1,4 @@
-NAME		= easyfind
+NAME		= ircserv
 	
 CC			= c++
 FLAGS		= -Wall -Wextra -Werror -std=c++98

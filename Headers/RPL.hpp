@@ -14,12 +14,8 @@ void send_msg(Client client, std::string msg);
 # define HEADER_CMD(client) \
 (HEADER(client) + "@" + HOST + " ")
 
-//  _____                                                 _      
-////  __ \                                               | |     
-//|| /  \/  ___   _ __ ___   _ __ ___    __ _  _ __    __| | ___ 
-//|| |     / _ \ | '_ ` _ \ | '_ ` _ \  / _` || '_ \  / _` |/ __|
-//|| \__/\| (_) || | | | | || | | | | || (_| || | | || (_| |\__ \
-//  \____/ \___/ |_| |_| |_||_| |_| |_| \__,_||_| |_| \__,_||___/
+
+//COMMANDS
 
 # define JOIN_CHANNEL(client, channel) \
 send_msg(client, HEADER_CMD(client) + "JOIN " + channel + RN)
@@ -30,13 +26,8 @@ send_msg(client, (":" + tempNick + "!" + client.getUsername()) + " NICK :" + new
 #define QUIT_SERVER(client, reason) \
 send_msg(client, HEADER_CMD(client) + "QUIT :" + reason + RN);
 
-//______              _        ______              _  _            
-//| ___ \            (_)       | ___ \            | |(_)           
-//| |_/ /  __ _  ___  _   ___  | |_/ / ___  _ __  | | _   ___  ___ 
-//| ___ \ / _` |/ __|| | / __| |    / / _ \| '_ \ | || | / _ \/ __|
-//| |_/ /| (_| |\__ \| || (__  | |\ \|  __/| |_) || || ||  __/\__ \
-//\____/  \__,_||___/|_| \___| \_| \_|\___|| .__/ |_||_| \___||___/
-//                                         |_|                                     
+
+//BASIC REPLIES
 
 //001 RPL_WELCOME
 # define RPL_WELCOME(client, msg) \
@@ -58,12 +49,8 @@ send_msg(client, HEADER(client) + " 332 " + client.getNickname() + " " + channel
 # define RPL_TOPICWHOTIME(client, channel, author, setAt) \
 send_msg(client, HEADER(client) + " 333 " + client.getNickname() + " " + channel + " " + author + " " + setAt + RN);
 
-//______              _         _____                             
-//| ___ \            (_)       |  ___|                            
-//| |_/ /  __ _  ___  _   ___  | |__  _ __  _ __  ___   _ __  ___ 
-//| ___ \ / _` |/ __|| | / __| |  __|| '__|| '__|/ _ \ | '__|/ __|
-//| |_/ /| (_| |\__ \| || (__  | |___| |   | |  | (_) || |   \__ \
-//\____/  \__,_||___/|_| \___| \____/|_|   |_|   \___/ |_|   |___/
+
+//BASIC ERRORS
 
 //412 ERR_NOTEXTTOSEND
 # define ERR_NOTEXTTOSEND(client) \
@@ -89,13 +76,8 @@ send_msg(client, HEADER(client) + " 464 " + nick + ":Password incorrect" + RN)
 # define ERR_UMODEUNKNOWNFLAG(client) \
 send_msg(client, HEADER(client) + " 501 " + client.getNickname() + ":Unknown MODE flag" + RN)
 
-// _____              _  _        
-//|_   _|            (_)| |       
-//  | |  _ __ __   __ _ | |_  ___ 
-//  | | | '_ \\ \ / /| || __|/ _ \
-// _| |_| | | |\ V / | || |_|  __/
-// \___/|_| |_| \_/  |_| \__|\___|
 
+//INVITE
 
 //336 RPL_INVITELIST
 # define RPL_INVITELIST(client, channel) \
@@ -109,12 +91,8 @@ send_msg(client, HEADER(client) + " 341 " + client.getNickname() + " " + nick + 
 # define ERR_INVITEONLYCHAN(client, channel) \
 send_msg(client, HEADER(client) + " 473 " + client.getNickname() + " " + channel + " :Cannot join channel (+i)" + RN)
 
-// _   _  _        _    
-//| \ | |(_)      | |   
-//|  \| | _   ___ | | __
-//| . ` || | / __|| |/ /
-//| |\  || || (__ |   < 
-//\_| \_/|_| \___||_|\_\
+
+//NICK
 
 //401 ERR_NOSUCHNICK
 # define ERR_NOSUCHNICK(client, nick, msg) \
@@ -132,12 +110,8 @@ send_msg(client, HEADER_CMD(client) + " 432 " + client.getNickname() + " " + nic
 #define ERR_NICKNAMEINUSE(client, nick) \
 send_msg(client, HEADER_CMD(client) + "433 " + (client.getNickname().empty() ? "unknown" : client.getNickname()) + ": " + nick + " is already in use" + RN)
 
-// _____  _                                 _ 
-///  __ \| |                               | |
-//| /  \/| |__    __ _  _ __   _ __    ___ | |
-//| |    | '_ \  / _` || '_ \ | '_ \  / _ \| |
-//| \__/\| | | || (_| || | | || | | ||  __/| |
-// \____/|_| |_| \__,_||_| |_||_| |_| \___||_|
+
+//CHANNEL
 
 //324 RPL_CHANNELMODEIS
 # define RPL_CHANNELMODEIS(client, channel, modestring) \

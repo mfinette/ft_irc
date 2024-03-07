@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/29 16:41:57 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/07 12:51:32 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ void	Channel::RemoveClientFromChannel(Client* client){
 	_client.erase(_client.find(client));
 }
 
-void	Channel::SendMessageToChannel(string message, string target, int socket, int restriction)
+void	Channel::SendMessageToChannel(string message, string target, Client &from, int restriction)
 {	
 	for (std::map<Client *, bool>::iterator it = _client.begin(); it != _client.end(); ++it)
 	{
-		if (it->first->getSocket() == socket)
+		if (it->first->getSocket() == from.getSocket())
 			continue;
 		if (restriction == 1 && !it->second)
 			continue;
-		std::string msg = ":" + it->first->getNickname() + " PRIVMSG " + target + " " + message + "\r\n";
+		std::string msg = ":" + from.getNickname() + " PRIVMSG " + target + " " + message + "\r\n";
 		send_msg(*it->first, msg);
 	}
 }

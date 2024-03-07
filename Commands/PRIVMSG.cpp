@@ -35,7 +35,7 @@ void	Command::PRIVMSG(Client &client){
 		if (msg.size() == 0)
 			return ERR_NOTEXTTOSEND(client);
 		Channel &tmp = _server.getChannel(this->params[0]);
-		tmp.SendMessageToChannel(this->msg, this->params[0], client.getSocket(), restriction);
+		tmp.SendMessageToChannel(this->msg, this->params[0], client, restriction);
 		return;
 	}
 	if (!_server.getClientStatus(this->params[0])) //si le status du client est sur away
