@@ -29,6 +29,7 @@ class Channel
 		int			nbClient();
 		int			nbOperator();
 		std::map<Client*, bool> 	getClientMap();
+		std::string getAllOperator();
 
 
 		void	changeOperatorStatusToOff(int socket);
@@ -53,7 +54,7 @@ class Channel
 		void	updateEveryClient();
 		void	updateClientList();
 
-		void printList();
+		void	printList();
 
 	private:
 		std::map<Client *, bool>	_client;

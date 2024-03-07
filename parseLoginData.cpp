@@ -11,30 +11,35 @@ void getLoginData(string input, Client &client, Server &server) {
 			cmd.QUIT(client);
 		if (cmd.getCmdName() != "PASS" && cmd.getCmdName() != "NICK" && cmd.getCmdName() != "USER" && cmd.getCmdName() != "")
 			ERR_NOTREGISTERED(client, "channel name");
-		else if (client.getLoginStage() == STAGE_1)
-		{
+		if (client.getLoginStage() == STAGE_1) {
 			if (cmd.getCmdName() == "PASS")
-			{
 				if (cmd.PASS(client))
-					client.incrementLoginStage();
-			}
+					client.setLoginStage(STAGE_2);
 		}
-		else if (client.getLoginStage() == STAGE_2)
-		{
-			if (cmd.getCmdName() == "NICK")
-				if (cmd.NICK(client))
-					client.incrementLoginStage();
-		}
-		else if (client.getLoginStage() == STAGE_3)
-		{
-			if (cmd.getCmdName() == "USER") 
-				if (cmd.USER(client)) {
-					client.incrementLoginStage();
-					cout << COLOR_1 << "\nUSER ("  << COLOR_2 << client.getSocket()  << COLOR_1 << ") SUCCESSFULLY LOGGED AS : " << COLOR_2 << client.getNickname() << COLOR_1 << " !" << RESET << endl;
+		else {
+			if (cmd.getCmdName() == "NICK") {
+				if (cmd.NICK(client) && client.getLoginStage() != NICK_ENTERED) {
+					if (client.getLoginStage() == STAGE_2)
+						client.setLoginStage(NICK_ENTERED);
+					else if (client.getLoginStage() == USER_ENTERED) {
+						client.setLoginStage(ALL_LOGIN_DATA_ENTERED);
+						cout << COLOR_1 << "\nUSER ("  << COLOR_2 << client.getSocket()  << COLOR_1 << ") SUCCESSFULLY LOGGED AS : " << COLOR_2 << client.getNickname() << COLOR_1 << " !" << RESET << endl;
+					}
 				}
+			}
+			if (cmd.getCmdName() == "USER" && client.getLoginStage() != USER_ENTERED) {
+				if (cmd.USER(client)) {
+					if (client.getLoginStage() == STAGE_2)
+						client.setLoginStage(USER_ENTERED);
+					else if (client.getLoginStage() == NICK_ENTERED) {
+						client.setLoginStage(ALL_LOGIN_DATA_ENTERED);
+						cout << COLOR_1 << "\nUSER ("  << COLOR_2 << client.getSocket()  << COLOR_1 << ") SUCCESSFULLY LOGGED AS : " << COLOR_2 << client.getNickname() << COLOR_1 << " !" << RESET << endl;
+					}
+				}
+			} 
 		}
+		cout << client.getLoginStage() << endl;
 	}
-			cout << client.getLoginStage() << endl;
 }
 
 void execCMD(string input, Client &client, Server &server)

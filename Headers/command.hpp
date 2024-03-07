@@ -8,8 +8,9 @@
 
 #define STAGE_1 0
 #define STAGE_2 1
-#define STAGE_3 2
-#define ALL_LOGIN_DATA_ENTERED 3
+#define NICK_ENTERED 2
+#define USER_ENTERED 3
+#define ALL_LOGIN_DATA_ENTERED 4
 
 class Command
 {
@@ -32,10 +33,10 @@ class Command
 
 		void	MODE(Client &client);
 		void 	oMode(Client &client, Channel &channel, string params, char sign);
-		void 	iMode(Channel &channel, char sign);
-		void 	tMode(Channel &channel, char sign);
-		void 	kMode(Channel &channel, string params, char sign);
-		void 	lMode(Channel &channel, string params, char sign);
+		void 	iMode(Channel &channel, char sign, Client &client);
+		void 	tMode(Channel &channel, char sign, Client &client);
+		void 	kMode(Channel &channel, string params, char sign, Client &client);
+		void 	lMode(Channel &channel, string params, char sign, Client &client);
 
 		string	getCmdName();
 		string	getCmdParam(int index);
