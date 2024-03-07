@@ -2,7 +2,7 @@
 
 
 void	Command::INVITE(Client &client){
-	if (params.size() <= 1) //si pas de parametres affiches la liste de channel ds lesquels le client est invite
+	if (params.size() <= 1) //si pas de parametres => err param
 		return ERR_NEEDMOREPARAMS(client, "INVITE");
 	if (!_server.channelExisting(this->params[1]))// si le channel n'existe pas
 		return ERR_NOSUCHCHANNEL(client, this->params[1]);

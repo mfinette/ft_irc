@@ -33,10 +33,10 @@ class Command
 
 		void	MODE(Client &client);
 		void 	oMode(Client &client, Channel &channel, string params, char sign);
-		void 	iMode(Channel &channel, char sign);
-		void 	tMode(Channel &channel, char sign);
-		void 	kMode(Channel &channel, string params, char sign);
-		void 	lMode(Channel &channel, string params, char sign);
+		void 	iMode(Channel &channel, char sign, Client &client);
+		void 	tMode(Channel &channel, char sign, Client &client);
+		void 	kMode(Channel &channel, string params, char sign, Client &client);
+		void 	lMode(Channel &channel, string params, char sign, Client &client);
 
 		string	getCmdName();
 		string	getCmdParam(int index);

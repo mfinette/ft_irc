@@ -26,6 +26,8 @@ send_msg(client, (":" + tempNick + "!" + client.getUsername()) + " NICK :" + new
 #define QUIT_SERVER(client, reason) \
 send_msg(client, HEADER_CMD(client) + "QUIT :" + reason + RN);
 
+# define MODE_MESSAGE(client, channel, modestring) \
+send_msg(client, HEADER_CMD(client) + "MODE " +  channel + " " + modestring + RN)
 
 //BASIC REPLIES
 
@@ -152,7 +154,5 @@ send_msg(client, HEADER(client) + " 475 " + client.getNickname() + " " + channel
 //482 ERR_CHANOPRIVSNEEDED
 # define ERR_CHANOPRIVSNEEDED(client, channel) \
 send_msg(client, HEADER(client) + " 482 " + client.getNickname() + " " + channel + " :You're not channel operator" + RN)
-
-
 
 #endif

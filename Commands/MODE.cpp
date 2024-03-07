@@ -22,97 +22,138 @@ void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 		return ERR_NOSUCHNICK(client, param, "nick");
 	int targetClient = _server.getClient(param).getSocket();
 	cout << targetClient << endl;
-	if (sign == '-' && client.getSocket() != targetClient)
+	if (sign == '-' && client.getSocket() != targetClient){
 		channel.changeOperatorStatusToOff(targetClient);
-	else if (sign == '+')
-		channel.changeOperatorStatusToOn(targetClient); 
-	else if (channel.isOperator(_server.getClient(param).getSocket()))
-		channel.changeOperatorStatusToOff(targetClient); 
-	else
+		std::string modestring = "-o " + param;
+		MODE_MESSAGE(client, channel.getName(), modestring);
+	}
+	else if (sign == '+'){
 		channel.changeOperatorStatusToOn(targetClient);
+		std::string modestring = "+o " + param;
+		MODE_MESSAGE(client, channel.getName(), modestring);
+	}
+	else if (channel.isOperator(_server.getClient(param).getSocket())){
+		channel.changeOperatorStatusToOff(targetClient);
+		std::string modestring = "-o " + param;
+		MODE_MESSAGE(client, channel.getName(), modestring);
+	}
+	else{
+		channel.changeOperatorStatusToOn(targetClient);
+		std::string modestring = "+o " + param;
+		MODE_MESSAGE(client, channel.getName(), modestring);
+	}
 	channel.updateClientList();
 }
 
-void Command::iMode(Channel &channel, char sign) {
+void Command::iMode(Channel &channel, char sign, Client &client) {
 	cout << "iFUNC" << endl;
-	if (sign == '-')
+	if (sign == '-'){
 		channel.changeInviteOnlyStatusToOn();
-	else if (sign == '+')
+		MODE_MESSAGE(client, channel.getName(), "-i");
+	}
+	else if (sign == '+'){
 		channel.changeInviteOnlyStatusToOff();
-	else if (channel.getInviteStatus())
+		MODE_MESSAGE(client, channel.getName(), "+i");
+	}
+	else if (channel.getInviteStatus()){
 		channel.changeInviteOnlyStatusToOn();
-	else
+		MODE_MESSAGE(client, channel.getName(), "-i");
+	}
+	else{
 		channel.changeInviteOnlyStatusToOff();
-
+		MODE_MESSAGE(client, channel.getName(), "+i");
+	}
 }
 
-void Command::tMode(Channel &channel, char sign) {
+void Command::tMode(Channel &channel, char sign, Client &client) {
 
 	cout << "tFUNC" << endl;
-	if (sign == '-')
+	if (sign == '-'){
 		channel.changeTopicRestrictionToOff();
-	else if (sign == '+')
+		MODE_MESSAGE(client, channel.getName(), "-t");
+	}
+	else if (sign == '+'){
 		channel.changeTopicRestrictionToOn();
-	else if (channel.hasTopicRestriction())
+		MODE_MESSAGE(client, channel.getName(), "+t");
+	}
+	else if (channel.hasTopicRestriction()){
 		channel.changeTopicRestrictionToOff();
-	else
+		MODE_MESSAGE(client, channel.getName(), "-t");
+	}
+	else{
 		channel.changeTopicRestrictionToOn();
+		MODE_MESSAGE(client, channel.getName(), "+t");
+	}
 }
 
-void Command::kMode(Channel &channel, string param, char sign) {
+void Command::kMode(Channel &channel, string param, char sign, Client &client) {
 	cout << "kFUNC" << endl;
 	if (sign == '-') {
-
 		channel.setHasPasswordToFalse();
-		cout << "oui" << endl;
+		MODE_MESSAGE(client, channel.getName(), "-k");
 	}
 	else if (sign == '+' && param != "") {
-		cout << "oui" << endl;
 		channel.setHasPasswordToTrue();
 		channel.setPassword(param);
-		cout << channel.getPassword() << endl;
-		cout << channel.hasPassword() << endl;
+		std::string modestring = "+k " + channel.getPassword();
+		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
 	else if (channel.hasPassword()) {
 		channel.setHasPasswordToFalse();
+		MODE_MESSAGE(client, channel.getName(), "-k");
 	}
 	else if (!channel.hasPassword() && param != "") {
 		channel.setHasPasswordToTrue();
 		channel.setPassword(param);
-		cout << channel.getPassword() << endl;
-		cout << channel.hasPassword() << endl;
+		std::string modestring = "+k " + channel.getPassword();
+		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
 
 }
 
-void Command::lMode(Channel &channel, string param, char sign) {
+void Command::lMode(Channel &channel, string param, char sign, Client &client) {
 	cout << "lFUNC" << endl;
 	(void) channel;
 	
 	size_t nbr = atoi(param.c_str());
-	cout << nbr << endl;
-	if (sign == '-')
+	if (sign == '-'){
 		channel.changeUserLimit(-1);
-	if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos)
+		MODE_MESSAGE(client, channel.getName(), "-l");
+	}
+	else if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos){
 		channel.changeUserLimit(nbr);
-	else
+		std::string modestring = "+l ";
+		std::ostringstream oss;
+   		oss << channel.getUserLimit();
+		modestring += oss.str();
+		MODE_MESSAGE(client, channel.getName(), modestring);
+
+	}
+	else{
 		channel.changeUserLimit(-1);
+		MODE_MESSAGE(client, channel.getName(), "-l");
+	}
 }
 
 std::string	Server::getModestring(std::string channelName){
 	Channel &channel = getChannel(channelName);
-	
-	std::string modestring = " +";
+
+	std::string modestring = "";
 	if (channel.hasPassword())
-		modestring += "k";
+		modestring += "+k";
 	if (channel.isInviteOnly())
-		modestring += "i";
-	if (channel.getUserLimit() == -1)
-		modestring += "l";
+		modestring += "+i";
+	if (channel.getUserLimit() != -1)
+		modestring += "+l";
 	if (channel.hasTopicRestriction())
-		modestring += "t";
-	if (modestring.size() == 2)
-		return ("");
+		modestring += "+t";
+	modestring += "+o";
+/*
+	if (channel.hasPassword())
+		modestring += " " + channel.getPassword();
+	if (channel.getUserLimit() != -1)
+		modestring += " " + channel.getUserLimit();
+	modestring += channel.getAllOperator();*/
 	return modestring;
 }
 
@@ -148,17 +189,16 @@ void	Command::MODE(Client &client) {
 			}
 			continue;
 		}
-		if (modeStr[i] == 'o') {
+		if (modeStr[i] == 'o')
 			oMode(client, channel, parameter, sign);
-		}
 		else if (modeStr[i] == 'i')
-			iMode(channel, sign);
+			iMode(channel, sign, client);
 		else if (modeStr[i] == 't')
-			tMode(channel, sign);
+			tMode(channel, sign, client);
 		else if (modeStr[i] == 'k')
-			kMode(channel, parameter, sign);
+			kMode(channel, parameter, sign, client);
 		else if (modeStr[i] == 'l')
-			lMode(channel, parameter, sign);
+			lMode(channel, parameter, sign, client);
 		else if (isalpha(modeStr[i]))
 			ERR_UMODEUNKNOWNFLAG(client);
 	}
