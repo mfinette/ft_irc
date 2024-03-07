@@ -30,7 +30,7 @@ class Client
 		void	setRealname(string realName);
 		void	setStatus(int status);
 
-		void 	incrementLoginStage();
+		void 	setLoginStage(int stage);
 		int 	getLoginStage();
 
 	private:

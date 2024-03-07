@@ -20,11 +20,11 @@ bool Command::NICK(Client &client)
 	{
 		if (!isExistingNick(_server, params[0]))
 		{
+			client.setNickname(this->params[0]);
 			if (params[0].find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ\
-				abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos)
-				{
+				abcdefghijklmnopqrstuvwxyz0123456789[]{}\\|") == std::string::npos) {
 					NICK_CLIENT(client.getNickname(), client, this->params[0]);
-					client.setNickname(this->params[0]);
+					cout << "oui" << endl;
 					return true;
 				}
 			else
@@ -33,12 +33,7 @@ bool Command::NICK(Client &client)
 		else
 			ERR_NICKNAMEINUSE(client, this->params[0]);
 	}
-	else 
+	else
 		ERR_NONICKNAMEGIVEN(client, "unknown");
-	if (client.getNickname() == "") {
-		client.setNickname(this->params[0]);
-		return true;
-	}
-	return false;
 	return false;
 }

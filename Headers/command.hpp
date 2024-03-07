@@ -8,8 +8,9 @@
 
 #define STAGE_1 0
 #define STAGE_2 1
-#define STAGE_3 2
-#define ALL_LOGIN_DATA_ENTERED 3
+#define NICK_ENTERED 2
+#define USER_ENTERED 3
+#define ALL_LOGIN_DATA_ENTERED 4
 
 class Command
 {
