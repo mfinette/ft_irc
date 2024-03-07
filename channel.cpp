@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/07 12:51:32 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/07 16:17:15 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,18 @@ int	Channel::nbOperator()
 			nb ++;
 	}
 	return nb;
+}
+
+std::string Channel::getAllOperator(){
+	std::string tmp;
+	std::map<Client *, bool>::iterator it;
+	
+	for(it = _client.begin(); it != _client.end(); ++it)
+	{
+		if (it->second)
+			tmp += " " + it->first->getNickname();
+	}
+	return tmp;
 }
 
 void	Channel::changeOperatorStatusToOff(int socket)
