@@ -20,8 +20,8 @@ void send_msg(Client client, std::string msg);
 # define JOIN_CHANNEL(client, channel) \
 send_msg(client, HEADER_CMD(client) + "JOIN " + channel + RN)
 
-#define NICK_CLIENT(tempNick, client, newNick) \
-send_msg(client, (":" + tempNick + "!" + client.getUsername()) + " NICK :" + newNick + RN);
+#define NICK_CLIENT(client, newNick) \
+send_msg(client, HEADER(client) + " NICK :" + newNick + RN);
 
 #define QUIT_SERVER(client, reason) \
 send_msg(client, HEADER_CMD(client) + "QUIT :" + reason + RN);
