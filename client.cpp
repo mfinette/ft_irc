@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/25 14:57:50 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:33:43 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ bool	Client::getSocketState() const {
 	return _isOpen;
 }
 
-void	Client::incrementLoginStage() {
-	_loginStage++;
+void	Client::setLoginStage(int stage) {
+	_loginStage = stage;
 }
 
 int	Client::getLoginStage() {

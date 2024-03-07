@@ -1,18 +1,14 @@
-NAME		= ircserv
+NAME		= AwesomeBot
 	
 CC			= c++
 FLAGS		= -Wall -Wextra -Werror -std=c++98
 RM			= rm -rf
 
-OBJDIR =	 .objFiles
+OBJDIR =	 .objs
 
-FILES		= 	main \
-				server channel command client signal \
-				parseLoginData clientChannelManagement \
-				Commands/KICK Commands/MODE Commands/NICK Commands/PART Commands/PASS \
-				Commands/QUIT Commands/TOPIC Commands/USER Commands/PRIVMSG Commands/INVITE Commands/JOIN
+FILES		= 	main
 
-HFILES		= 	Headers/channel Headers/client Headers/command Headers/ft_irc Headers/RPL Headers/server
+HFILES		=
 
 HEADER		= $(HFILES:=.hpp)
 SRCS		= $(FILES:=.cpp)
