@@ -138,22 +138,17 @@ void Command::lMode(Channel &channel, string param, char sign, Client &client) {
 std::string	Server::getModestring(std::string channelName){
 	Channel &channel = getChannel(channelName);
 
-	std::string modestring = "";
+	std::string modestring = "+";
 	if (channel.hasPassword())
-		modestring += "+k";
+		modestring += "k";
 	if (channel.isInviteOnly())
-		modestring += "+i";
+		modestring += "i";
 	if (channel.getUserLimit() != -1)
-		modestring += "+l";
+		modestring += "l";
 	if (channel.hasTopicRestriction())
-		modestring += "+t";
-	modestring += "+o";
-/*
-	if (channel.hasPassword())
-		modestring += " " + channel.getPassword();
-	if (channel.getUserLimit() != -1)
-		modestring += " " + channel.getUserLimit();
-	modestring += channel.getAllOperator();*/
+		modestring += "t";
+	if (modestring.size() == 1)
+		return ("");
 	return modestring;
 }
 

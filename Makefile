@@ -40,7 +40,7 @@ $(NAME): $(OBJS) $(HEADER)
 		fi; \
 	)
 	@printf "$(BLUE)+ ./$(NAME)$(RESET)\n"
-	@printf "$(WHITEBOLD)The $(RED)\"$(NAME)\" $(WHITEBOLD)program is ready to be executed.$(RESET)\n"
+	@printf "$(WHITEBOLD)The $(PURPLE)\"$(NAME)\" $(WHITEBOLD)program is ready to be executed.$(RESET)\n"
 
 silent: $(OBJS) $(HEADER)
 		@$(CC) $(OBJS) $(FLAGS) -o $(NAME)
