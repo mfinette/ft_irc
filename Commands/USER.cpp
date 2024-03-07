@@ -18,6 +18,8 @@ bool Command::USER(Client &client)
 {
 	if (params.size() >= 3 && params[1] == "0" && params[2] == "*")
 	{
+		if (msg == "")
+			msg = params[3]; 
 		if (params[0].length() > USERLEN)
 			params[0] = params[0].substr(0, USERLEN);
 		setFallBackValues(client, params[0], msg);
