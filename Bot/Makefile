@@ -6,9 +6,14 @@ RM			= rm -rf
 
 OBJDIR =	 .objs
 
-FILES		= 	main
+FILES		= 	main			\
+				parseInput		\
+				serverUtils		\
+				parsingUtils	\
+				Joke			\
+				BotCommands		
 
-HFILES		=
+HFILES		= 	Bot
 
 HEADER		= $(HFILES:=.hpp)
 SRCS		= $(FILES:=.cpp)
