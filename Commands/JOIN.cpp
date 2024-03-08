@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 21:58:20 by maxime            #+#    #+#             */
-/*   Updated: 2024/02/29 16:46:25 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/07 14:14:58 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	Channel::updateClientList(){
 	std::map<Client *, bool>::iterator it_client;
 	
 	for(it_client = _client.begin(); it_client != _client.end(); ++it_client){
-		Client client_to	= *it_client->first;
+		Client client_to = *it_client->first;
 		std::map<Client *, bool>::iterator it;
 		std::string	server_name = "IRC 42";
 		std::string msg = HEADER(client_to) + " 353 " + client_to.getNickname() + " = " + getName() + " :";
@@ -80,9 +80,8 @@ void	Command::JOIN(Client &client){
 	if (params.size() > 1)
 		key_list = splitWithComa(params[1]);
 	for (unsigned int i = 0; i < channel_list.size(); i++){
-		if (channel_list[0] == "0"){ //part sur tous les channels
+		if (channel_list[0] == "0") //part sur tous les channels
 			_server.leaveAll(client);
-		}
 		else if (_server.channelExisting(channel_list[i])){ //si le channel existe
 			Channel& channel = _server.getChannel(channel_list[i]);
 			if (channel.isInviteOnly()){ //si c'est en invite only
@@ -100,7 +99,6 @@ void	Command::JOIN(Client &client){
 				}
 			}
 			JoinServeur(client, channel);
-			
 		}
 		else
 		{
@@ -116,4 +114,3 @@ void	Command::JOIN(Client &client){
 		}
 	}
 }
-
