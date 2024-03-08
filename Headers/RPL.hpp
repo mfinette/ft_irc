@@ -117,7 +117,7 @@ send_msg(client, HEADER_CMD(client) + "433 " + (client.getNickname().empty() ? "
 
 //324 RPL_CHANNELMODEIS
 # define RPL_CHANNELMODEIS(client, channel, modestring) \
-send_msg(client, HEADER(client) + " 324 " + client.getNickname() + " " + channel + modestring + RN);
+send_msg(client, HEADER(client) + " 324 " + client.getNickname() + " " + channel + " " + modestring + RN);
 
 //366 RPL_ENDOFNAMES
 # define RPL_ENDOFNAMES(client, channel) \
