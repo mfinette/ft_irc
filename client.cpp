@@ -6,13 +6,13 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/07 14:33:43 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:06:02 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Client::Client(int socket) : _socket(socket), _isOpen(false), _loginStage(0)
+Client::Client(int socket) : _socket(socket), _isOpen(false), _nickname(""), _username(""), _loginStage(0) 
 {
 }
 
@@ -22,11 +22,11 @@ Client::~Client()
 
 Client& Client::operator=(const Client& rhs)
 {
-		if (this != &rhs)
+	if (this != &rhs)
 	{
 		_socket = rhs._socket;
 		_nickname = rhs._nickname;
-		_username = rhs._socket;
+		_username = rhs._username;
 	}
 	return *this;
 }
