@@ -27,12 +27,14 @@ bool Command::NICK(Client &client)
 					return true;
 				}
 			else {
-				client.setNickname(this->params[0]);
+				if (client.getNickname() == "")
+					client.setNickname(this->params[0]);
 				ERR_ERRONEUSNICKNAME(client, this->params[0]);
 			}
 		}
 		else {
-			client.setNickname(this->params[0]);
+			if (client.getNickname() == "")
+				client.setNickname(this->params[0]);
 			ERR_NICKNAMEINUSE(client, this->params[0]);
 		}
 	}

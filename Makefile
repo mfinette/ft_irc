@@ -25,6 +25,17 @@ RED			=	\e[33;1;31m
 WHITEBOLD	=	\e[33;1;37m
 RESET		=	\e[0m
 
+LAST_COMPILE_MARK := .last_compile
+
+#check si fichier a deja ete compile et si il a ete compile avant ou apres le file reference
+define file_changed_since_last_compile
+	[ $1 -nt $(LAST_COMPILE_MARK) ]
+endef
+
+define update_last_compile_timestamp
+	touch $(LAST_COMPILE_MARK)
+endef
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADER)
@@ -41,10 +52,17 @@ $(NAME): $(OBJS) $(HEADER)
 	)
 	@printf "$(BLUE)+ ./$(NAME)$(RESET)\n"
 	@printf "$(WHITEBOLD)The $(RED)\"$(NAME)\" $(WHITEBOLD)program is ready to be executed.$(RESET)\n"
+	@$(call update_last_compile_timestamp)
 
 silent: $(OBJS) $(HEADER)
 		@$(CC) $(OBJS) $(FLAGS) -o $(NAME)
-		@printf "$(WHITEBOLD)Program compiled$(RESET).\n"
+		@$(foreach src_file, $(SRCS), \
+		if $(call file_changed_since_last_compile, $(src_file)); then \
+			printf "$(GREEN)+ $(src_file)$(RESET)\n"; \
+		fi; \
+	)
+	@$(call update_last_compile_timestamp)
+	@printf "$(WHITEBOLD)Program compiled$(RESET).\n"
 
 
 $(OBJDIR)/%.o: %.cpp $(HEADER)
@@ -58,7 +76,7 @@ clean:
 			printf "$(RED)- $(obj)$(RESET)\n"; \
 		fi; \
 	)
-	@$(RM) $(OBJDIR)
+	@$(RM) -rf $(OBJDIR) $(LAST_COMPILE_MARK)
 	@printf "$(WHITEBOLD)All object files have been removed.$(RESET)\n"
 
 fclean: clean
@@ -66,7 +84,9 @@ fclean: clean
 	@printf "$(RED)- ./$(NAME) $(RESET)\n"
 	@printf "$(WHITEBOLD)Executable has been removed$(RESET).\n"
 
+
 run: silent
+	
 	./$(NAME) 6667 1
 
 valgrind: silent
