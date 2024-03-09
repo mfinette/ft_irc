@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:11:55 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/08 19:52:47 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/09 13:53:26 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,6 @@ int createSocket(void)
 		return -1;
 	}
 	return client_socket;
-}
-
-void	printCommand(Cmd cmd)
-{
-	if (cmd._isPRIVMSG)
-	{
-		std::cout << "PRIVMSG DETECTED: " << std::endl;
-		std::cout << "isPRIVMSG = " << cmd._isPRIVMSG << std::endl;
-		std::cout << "isForBot = " << cmd._isForBot << std::endl;
-		std::cout << "fullCommand = " << cmd._fullCmd;
-		std::cout << "Sender = " << cmd._sender << std::endl;
-		std::cout << "isChannel = " << cmd._isChannel << std::endl;
-		if (cmd._isChannel)
-			std::cout << "Channel = " << cmd._channel << std::endl;
-		std::cout << "Command type = " << "\"" <<cmd._cmdType << "\"" << std::endl;
-		std::cout << "Command remaining = " << cmd._cmdRemaining << std::endl;
-	}
 }
 
 bool connectToServer(int client_socket, int port)

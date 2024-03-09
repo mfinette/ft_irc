@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 12:43:54 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/09 14:33:22 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ class	Cmd
 		bool			_isChannel;
 };
 
+/////////// SERVER UTILS ///////////
 int						createSocket(void);
 bool					connectToServer(int client_socket, int port);
 void					sendMessage(int client_socket, const std::string& message);
@@ -75,15 +76,28 @@ void					connectBot(int client_socket, char **argv);
 void					handleUserInput(int client_socket);
 void					chooseResponse(int client_socket, Cmd cmd);
 void					sendResponse(int client_socket, Cmd cmd);
+
+/////////// COMMANDS ///////////
+void					help(int client_socket, Cmd cmd);
+void					joke(int client_socket, Cmd cmd);
+void					join(int client_socket, Cmd cmd);
+void					hello(int client_socket, Cmd cmd);
+
+/////////// COMMAND UTILS ///////////
+std::string				fetchJoke();
+
+/////////// PARSING ///////////
 std::string				getFirstWord(std::string str);
 std::string				getSecondWord(std::string str);
 std::string				getRemaining(std::string str);
 std::string 			removeBackslashR(std::string str);
 std::string 			removeBackslashRN(std::string str);
 std::string				getFirstWordAfter2Colons(std::string str);
-std::string				fetchJoke();
+std::string				getStringWithoutFirstWord(std::string str);
+std::string				getStringWithout2FirstWords(std::string str);
+void					printCommand(Cmd cmd);
+bool					isLastWord(std::string str, std::string toFind);
 
-/////////// COMMANDS ///////////
-void					help(int client_socket, Cmd cmd);
-void					joke(int client_socket, Cmd cmd);
+
+
 #endif
