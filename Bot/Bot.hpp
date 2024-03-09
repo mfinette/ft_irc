@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/08 20:36:23 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/09 12:43:54 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ std::string				fetchJoke();
 
 /////////// COMMANDS ///////////
 void					help(int client_socket, Cmd cmd);
-
+void					joke(int client_socket, Cmd cmd);
 #endif

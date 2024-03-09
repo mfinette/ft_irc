@@ -3,72 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   Joke.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:18:37 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/08 20:25:28 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/09 12:41:49 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bot.hpp"
 
-#define PORT 80
-#define HOST "v2.jokeapi.dev"
-#define REQUEST "GET /joke/Any HTTP/1.1\r\nHost: v2.jokeapi.dev\r\n\r\n"
+#include <fstream>
+#include <vector>
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For time()
+
+int getRandomNumber() {
+    // Seed the random number generator with the current time
+    std::srand(static_cast<unsigned int>(std::time(0)));
+
+    // Generate a random number from 0 to 49
+    return std::rand() % 50;
+}
 
 std::string fetchJoke() {
-    int sockfd, bytes_read;
-    char buffer[1024];
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
+    std::ifstream file("jokevault.txt");
+    std::vector<std::string> jokes;
+    std::string line;
 
-    // Create socket
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) {
-        std::cerr << "Error opening socket" << std::endl;
-        return "";
+    if (file.is_open()) {
+        while (std::getline(file, line)) {
+            jokes.push_back(line);
+        }
+        file.close();
     }
 
-    // Resolve hostname
-    server = gethostbyname(HOST);
-    if (server == NULL) {
-        std::cerr << "Error, no such host" << std::endl;
-        return "";
+    if (jokes.empty()) {
+        return "No jokes found in the jokevault.txt file.";
     }
-
-    // Configure server address structure
-    memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
-    memcpy(&serv_addr.sin_addr.s_addr, server->h_addr, server->h_length);
-
-    // Connect to server
-    if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        std::cerr << "Error connecting to server" << std::endl;
-        return "";
+    std::string joke = jokes[getRandomNumber()];
+    size_t index = joke.find_first_of("0123456789");
+    while (index != std::string::npos) {
+        joke = joke.substr(0, index) + joke.substr(index + 1);
+        index = joke.find_first_of("0123456789");
     }
-
-    // Send HTTP request
-    if (send(sockfd, REQUEST, strlen(REQUEST), 0) < 0) {
-        std::cerr << "Error sending request" << std::endl;
-        return "";
-    }
-
-    // Read response
-    std::string response;
-    while ((bytes_read = recv(sockfd, buffer, sizeof(buffer), 0)) > 0) {
-        response.append(buffer, bytes_read);
-    }
-
-    // Close socket
-    close(sockfd);
-
-    // Extract joke from response
-    std::string joke;
-    size_t joke_start = response.find("\r\n\r\n");
-    if (joke_start != std::string::npos) {
-        joke_start += 4; // Move past the empty line
-        joke = response.substr(joke_start);
-    }
+    joke = joke.substr(2);
     return joke;
 }
+

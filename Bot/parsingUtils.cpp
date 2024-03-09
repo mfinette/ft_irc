@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsingUtils.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:53:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/08 19:53:48 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/09 12:18:37 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ std::string removeBackslashR(std::string str)
 
 std::string removeBackslashRN(std::string str)
 {
-	std::string newStr;
-	for (size_t i = 0; i < str.length(); i++)
+	std::string newStr = str;
+	size_t length = newStr.length();
+	while (length > 0 && (newStr[length - 1] == '\r' || newStr[length - 1] == '\n'))
 	{
-		if (str[i] != '\r' && str[i] != '\n')
-			newStr += str[i];
+		newStr.erase(length - 1);
+		length--;
 	}
 	return newStr;
 }
