@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:11:55 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 13:53:26 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:45:24 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ void handleUserInput(int client_socket)
 void connectBot(int client_socket, char **argv)
 {
 	sendMessage(client_socket, "PASS " + std::string(argv[2]) + RN);
-	sendMessage(client_socket, "NICK bot" + std::string(RN));
+	sendMessage(client_socket, "NICK __bot__" + std::string(RN));
 	sendMessage(client_socket, "USER bot 0 * :realname" + std::string(RN));
 }

@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 14:33:22 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:04:41 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 #include <fcntl.h>
 #include <cerrno>
 #include <sstream>
+#include <vector>
+#include <fstream>
+#include <ctime>
 
 # define RESET				"\033[0m"
 # define BLACK				"\033[30m"
