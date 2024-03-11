@@ -7,10 +7,10 @@ bool isExistingNick(Server server, string newNick)
 
 	for (it = server.getClientList().begin(); it != server.getClientList().end(); ++it)
 	{
-        if (it->second.getNickname() == newNick)
-            return true;
+		if (it->second.getNickname() == newNick)
+			return true;
 		i++;
-    }
+	}
 	return false;
 }
 
@@ -21,7 +21,11 @@ bool Command::NICK(Client &client)
 		if (!isExistingNick(_server, params[0]))
 		{
 			if (params[0] == "bot")
+			{
+				if (client.getNickname() == "")
+					client.setNickname("bot");
 				ERR_ERRONEUSNICKNAME(client, this->params[0]);
+			}
 			else if (params[0] == "__bot__")
 			{
 				NICK_CLIENT(client, "bot");

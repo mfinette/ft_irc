@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Joke.cpp                                           :+:      :+:    :+:   */
+/*   funFact.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 20:18:37 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/11 21:43:25 by maxime           ###   ########.fr       */
+/*   Created: 2024/03/11 21:39:07 by maxime            #+#    #+#             */
+/*   Updated: 2024/03/11 21:44:22 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,28 @@ static	int getRandomNumber()
 	return std::rand() % 101;
 }
 
-std::string fetchJoke()
+std::string fetchFunFact()
 {
-	std::ifstream file("jokevault.txt");
-	std::vector<std::string> jokes;
+	std::ifstream file("funfactsvault.txt");
+	std::vector<std::string> funfacts;
 	std::string line;
 
 	if (file.is_open())
 	{
 		while (std::getline(file, line))
-			jokes.push_back(line);
+			funfacts.push_back(line);
 		file.close();
 	}
 
-	if (jokes.empty())
-		return "No jokes found in the jokevault.txt file.";
-	std::string joke = jokes[getRandomNumber()];
-	size_t index = joke.find_first_of("0123456789");
+	if (funfacts.empty())
+		return "No fun facts found in the funfactsvault.txt file.";
+	std::string funfact = funfacts[getRandomNumber()];
+	size_t index = funfact.find_first_of("0123456789");
 	while (index != std::string::npos)
 	{
-		joke = joke.substr(0, index) + joke.substr(index + 1);
-		index = joke.find_first_of("0123456789");
+		funfact = funfact.substr(0, index) + funfact.substr(index + 1);
+		index = funfact.find_first_of("0123456789");
 	}
-	joke = joke.substr(2);
-	return joke;
+	funfact = funfact.substr(2);
+	return funfact;
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BotCommands.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 15:12:12 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/11 21:41:45 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	help(int client_socket, Cmd cmd)
 		response = "PRIVMSG " + cmd._channel + " :The join command is used to join a channel. For example, type join #channel";
 	else if (cmd._cmdRemaining == "joke")
 		response = "PRIVMSG " + cmd._channel + " :The joke command is used to fetch a random joke. For example, type joke";
+	else if (cmd._cmdRemaining == "funfact")
+		response = "PRIVMSG " + cmd._channel + " :The funfact command is used to fetch a random fun fact. For example, type funfact";
 	else if (cmd._cmdRemaining == "hello")
 		response = "PRIVMSG " + cmd._channel + " :The hello command is used to greet the bot. For example, type hello";
 	else
@@ -31,6 +33,12 @@ void	help(int client_socket, Cmd cmd)
 void	joke(int client_socket, Cmd cmd)
 {
 	std::string response = "PRIVMSG " + cmd._channel + " :Here is a joke: " + fetchJoke();
+	sendMessage(client_socket, response);
+}
+
+void	funfact(int client_socket, Cmd cmd)
+{
+	std::string response = "PRIVMSG " + cmd._channel + " :Here is a fun fact: " + fetchFunFact();
 	sendMessage(client_socket, response);
 }
 

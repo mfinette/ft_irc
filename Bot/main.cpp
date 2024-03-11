@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:31:35 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/08 20:05:54 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:04:39 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 				return 1;
 			}
 			buffer[bytes_received] = '\0';
-			std::cout << YELLOW << "" << buffer << RESET;
+			std::cout << YELLOW << buffer << RESET;
 			Cmd cmd(buffer);
 			sendResponse(client_socket, cmd);
 			std::cout << RESET;

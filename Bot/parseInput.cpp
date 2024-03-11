@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseInput.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:28 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 15:10:50 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/11 21:42:51 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	chooseResponse(int client_socket, Cmd cmd)
 		help(client_socket, cmd);
 	else if (cmd._cmdType == "joke")
 		joke(client_socket, cmd);
+	else if (cmd._cmdType == "funfact")
+		funfact(client_socket, cmd);
 	else
 		sendMessage(client_socket, "PRIVMSG " + cmd._channel + " :Unknown command. Type 'help' for a list of available commands.");
 }

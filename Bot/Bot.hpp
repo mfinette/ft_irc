@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 16:04:41 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/11 21:42:33 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@
 # define HOT_PINK			"\033[38;5;205m"
 # define BABY_PINK			"\033[38;5;225m"
 # define NEON_PINK			"\033[38;5;207m"
-
-const int BUFFER_SIZE = 1024;
+# define BUFFER_SIZE 1024
 
 class	Cmd
 {
@@ -85,9 +84,11 @@ void					help(int client_socket, Cmd cmd);
 void					joke(int client_socket, Cmd cmd);
 void					join(int client_socket, Cmd cmd);
 void					hello(int client_socket, Cmd cmd);
+void					funfact(int client_socket, Cmd cmd);
 
 /////////// COMMAND UTILS ///////////
 std::string				fetchJoke();
+std::string				fetchFunFact();
 
 /////////// PARSING ///////////
 std::string				getFirstWord(std::string str);
