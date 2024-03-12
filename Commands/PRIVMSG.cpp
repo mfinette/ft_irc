@@ -38,8 +38,6 @@ void	Command::PRIVMSG(Client &client){
 		tmp.SendMessageToChannel(this->msg, this->params[0], client, restriction);
 		return;
 	}
-	if (!_server.getClientStatus(this->params[0])) //si le status du client est sur away
-		return RPL_AWAY(client, "targetTest", ":The user is currently away");
 	if (msg.size() == 0)
 		return ERR_NOTEXTTOSEND(client);
 	Client &client_target = _server.getClient(this->params[0]);

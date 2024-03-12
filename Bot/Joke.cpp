@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Joke.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:18:37 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/11 21:43:25 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/12 11:05:28 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ std::string fetchJoke()
 	joke = joke.substr(2);
 	return joke;
 }
-

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/08 15:06:02 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/12 13:02:12 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Headers/ft_irc.hpp"
 
-Client::Client(int socket) : _socket(socket), _isOpen(false), _nickname(""), _username(""), _loginStage(0) 
+Client::Client(int socket) : _socket(socket), _isOpen(false), _nickname(""), _username(""), _realname(""), _loginStage(0) 
 {
 }
 
@@ -25,10 +25,18 @@ Client& Client::operator=(const Client& rhs)
 	if (this != &rhs)
 	{
 		_socket = rhs._socket;
+		_isOpen = rhs._isOpen;
+		_realname = rhs._realname;
+		_loginStage = rhs._loginStage;
 		_nickname = rhs._nickname;
 		_username = rhs._username;
 	}
 	return *this;
+}
+
+Client::Client(const Client& rhs) : _socket(rhs._socket), _isOpen(rhs._isOpen), _nickname(rhs._nickname), _username(rhs._username), _realname(rhs._realname), _loginStage(rhs._loginStage)
+{
+	*this = rhs;
 }
 
 void	Client::SendMessage(const std::string& message) {
@@ -45,10 +53,6 @@ void	Client::setNickname(string nickname) {
 
 void	Client::setRealname(string realname) {
 	_realname = realname;
-}
-
-void	Client::setStatus(int status) {
-	_status = status;
 }
 
 void	Client::setSocketState(bool state) {
@@ -81,10 +85,6 @@ string	Client::getUsername() const{
 
 string	Client::getRealname() const{
 	return _realname;
-}
-
-int		Client::getStatus() const{
-	return _status;
 }
 
 std::ostream	&operator<<(std::ostream &o, const Client &client) {

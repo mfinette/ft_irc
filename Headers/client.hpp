@@ -11,6 +11,7 @@ class Client
 {
 	public:
 		Client(int socket);
+		Client(const Client& rhs);
 		~Client();
 
 		Client& operator=(const Client& rhs);
@@ -21,14 +22,12 @@ class Client
 		string	getNickname() const;
 		string	getUsername() const;
 		string	getRealname() const;
-		int		getStatus() const;
 
 		void	setSocketState(bool state);
 		bool	getSocketState() const;
 		void	setUsername(string username);
 		void	setNickname(string nickname);
 		void	setRealname(string realName);
-		void	setStatus(int status);
 
 		void 	setLoginStage(int stage);
 		int 	getLoginStage();
@@ -40,8 +39,6 @@ class Client
 		string		_username;
 		string		_realname;
 		int			_loginStage; //Each step increments by one this variable -> 3 means we have all infos
-		std::map<std::string, Channel> l_channel;
-		int			_status; //1 si log, 0 si away
 
 		// Add other Client-related data and methods as needed
 };

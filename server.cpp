@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/26 13:07:26 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:59:22 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ void	Server::handleClient(int clientSocket, int &numClients)
 	char buffer[1024];
 	int bytesRead;
 	Client client = getClient(clientSocket);
+	if (client.getSocket() == this->_clientList.end()->second.getSocket())
+	{
+		cerr << "Error getting client" << endl;
+		return;
+	}
 	while (true)
 	{
 		// Receive message from client
@@ -98,11 +103,13 @@ void	Server::handleClient(int clientSocket, int &numClients)
 			// Client disconnected
 			cout << BLUE << "Client disconnected (" << clientSocket << ")" << RESET << endl;
 			numClients--;
-			// Close client socket
-			closeClientSocket(client);
-			client.setSocketState(false);
-			// Remove client from list
-			removeClientFromServer(client);
+			// Close client socket if it is still valid
+			if (isClientLog(clientSocket)) {
+				closeClientSocket(client);
+				client.setSocketState(false);
+				// Remove client from list
+				removeClientFromServer(client);
+			}
 			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -125,7 +132,9 @@ void	Server::closeClientSocket(Client &client)
 	if (client.getSocketState() == true)
 	{
 		cout << BLUE << "Closing client socket " << client.getSocket() << RESET << endl;
-		close(client.getSocket());
+		if (client.getSocket())
+			close(client.getSocket());
+		cout << GREEN << "Client socket closed successfully" << RESET << endl;
 	}
 	else
 		cout << BLUE << "Client socket already closed" << RESET << endl;
@@ -269,27 +278,6 @@ bool	Server::isClientLog(std::string nickname){
 	}
 	return false;
 }
-
-bool	Server::getClientStatus(int socket){
-	std::map<int, Client>::iterator it;
-
-	for(it = _clientList.begin(); it != _clientList.end(); ++it){
-		if (it->first == socket)
-			return it->second.getStatus();
-	}
-	return false;
-}
-
-bool	Server::getClientStatus(std::string nickname){
-	std::map<int, Client>::iterator it;
-
-	for(it = _clientList.begin(); it != _clientList.end(); ++it){
-		if (it->second.getNickname() == nickname)
-			return it->second.getStatus();
-	}
-	return false;
-}
-
 
 bool	Server::channelExisting(std::string channel_name)
 {
