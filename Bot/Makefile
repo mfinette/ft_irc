@@ -12,6 +12,7 @@ FILES		= 	main			\
 				parsingUtils	\
 				Joke			\
 				funFact			\
+				api				\
 				BotCommands		
 
 HFILES		= 	Bot

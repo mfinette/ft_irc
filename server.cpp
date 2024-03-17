@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/12 12:59:22 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:02:02 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void	Server::handleClient(int clientSocket, int &numClients)
 {
 	char buffer[1024];
 	int bytesRead;
-	Client client = getClient(clientSocket);
-	if (client.getSocket() == this->_clientList.end()->second.getSocket())
+	if (!isClientLog(clientSocket))
 	{
 		cerr << "Error getting client" << endl;
 		return;
 	}
+	Client client = getClient(clientSocket);
 	while (true)
 	{
 		// Receive message from client
