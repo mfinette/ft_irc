@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/11 21:42:33 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/17 21:42:19 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ void					joke(int client_socket, Cmd cmd);
 void					join(int client_socket, Cmd cmd);
 void					hello(int client_socket, Cmd cmd);
 void					funfact(int client_socket, Cmd cmd);
+void					generate(int client_socket, Cmd cmd);
 
 /////////// COMMAND UTILS ///////////
 std::string				fetchJoke();
 std::string				fetchFunFact();
+std::string				getImageFromAPI(const char *prompt);
 
 /////////// PARSING ///////////
 std::string				getFirstWord(std::string str);
@@ -101,7 +103,5 @@ std::string				getStringWithoutFirstWord(std::string str);
 std::string				getStringWithout2FirstWords(std::string str);
 void					printCommand(Cmd cmd);
 bool					isLastWord(std::string str, std::string toFind);
-
-
 
 #endif
