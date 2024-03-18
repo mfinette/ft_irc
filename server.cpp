@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 13:39:39 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:31:12 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	Server::acceptClientConnection(int serverSocket, sockaddr_in& clientAddr)
 	return clientSocket;
 }
 
-void	Server::handleClient(int clientSocket, int &numClients)
+void	Server::handleClient(int clientSocket, int &numClients, pollfd fds[])
 {
 	char buffer[1024];
 	int bytesRead;
@@ -102,15 +102,15 @@ void	Server::handleClient(int clientSocket, int &numClients)
 		{
 			// Client disconnected
 			cout << BLUE << "Client disconnected (" << clientSocket << ")" << RESET << endl;
-			numClients--;
 			// Close client socket if it is still valid
+			numClients --;
 			if (isClientLog(clientSocket)) {
 				closeClientSocket(client);
 				client.setSocketState(false);
 				// Remove client from list
 				removeClientFromServer(client);
 			}
-		//	break;
+			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
 		{
@@ -217,7 +217,7 @@ void Server::start(void)
 		// Check for events on client sockets (message received / client disconnected)
 		for (int i = 1; i <= numClients; ++i)
 			if (fds[i].revents & POLLIN)
-				handleClient(fds[i].fd, numClients);
+				handleClient(fds[i].fd, numClients, fds);
 	}
 }
 

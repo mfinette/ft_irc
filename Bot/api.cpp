@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   api.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:51:20 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 13:18:56 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/18 14:47:05 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ std::string extract_image_url(const std::string& data)
 
 std::string getImageFromAPI(const char *prompt)
 {
-    std::string providers = "replicate";
-    std::string model = "classic";
-    std::string resolution = "512x512";
+    std::string providers = "stabilityai";
+    std::string model = "stable-diffusion-xl-1024-v0-9";
+    std::string resolution = "1024x1024";
     std::string jsonData = "{\"response_as_dict\":true,\"attributes_as_list\":false,\"show_original_response\":false,\"resolution\":\"" + resolution + "\",\"num_images\":1,\"providers\":\"" + providers + "\",\"text\":\"" + std::string(prompt) + "\",\"model\":\"" + model + "\"}";
     std::string command = "curl -s -X POST -H \"accept: application/json\" -H \"content-type: application/json\" -H \"Authorization: Bearer " + std::string(EDEN_API_KEY) + "\" -d '" + jsonData + "' " + std::string(EDEN_API_ENDPOINT);
     FILE* pipe = popen(command.c_str(), "r");
@@ -45,6 +45,7 @@ std::string getImageFromAPI(const char *prompt)
     while (fgets(buffer, sizeof(buffer), pipe) != NULL)
         response += buffer;
     pclose(pipe);
+	std::cout << response << std::endl;
     if (response.find("error") != std::string::npos)
         return "Error when using the API";
     return extract_image_url(response);
