@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/12 16:54:04 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:39:39 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	Server::handleClient(int clientSocket, int &numClients)
 {
 	char buffer[1024];
 	int bytesRead;
-	if (!isClientLog(clientSocket)){
+	if (!isClientLog(clientSocket))
+	{
 		cerr << "Error getting client" << endl;
 		return;
 	}
