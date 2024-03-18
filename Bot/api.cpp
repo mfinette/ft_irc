@@ -6,26 +6,17 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:51:20 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/17 23:08:16 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/18 13:18:56 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <string>
+#include "Bot.hpp"
 
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <string>
-
-#define EDEN_API_KEY "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjY4NjM4OWItNGNiZi00MjQ1LWFkNmUtNGU3MTRhNTVjZjFkIiwidHlwZSI6ImFwaV90b2tlbiJ9.0vxsfoZQj8LBx0hYxnOX0uestYC3aTWvhedi9BTWj74"
+#define EDEN_API_KEY "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMmMzMzNiYmQtMjk4OS00ZWMyLWJmYmYtZGY3YzFmN2RiNmViIiwidHlwZSI6ImZyb250X2FwaV90b2tlbiJ9.t9j8enV6eu91ifok9d0JwhvbJNV9REKNvnRex1LNr8Y"
 #define EDEN_API_ENDPOINT "https://api.edenai.run/v2/image/generation"
 
-std::string extract_image_url(const std::string& data) {
+std::string extract_image_url(const std::string& data)
+{
     std::string url;
     std::string search_str = "\"image_resource_url\":\"";
     size_t start_index = data.find(search_str);
@@ -41,18 +32,20 @@ std::string extract_image_url(const std::string& data) {
 
 std::string getImageFromAPI(const char *prompt)
 {
-    std::string jsonData = "{\"response_as_dict\":true,\"attributes_as_list\":false,\"show_original_response\":false,\"resolution\":\"1024x1024\",\"num_images\":1,\"providers\":\"deepai\",\"text\":\"" + std::string(prompt) + "\"}";
+    std::string providers = "replicate";
+    std::string model = "classic";
+    std::string resolution = "512x512";
+    std::string jsonData = "{\"response_as_dict\":true,\"attributes_as_list\":false,\"show_original_response\":false,\"resolution\":\"" + resolution + "\",\"num_images\":1,\"providers\":\"" + providers + "\",\"text\":\"" + std::string(prompt) + "\",\"model\":\"" + model + "\"}";
     std::string command = "curl -s -X POST -H \"accept: application/json\" -H \"content-type: application/json\" -H \"Authorization: Bearer " + std::string(EDEN_API_KEY) + "\" -d '" + jsonData + "' " + std::string(EDEN_API_ENDPOINT);
     FILE* pipe = popen(command.c_str(), "r");
     if (!pipe)
-    {
-        std::cerr << "Error popen()" << std::endl;
         return "Error when using popen function";
-    }
     char buffer[256];
     std::string response;
     while (fgets(buffer, sizeof(buffer), pipe) != NULL)
         response += buffer;
     pclose(pipe);
-	return extract_image_url(response);
+    if (response.find("error") != std::string::npos)
+        return "Error when using the API";
+    return extract_image_url(response);
 }
