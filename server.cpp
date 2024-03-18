@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/12 12:59:22 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:54:04 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,11 @@ void	Server::handleClient(int clientSocket, int &numClients)
 {
 	char buffer[1024];
 	int bytesRead;
-	Client client = getClient(clientSocket);
-	if (client.getSocket() == this->_clientList.end()->second.getSocket())
-	{
+	if (!isClientLog(clientSocket)){
 		cerr << "Error getting client" << endl;
 		return;
 	}
+	Client client = getClient(clientSocket);
 	while (true)
 	{
 		// Receive message from client
@@ -91,7 +90,7 @@ void	Server::handleClient(int clientSocket, int &numClients)
 		if (bytesRead > 0)
 		{
 			// Print message received from client
-			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
+		//	cout << PALE_PINK << string(buffer, bytesRead) << RESET;
 			if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
 				getLoginData(string(buffer, bytesRead), getClient(clientSocket), *this);
 			else
@@ -110,7 +109,7 @@ void	Server::handleClient(int clientSocket, int &numClients)
 				// Remove client from list
 				removeClientFromServer(client);
 			}
-			break;
+		//	break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
 		{
@@ -145,6 +144,8 @@ void	Server::closeServerSocket(int socket)
 	cout << BLUE << "Closing server socket : " << socket << RESET << endl;
 	close(socket);
 }
+
+//probleme concernant numClients qui n'est pas reduit qd un client se deconnecte
 
 void Server::handleServer(int serverSocket, int& numClients, pollfd fds[])
 {

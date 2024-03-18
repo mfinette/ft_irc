@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:06:24 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/12 13:02:12 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:14:30 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ Client& Client::operator=(const Client& rhs)
 	return *this;
 }
 
-Client::Client(const Client& rhs) : _socket(rhs._socket), _isOpen(rhs._isOpen), _nickname(rhs._nickname), _username(rhs._username), _realname(rhs._realname), _loginStage(rhs._loginStage)
-{
-	*this = rhs;
+Client::Client(const Client& rhs) : _socket(rhs._socket), _isOpen(rhs._isOpen), _nickname(rhs._nickname), _username(rhs._username), _realname(rhs._realname), _loginStage(rhs._loginStage){
 }
 
 void	Client::SendMessage(const std::string& message) {
