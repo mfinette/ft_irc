@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/12 16:02:02 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:22:31 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	Server::acceptClientConnection(int serverSocket, sockaddr_in& clientAddr)
 	return clientSocket;
 }
 
-void	Server::handleClient(int clientSocket, int &numClients)
+void	Server::handleClient(int clientSocket, int &numClients, pollfd fds[])
 {
 	char buffer[1024];
 	int bytesRead;
@@ -102,7 +102,6 @@ void	Server::handleClient(int clientSocket, int &numClients)
 		{
 			// Client disconnected
 			cout << BLUE << "Client disconnected (" << clientSocket << ")" << RESET << endl;
-			numClients--;
 			// Close client socket if it is still valid
 			if (isClientLog(clientSocket)) {
 				closeClientSocket(client);
@@ -110,6 +109,17 @@ void	Server::handleClient(int clientSocket, int &numClients)
 				// Remove client from list
 				removeClientFromServer(client);
 			}
+			// Shift remaining client sockets to the left
+			for (int i = 1; i <= numClients; ++i)
+			{
+				if (fds[i].fd == clientSocket)
+				{
+					for (int j = i; j < numClients; ++j)
+						fds[j] = fds[j + 1];
+					break;
+				}
+			}
+			numClients--;
 			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -215,7 +225,7 @@ void Server::start(void)
 		// Check for events on client sockets (message received / client disconnected)
 		for (int i = 1; i <= numClients; ++i)
 			if (fds[i].revents & POLLIN)
-				handleClient(fds[i].fd, numClients);
+				handleClient(fds[i].fd, numClients, fds);
 	}
 }
 

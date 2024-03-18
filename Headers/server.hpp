@@ -44,7 +44,7 @@ class Server
 		void							bindServerSocket(int serverSocket, int port);
 		void							listenForConnections(int serverSocket, int backlog);
 		int								acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
-		void							handleClient(int clientSocket, int &numClients);
+		void							handleClient(int clientSocket, int &numClients, pollfd fds[]);
 		void							handleServer(int serverSocket, int& numClients, pollfd fds[]);
 		void							closeServerSocket(int socket);
 		void							leaveAll(Client &client);
