@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BotCommands.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 13:19:58 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/18 19:09:08 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	help(int client_socket, Cmd cmd)
 		response = "PRIVMSG " + cmd._channel + " :The generate command is used to generate an image based on a prompt. For example, type generate <prompt>. Please don't use this command too much, it costs money!";
 	else if (cmd._cmdRemaining == "hello")
 		response = "PRIVMSG " + cmd._channel + " :The hello command is used to greet the bot. For example, type hello";
+	else if (cmd._cmdRemaining == "chatbot")
+		response = "PRIVMSG " + cmd._channel + " :The chatbot command is used to chat with me using an AI! . For example, type chatbot <prompt>";
 	else
 		response = "PRIVMSG " + cmd._channel + " :Command not found. Type help to get a list of available commands.";
 	sendMessage(client_socket, response);
@@ -68,5 +70,12 @@ void	join(int client_socket, Cmd cmd)
 void	hello(int client_socket, Cmd cmd)
 {
 	std::string response = "PRIVMSG " + cmd._channel + " :Hello " + cmd._sender + "!";
+	sendMessage(client_socket, response);
+}
+
+void	chatbot(int client_socket, Cmd cmd)
+{
+	std::string	curatedCmd = removeSingleQuotesFromEntireString(removeDoubleQuotesFromEntireString(cmd._cmdRemaining));
+	std::string	response = "PRIVMSG " + cmd._channel + " :" + getChatAnswerFromAPI(curatedCmd.c_str());
 	sendMessage(client_socket, response);
 }

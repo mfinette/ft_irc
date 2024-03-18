@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/17 21:42:19 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/18 19:06:05 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@
 # define NEON_PINK			"\033[38;5;207m"
 # define BUFFER_SIZE 1024
 
+# define BOT_GLOBAL_INFO	"You are a bot in an irc server. You dont have any possible interactions with the server, you can only join channels. Here are the available commands: [join, help, hello, joke, funfact, generate, chatbot]. If someone asks you a question about the server, say that it is coded by people way too intelligent for you to understand, and give them a list of the available commands. If not, people will just talk to you, make sure to be funny in every response. Every response must also be in only one line, make sure to have no new lines in your respones, although the response line can be very long if needed. Have fun!"
+
 class	Cmd
 {
 	public:
@@ -86,11 +88,13 @@ void					join(int client_socket, Cmd cmd);
 void					hello(int client_socket, Cmd cmd);
 void					funfact(int client_socket, Cmd cmd);
 void					generate(int client_socket, Cmd cmd);
+void					chatbot(int client_socket, Cmd cmd);
 
 /////////// COMMAND UTILS ///////////
 std::string				fetchJoke();
 std::string				fetchFunFact();
 std::string				getImageFromAPI(const char *prompt);
+std::string				getChatAnswerFromAPI(const char* prompt);
 
 /////////// PARSING ///////////
 std::string				getFirstWord(std::string str);
@@ -103,5 +107,8 @@ std::string				getStringWithoutFirstWord(std::string str);
 std::string				getStringWithout2FirstWords(std::string str);
 void					printCommand(Cmd cmd);
 bool					isLastWord(std::string str, std::string toFind);
+std::string				removeDoubleQuotesFromEntireString(std::string str);
+std::string				removeSingleQuotesFromEntireString(std::string str);
+
 
 #endif

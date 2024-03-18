@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:53:42 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 14:24:54 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:05:34 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,26 @@ std::string	getStringWithout2FirstWords(std::string str)
 	std::getline(iss, word, ' ');
 	std::getline(iss, word);
 	return word;
+}
+
+std::string	removeSingleQuotesFromEntireString(std::string str)
+{
+	std::string newStr;
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (str[i] != '\'')
+			newStr += str[i];
+	}
+	return newStr;
+}
+
+std::string	removeDoubleQuotesFromEntireString(std::string str)
+{
+	std::string newStr;
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (str[i] != '\"')
+			newStr += str[i];
+	}
+	return newStr;
 }

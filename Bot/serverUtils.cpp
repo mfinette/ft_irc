@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:11:55 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/09 15:45:24 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:05:08 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool connectToServer(int client_socket, int port)
 
 void sendMessage(int client_socket, const std::string& message)
 {
-	send(client_socket, message.c_str(), message.length(), 0);
+	send(client_socket, message.c_str(), message.length(), MSG_DONTWAIT + MSG_NOSIGNAL);
 }
 
 void receiveAndPrintMessage(int client_socket)
