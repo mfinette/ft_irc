@@ -9,4 +9,5 @@ void	Command::QUIT(Client &client)
 	_server.closeClientSocket(client);
 	client.setSocketState(false);
 	_server.removeClientFromServer(client);
+	_server.removeFd(client.getSocket());
 }

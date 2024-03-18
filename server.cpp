@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 16:31:12 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:19:21 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,22 @@ int	Server::acceptClientConnection(int serverSocket, sockaddr_in& clientAddr)
 	return clientSocket;
 }
 
-void	Server::handleClient(int clientSocket, int &numClients, pollfd fds[])
+void	Server::removeFd(int clientSocket){
+	for (size_t i = 1; i < _fds.size(); i++){
+		if (_fds[i].fd == clientSocket){
+			_fds.erase(_fds.begin() + i);
+			break;
+		}
+	}
+}
+
+void	Server::handleClient(int clientSocket)
 {
 	char buffer[1024];
 	int bytesRead;
 	if (!isClientLog(clientSocket))
 	{
-		cerr << "Error getting client" << endl;
+		cerr << "Error getting client: " << endl;
 		return;
 	}
 	Client client = getClient(clientSocket);
@@ -91,7 +100,7 @@ void	Server::handleClient(int clientSocket, int &numClients, pollfd fds[])
 		if (bytesRead > 0)
 		{
 			// Print message received from client
-		//	cout << PALE_PINK << string(buffer, bytesRead) << RESET;
+			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
 			if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
 				getLoginData(string(buffer, bytesRead), getClient(clientSocket), *this);
 			else
@@ -103,13 +112,13 @@ void	Server::handleClient(int clientSocket, int &numClients, pollfd fds[])
 			// Client disconnected
 			cout << BLUE << "Client disconnected (" << clientSocket << ")" << RESET << endl;
 			// Close client socket if it is still valid
-			numClients --;
 			if (isClientLog(clientSocket)) {
 				closeClientSocket(client);
 				client.setSocketState(false);
 				// Remove client from list
 				removeClientFromServer(client);
 			}
+			removeFd(clientSocket);
 			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -146,9 +155,7 @@ void	Server::closeServerSocket(int socket)
 	close(socket);
 }
 
-//probleme concernant numClients qui n'est pas reduit qd un client se deconnecte
-
-void Server::handleServer(int serverSocket, int& numClients, pollfd fds[])
+void Server::handleServer(int serverSocket)
 {
 	// Check for events on server socket
 	sockaddr_in clientAddr;
@@ -161,18 +168,22 @@ void Server::handleServer(int serverSocket, int& numClients, pollfd fds[])
 	}
 	cout << COLOR_1 << "USER ("  << COLOR_2 << clientSocket << COLOR_1 << ") APPEARED, WAITING FOR AUTHENTICATION : " << RESET << endl;
 	// Add the new client socket to the set of file descriptors to monitor
-	if (numClients + 1 >= CLIENT_LIMIT)
+	if (_fds.size() >= CLIENT_LIMIT)
 	{
 		// Check if maximum number of clients reached
 		cerr << RED << "Maximum number of clients reached" << RESET << endl;
 		closeServer();
 		return ;
 	}
-	fds[numClients + 1].fd = clientSocket; // Start from index 1
-	fds[numClients + 1].events = POLLIN;
-	fds[numClients + 1].revents = 0;
+	struct pollfd	new_socket;
+	new_socket.fd = clientSocket; // Start from index 1
+	new_socket.events = POLLIN;
+	new_socket.revents = 0;
+	_fds.push_back(new_socket);
+	// fds[numClients + 1].fd = clientSocket; // Start from index 1
+	// fds[numClients + 1].events = POLLIN;
+	// fds[numClients + 1].revents = 0;
 	this->setupClient(clientSocket);
-	numClients++;
 }
 
 void Server::start(void)
@@ -195,16 +206,16 @@ void Server::start(void)
 	bindServerSocket(_serverSocket, this->_port);
 	// Listen for connections on server socket
 	listenForConnections(_serverSocket, 10);
-	cout << MAGENTA << "Server listening on port " << this->_port << RESET << endl;
-	struct pollfd fds[CLIENT_LIMIT + 1];
-	fds[SERVER].fd = serverSocket;
+	cout << MAGENTA << "Server listening on port " << this->_port << RESET << endl;	
+	struct pollfd	server_fd;
+	server_fd.fd = serverSocket;
+	server_fd.events = POLLIN;
+	_fds.push_back(server_fd);
 	cout << BLUE << "serverSocket = " << serverSocket << RESET << endl;
-	fds[SERVER].events = POLLIN;
-	int numClients = 0; // Number of connected clients
 	while (true)
 	{
 		// Poll for events and revents in every fd (POLLIN == data to read)
-		int ret = poll(fds, numClients + 1, -1);
+		int ret = poll(&_fds[0], _fds.size(), -1);
 		if (ret == -1)
 		{
 			cerr << BLUE << "Error in poll: " << strerror(errno) << RESET << endl;
@@ -212,12 +223,12 @@ void Server::start(void)
 			return;
 		}
 		// Check for events on server socket (new client connection)
-		if (fds[SERVER].revents & POLLIN)
-			handleServer(serverSocket, numClients, fds);
+		if (_fds[SERVER].revents & POLLIN)
+			handleServer(serverSocket);
 		// Check for events on client sockets (message received / client disconnected)
-		for (int i = 1; i <= numClients; ++i)
-			if (fds[i].revents & POLLIN)
-				handleClient(fds[i].fd, numClients, fds);
+		for (size_t i = 1; i < _fds.size(); ++i)
+			if (_fds[i].revents & POLLIN)
+				handleClient(_fds[i].fd);
 	}
 }
 
