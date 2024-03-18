@@ -44,11 +44,12 @@ class Server
 		void							bindServerSocket(int serverSocket, int port);
 		void							listenForConnections(int serverSocket, int backlog);
 		int								acceptClientConnection(int serverSocket, sockaddr_in& clientAddr);
-		void							handleClient(int clientSocket, int &numClients, pollfd fds[]);
-		void							handleServer(int serverSocket, int& numClients, pollfd fds[]);
+		void							handleClient(int clientSocket);
+		void							handleServer(int serverSocket);
 		void							closeServerSocket(int socket);
 		void							leaveAll(Client &client);
 		void							sendAll(Client &client, std::string msg);
+		void							removeFd(int clientSocket);
 
 	private:
 		int								_serverSocket;
@@ -57,7 +58,7 @@ class Server
 		string							_password;
 		std::map<int, Client>			_clientList;
 		std::map<std::string, Channel>	_channelList;
-		struct pollfd					_fds[CLIENT_LIMIT + 1]; // Define fds as a private member
+		std::vector<struct pollfd> 		_fds;
 
 };
 
