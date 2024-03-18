@@ -6,7 +6,7 @@
 /*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/17 21:41:56 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/18 13:19:58 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	help(int client_socket, Cmd cmd)
 {
 	std::string response;
 	if (cmd._cmdRemaining == "help")
-		response = "PRIVMSG " + cmd._channel + " :Need some help? Here is a list of the available commands: [joke, help, join, hello] For further insight, type help <command>";
+		response = "PRIVMSG " + cmd._channel + " :Need some help? Here is a list of the available commands: [joke, help, join, hello, generate] For further insight, type help <command>";
 	else if (cmd._cmdRemaining == "join")
 		response = "PRIVMSG " + cmd._channel + " :The join command is used to join a channel. For example, type join #channel";
 	else if (cmd._cmdRemaining == "joke")
@@ -24,7 +24,7 @@ void	help(int client_socket, Cmd cmd)
 	else if (cmd._cmdRemaining == "funfact")
 		response = "PRIVMSG " + cmd._channel + " :The funfact command is used to fetch a random fun fact. For example, type funfact";
 	else if (cmd._cmdRemaining == "generate")
-		response = "PRIVMSG " + cmd._channel + " :The generate command is used to generate an image based on a prompt. For example, type generate <prompt>";
+		response = "PRIVMSG " + cmd._channel + " :The generate command is used to generate an image based on a prompt. For example, type generate <prompt>. Please don't use this command too much, it costs money!";
 	else if (cmd._cmdRemaining == "hello")
 		response = "PRIVMSG " + cmd._channel + " :The hello command is used to greet the bot. For example, type hello";
 	else
