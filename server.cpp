@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/19 13:36:33 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/19 14:22:12 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ void	Server::handleClient(int clientSocket)
 		bytesRead = recv(clientSocket, buffer, sizeof(buffer), MSG_DONTWAIT);
 		if (bytesRead > 0)
 		{
+			cout << PALE_PINK << "|" << buffer << "|" << RESET;
 			if (ctrlD)
 				buf.append(buffer);
 			else
 				buf = buffer;
 			// Print message received from clientc
-			cout << PALE_PINK << "|" << buf << "|" << RESET;
 			printWithNonPrintable(buf);
-			if (buf.find('\n') == std::string::npos) {
-				cout << "CTRL DDDDD\n";
+			if (buf.find('\r') == std::string::npos) {
+				std::cout << "CTRL D DDD\n";
 				ctrlD = true;
 				continue;
 			}
