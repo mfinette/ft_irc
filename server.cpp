@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/19 14:22:12 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/19 15:58:44 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	Server::handleClient(int clientSocket)
 		cerr << "Error getting client" << endl;
 		return;
 	}
-	Client client = getClient(clientSocket);
+	Client &client = getClient(clientSocket);
 	while (true)
 	{
 		// Receive message from client
@@ -125,13 +125,14 @@ void	Server::handleClient(int clientSocket)
 			// Client disconnected
 			cout << BLUE << "Client disconnected (" << clientSocket << ")" << RESET << endl;
 			// Close client socket if it is still valid
+			leaveAll(client);
+			removeFd(clientSocket);
 			if (isClientLog(clientSocket)) {
 				closeClientSocket(client);
 				client.setSocketState(false);
 				// Remove client from list
 				removeClientFromServer(client);
 			}
-			removeFd(clientSocket);
 			break;
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -189,13 +190,10 @@ void Server::handleServer(int serverSocket)
 		return ;
 	}
 	struct pollfd	new_socket;
-	new_socket.fd = clientSocket; // Start from index 1
+	new_socket.fd = clientSocket;
 	new_socket.events = POLLIN;
 	new_socket.revents = 0;
 	_fds.push_back(new_socket);
-	// fds[numClients + 1].fd = clientSocket; // Start from index 1
-	// fds[numClients + 1].events = POLLIN;
-	// fds[numClients + 1].revents = 0;
 	this->setupClient(clientSocket);
 }
 
