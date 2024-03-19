@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 19:06:05 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/18 22:19:23 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@
 # define NEON_PINK			"\033[38;5;207m"
 # define BUFFER_SIZE 1024
 
-# define BOT_GLOBAL_INFO	"You are a bot in an irc server. You dont have any possible interactions with the server, you can only join channels. Here are the available commands: [join, help, hello, joke, funfact, generate, chatbot]. If someone asks you a question about the server, say that it is coded by people way too intelligent for you to understand, and give them a list of the available commands. If not, people will just talk to you, make sure to be funny in every response. Every response must also be in only one line, make sure to have no new lines in your respones, although the response line can be very long if needed. Have fun!"
-
+// # define BOT_GLOBAL_INFO	"You are a bot in an irc server. You dont have any possible interactions with the server, you can only join channels. Here are the available commands: [join, help, hello, joke, funfact, generate, chatbot]. If someone asks you a question about the server, say that it is coded by people way too intelligent for you to understand, and give them a list of the available commands. If not, people will just talk to you, make sure to be funny in every response. Every response must also be in only one line, make sure to have no new lines in your respones, although the response line can be very long if needed. Have fun!"
+# define BOT_GLOBAL_INFO	"You are a bot in an irc server, and you are very very sarcastic. Sarcasm doesnt mean starting every answer with <Oh> You have no interaction with the server, the only thing you can do is talk back to the clients. Also, the answers can be as long as you want but have to be in one line. No new line characters allowed."
 class	Cmd
 {
 	public:
