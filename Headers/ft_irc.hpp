@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/26 15:32:26 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/18 13:52:32 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	getLoginData(string input, Client &client, Server &server);
 void	execCMD(string input, Client &client, Server &server);
 void	signalHandler(int signum);
 bool 	isExistingNick(Server server, string newNick);
+void printWithNonPrintable(string input);
 
 class CtrlCException : public std::exception
 {

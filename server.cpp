@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 18:19:21 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/19 08:45:58 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ void	Server::removeFd(int clientSocket){
 void	Server::handleClient(int clientSocket)
 {
 	char buffer[1024];
+	string buf;
+	bool ctrlD = false;
 	int bytesRead;
 	if (!isClientLog(clientSocket))
 	{
-		cerr << "Error getting client: " << endl;
+		cerr << "Error getting client" << endl;
 		return;
 	}
 	Client client = getClient(clientSocket);
@@ -99,12 +101,24 @@ void	Server::handleClient(int clientSocket)
 		bytesRead = recv(clientSocket, buffer, sizeof(buffer), MSG_DONTWAIT);
 		if (bytesRead > 0)
 		{
-			// Print message received from client
-			cout << PALE_PINK << string(buffer, bytesRead) << RESET;
-			if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
-				getLoginData(string(buffer, bytesRead), getClient(clientSocket), *this);
+			if (ctrlD)
+				buf.append(buffer);
 			else
-				execCMD(string(buffer, bytesRead), getClient(clientSocket), *this);
+				buf = buffer;
+			// Print message received from client
+			cout << PALE_PINK << "|" << buf << "|" << RESET;
+			printWithNonPrintable(buf);
+			if (buf.find('\n') == std::string::npos) {
+				cout << "CTRL DDDDD\n";
+				ctrlD = true;
+				continue;
+			}
+			else
+				buf.insert(buf.end() - 1, '\r');
+			if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
+				getLoginData(buf, getClient(clientSocket), *this);
+			else
+				execCMD(buf, getClient(clientSocket), *this);
 			break;
 		}
 		else if (bytesRead == 0)
