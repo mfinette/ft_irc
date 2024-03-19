@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   api.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:51:20 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 19:03:45 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/18 21:42:06 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ std::string extractText(const std::string& data)
 
 std::string getImageFromAPI(const char *prompt)
 {
-	std::string providers = "openai";
-	std::string model = "dall-e-3";
+	std::string providers = "amazon";
+	std::string model = "titan-image-generator-v1_premium";
 	std::string resolution = "1024x1024";
 	std::string jsonData = "{\"response_as_dict\":true,\"attributes_as_list\":false,\"show_original_response\":false,\"resolution\":\"" + resolution + "\",\"num_images\":1,\"providers\":\"" + providers + "\",\"text\":\"" + std::string(prompt) + "\",\"model\":\"" + model + "\"}";
 	std::string command = "curl -s -X POST -H \"accept: application/json\" -H \"content-type: application/json\" -H \"Authorization: Bearer " + std::string(EDEN_API_KEY) + "\" -d '" + jsonData + "' " + std::string(EDEN_API_IMAGE_ENDPOINT);
