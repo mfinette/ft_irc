@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/26 15:56:22 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:17:34 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 // }
 
 void printWithNonPrintable(string input) {
-	int i = 0;
-	while (input[i]) {
+	size_t i = 0;
+	while (i < input.size()) {
 		int res = input[i];
 		if (res < 32 || res >= 127)
-			cout << "|" << res;
+			cout << " *" << res << "*";
 		else
 			cout << input[i];
 		i++;

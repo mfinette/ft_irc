@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/19 08:45:58 by colas            ###   ########.fr       */
+/*   Updated: 2024/03/19 13:36:33 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	Server::handleClient(int clientSocket)
 	while (true)
 	{
 		// Receive message from client
+		bzero(buffer, 1024);
 		bytesRead = recv(clientSocket, buffer, sizeof(buffer), MSG_DONTWAIT);
 		if (bytesRead > 0)
 		{
@@ -105,7 +106,7 @@ void	Server::handleClient(int clientSocket)
 				buf.append(buffer);
 			else
 				buf = buffer;
-			// Print message received from client
+			// Print message received from clientc
 			cout << PALE_PINK << "|" << buf << "|" << RESET;
 			printWithNonPrintable(buf);
 			if (buf.find('\n') == std::string::npos) {
@@ -113,8 +114,6 @@ void	Server::handleClient(int clientSocket)
 				ctrlD = true;
 				continue;
 			}
-			else
-				buf.insert(buf.end() - 1, '\r');
 			if (client.getLoginStage() != ALL_LOGIN_DATA_ENTERED)
 				getLoginData(buf, getClient(clientSocket), *this);
 			else
