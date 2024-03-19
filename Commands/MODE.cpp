@@ -48,19 +48,19 @@ void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 void Command::iMode(Channel &channel, char sign, Client &client) {
 	cout << "iFUNC" << endl;
 	if (sign == '-'){
-		channel.changeInviteOnlyStatusToOn();
+		channel.changeInviteOnlyStatusToOff();
 		MODE_MESSAGE(client, channel.getName(), "-i");
 	}
 	else if (sign == '+'){
-		channel.changeInviteOnlyStatusToOff();
+		channel.changeInviteOnlyStatusToOn();
 		MODE_MESSAGE(client, channel.getName(), "+i");
 	}
 	else if (channel.getInviteStatus()){
-		channel.changeInviteOnlyStatusToOn();
+		channel.changeInviteOnlyStatusToOff();
 		MODE_MESSAGE(client, channel.getName(), "-i");
 	}
 	else{
-		channel.changeInviteOnlyStatusToOff();
+		channel.changeInviteOnlyStatusToOn();
 		MODE_MESSAGE(client, channel.getName(), "+i");
 	}
 }
@@ -88,11 +88,13 @@ void Command::tMode(Channel &channel, char sign, Client &client) {
 
 void Command::kMode(Channel &channel, string param, char sign, Client &client) {
 	cout << "kFUNC" << endl;
+	cout << "sign: " << sign << " param: " << param << "\n"; 
 	if (sign == '-') {
 		channel.setHasPasswordToFalse();
 		MODE_MESSAGE(client, channel.getName(), "-k");
 	}
 	else if (sign == '+' && param != "") {
+		cout << "test: " << param << "\n";
 		channel.setHasPasswordToTrue();
 		channel.setPassword(param);
 		std::string modestring = "+k " + channel.getPassword();
@@ -115,12 +117,14 @@ void Command::lMode(Channel &channel, string param, char sign, Client &client) {
 	cout << "lFUNC" << endl;
 	(void) channel;
 	
-	size_t nbr = atoi(param.c_str());
+	int nbr = atoi(param.c_str());
 	if (sign == '-'){
 		channel.changeUserLimit(-1);
 		MODE_MESSAGE(client, channel.getName(), "-l");
 	}
 	else if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos){
+		if (nbr < channel.nbClient())
+			return ;
 		channel.changeUserLimit(nbr);
 		std::string modestring = "+l ";
 		std::ostringstream oss;
