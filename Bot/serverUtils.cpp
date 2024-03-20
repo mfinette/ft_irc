@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serverUtils.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:11:55 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 17:05:08 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:49:52 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ bool connectToServer(int client_socket, int port)
 
 void sendMessage(int client_socket, const std::string& message)
 {
-	send(client_socket, message.c_str(), message.length(), MSG_DONTWAIT + MSG_NOSIGNAL);
+	std::string tmp = message + std::string("\r\n");
+	send(client_socket, tmp.c_str(), tmp.length(), MSG_DONTWAIT + MSG_NOSIGNAL);
 }
 
 void receiveAndPrintMessage(int client_socket)
@@ -86,6 +87,8 @@ void handleUserInput(int client_socket)
 void connectBot(int client_socket, char **argv)
 {
 	sendMessage(client_socket, "PASS " + std::string(argv[2]) + RN);
+	usleep(1000);
 	sendMessage(client_socket, "NICK __bot__" + std::string(RN));
+	usleep(1000);
 	sendMessage(client_socket, "USER bot 0 * :realname" + std::string(RN));
 }
