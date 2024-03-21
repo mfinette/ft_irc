@@ -6,28 +6,20 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:31:35 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/17 20:50:37 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:03:18 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bot.hpp"
 
-int main(int argc, char *argv[])
+void signalHandler(int signum) {
+	if (signum == SIGINT)
+		throw CtrlCException();
+}
+
+int startBot(int port, char **argv, int client_socket)
 {
-	if (argc != 3)
-	{
-		std::cerr << RED <<"Usage: " << argv[0] << " <port_number> <server_password>" << std::endl << RESET;
-		return 1;
-	}
-	int port = atoi(argv[1]);
-	if (port <= 0 || port > 65535)
-	{
-		std::cerr << "Invalid port number" << std::endl;
-		return 1;
-	}
-	int client_socket = createSocket();
-	if (client_socket == -1)
-		return 1;
+
 	if (!connectToServer(client_socket, port))
 		return 1;
 	std::cout << "Connected to server. Type 'quit' to exit." << std::endl;
@@ -73,5 +65,34 @@ int main(int argc, char *argv[])
 			// receiveAndPrintMessage(client_socket);
 	}
 	close(client_socket);
+	return 0;
+}
+
+int main(int argc, char *argv[])
+{
+	if (argc != 3)
+	{
+		std::cerr << RED <<"Usage: " << argv[0] << " <port_number> <server_password>" << std::endl << RESET;
+		return 1;
+	}
+	int port = atoi(argv[1]);
+	if (port <= 0 || port > 65535)
+	{
+		std::cerr << "Invalid port number" << std::endl;
+		return 1;
+	}
+	int client_socket = createSocket();
+	if (client_socket == -1)
+		return 1;
+	try
+	{
+		signal(SIGINT, signalHandler);
+		startBot(port, argv, client_socket);
+	}
+	catch(const CtrlCException &e)
+	{
+		close(client_socket);
+		std::cerr << RED << "\nCTRL + C detected: shutting down bot !" << RESET;
+	}
 	return 0;
 }

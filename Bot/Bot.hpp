@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/21 17:16:14 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:50:23 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 #include <vector>
 #include <fstream>
 #include <ctime>
+#include <exception>
+#include <signal.h>
 
 # define RESET				"\033[0m"
 # define BLACK				"\033[30m"
@@ -112,6 +114,13 @@ std::string				removeDoubleQuotesFromEntireString(std::string str);
 std::string				removeSingleQuotesFromEntireString(std::string str);
 std::string				insertBackslashes(std::string str);
 
-
+class CtrlCException : public std::exception
+{
+public:
+	virtual const char* what() const throw()
+	{
+		return "Ctrl + C";
+	}
+};
 
 #endif
