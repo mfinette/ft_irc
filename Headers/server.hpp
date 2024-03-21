@@ -50,6 +50,7 @@ class Server
 		void							leaveAll(Client &client);
 		void							sendAll(Client &client, std::string msg);
 		void							removeFd(int clientSocket);
+		void							updateChannel(Channel &channel);
 
 	private:
 		int								_serverSocket;

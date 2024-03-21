@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/07 16:17:15 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:44:21 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,11 @@ std::map<Client*, bool> 	Channel::getClientMap()
 
 int	Channel::nbClient()
 {
-	return _client.size();
+	int	nb = _client.size();
+
+	if (isClientInChannel("bot"))
+		nb --;
+	return nb;
 }
 
 int	Channel::nbOperator()
@@ -206,7 +210,10 @@ void	Channel::setNewOperator(){
 	for(it = _client.begin(); it != _client.end(); ++it)
 	{
 		Client &client = *it->first;
-		changeOperatorStatusToOn(client.getSocket());
+		if (client.getNickname() != "bot"){
+			changeOperatorStatusToOn(client.getSocket());
+			return;
+		}
 	}
 }
 
@@ -278,3 +285,14 @@ bool	Channel::isClientInChannel(int socket)
 			return true;
 	return false;
 }
+
+bool	Channel::isClientInChannel(std::string nickname)
+{
+	std::map<Client *, bool>::iterator it;
+
+	for(it = _client.begin(); it != _client.end(); ++it)
+		if (it->first->getNickname() == nickname)
+			return true;
+	return false;
+}
+

@@ -33,10 +33,6 @@ void	Command::KICK(Client &client){
 		msg += "\r\n";
 		send_msg(client_target, msg);
 		channel.RemoveClientFromChannel(&client_target);
-		if (channel.nbClient() == 0)
-			_server.removeChannelFromServer(channel);
-		if (channel.nbOperator() == 0)
-			channel.setNewOperator();
-		channel.updateClientList();
+		_server.updateChannel(channel);
 	}
 }

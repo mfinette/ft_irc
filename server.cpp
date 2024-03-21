@@ -6,7 +6,7 @@
 /*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/19 15:58:44 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:59:37 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,7 @@ void	Server::handleClient(int clientSocket)
 				buf.append(buffer);
 			else
 				buf = buffer;
-			// Print message received from clientc
-			printWithNonPrintable(buf);
 			if (buf.find('\r') == std::string::npos) {
-				std::cout << "CTRL D DDD\n";
 				ctrlD = true;
 				continue;
 			}
@@ -321,4 +318,14 @@ void Server::printClientMap()
 std::map<int, Client> &Server::getClientList()
 {
 	return _clientList;
+}
+
+void	Server::updateChannel(Channel &channel){
+	if (channel.nbClient() == 0){
+		removeChannelFromServer(channel);
+		return;
+	}
+	if (channel.nbOperator() == 0)
+		channel.setNewOperator();
+	channel.updateClientList();
 }

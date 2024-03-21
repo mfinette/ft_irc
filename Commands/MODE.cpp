@@ -16,6 +16,7 @@
 
 //option commencent avec - ou + et lettres
 //i t k l o TYPE B (necessite un argument), si pas dargument le server ignore
+
 void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 	cout << "oFUNC" << endl;
 	if (!isExistingNick(_server, param))
@@ -27,7 +28,7 @@ void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 		std::string modestring = "-o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
-	else if (sign == '+'){
+	else if (_server.getClient(param).getNickname() != "bot" && sign == '+'){
 		channel.changeOperatorStatusToOn(targetClient);
 		std::string modestring = "+o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);
@@ -37,7 +38,7 @@ void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 		std::string modestring = "-o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
-	else{
+	else if (_server.getClient(param).getNickname() != "bot"){
 		channel.changeOperatorStatusToOn(targetClient);
 		std::string modestring = "+o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);

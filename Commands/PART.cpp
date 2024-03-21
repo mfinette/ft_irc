@@ -17,10 +17,6 @@ void	Command::PART(Client &client){
 		msg += "\r\n";
 		send_msg(client, msg);
 		channel.RemoveClientFromChannel(&client);
-		if (channel.nbClient() == 0)
-			return _server.removeChannelFromServer(channel);
-		if (channel.nbOperator() == 0)
-			channel.setNewOperator();
-		channel.updateClientList();
+		_server.updateChannel(channel);
 	}
 }

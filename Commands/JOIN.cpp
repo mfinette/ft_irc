@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 21:58:20 by maxime            #+#    #+#             */
-/*   Updated: 2024/03/07 14:14:58 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:54:59 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,21 @@ void	Command::JoinServeur(Client& client, Channel& channel){
 void	Server::leaveAll(Client &client){
 	std::map<std::string, Channel>::iterator it;
 	
-	for(it = _channelList.begin(); it != _channelList.end(); ++it){
+	for(it = _channelList.begin(); it != _channelList.end(); it++){
 		Channel &channel = it->second;
 		if (channel.isClientInChannel(client.getSocket())){
 			std::string msg = ":" + client.getNickname() + " PART " + channel.getName() + " \r\n";
 			send_msg(client, msg);
 			channel.RemoveClientFromChannel(&client);
-			if (channel.nbClient() == 0)
-				return removeChannelFromServer(channel);
-			if (channel.nbOperator() == 0)
-			 	channel.setNewOperator();
+			if (channel.nbClient() == 0){
+				removeChannelFromServer(channel);
+				it = _channelList.begin();
+				if (it == _channelList.end())
+					return;
+				continue;	
+			}
+			else if (channel.nbOperator() == 0)
+				channel.setNewOperator();
 			channel.updateClientList();
 		}
 	}
@@ -80,19 +85,19 @@ void	Command::JOIN(Client &client){
 	if (params.size() > 1)
 		key_list = splitWithComa(params[1]);
 	for (unsigned int i = 0; i < channel_list.size(); i++){
-		if (channel_list[0] == "0") //part sur tous les channels
+		if (channel_list[0] == "0") //quitte tous les channels
 			_server.leaveAll(client);
 		else if (_server.channelExisting(channel_list[i])){ //si le channel existe
 			Channel& channel = _server.getChannel(channel_list[i]);
-			if (channel.isInviteOnly()){ //si c'est en invite only
+			if (client.getNickname() != "bot" && channel.isInviteOnly()){ //si c'est en invite only
 				ERR_INVITEONLYCHAN(client, channel.getName());
 				continue;
 			}
-			if (channel.getUserLimit() != -1 && channel.getUserLimit() <= channel.nbClient()){ //si la user limit est presente et si elle n'as pas ete depasser
+			if (client.getNickname() != "bot" && channel.getUserLimit() != -1 && channel.getUserLimit() <= channel.nbClient()){ //si la user limit est presente et si elle n'as pas ete depasser
 				ERR_CHANNELISFULL(client, channel.getName());
 				continue;
 			}
-			if (channel.hasPassword()){
+			if (client.getNickname() != "bot" && channel.hasPassword()){
 				if	(key_list.size() <= i || channel.getPassword() != key_list[i]){ //si le password n'est pas valide et il faut check si une key est bien donner
 					ERR_BADCHANNELKEY(client, channel.getName());			
 					continue;
@@ -100,7 +105,7 @@ void	Command::JOIN(Client &client){
 			}
 			JoinServeur(client, channel);
 		}
-		else
+		else if (client.getNickname() != "bot")
 		{
 			if (!checkChannelName(channel_list[i]))
 				return;

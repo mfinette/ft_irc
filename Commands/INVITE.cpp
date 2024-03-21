@@ -1,6 +1,5 @@
 #include "../Headers/ft_irc.hpp"
 
-
 void	Command::INVITE(Client &client){
 	if (params.size() <= 1) //si pas de parametres => err param
 		return ERR_NEEDMOREPARAMS(client, "INVITE");

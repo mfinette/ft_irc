@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clientChannelManagement.cpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:05:45 by mfinette          #+#    #+#             */
-/*   Updated: 2024/02/26 13:07:53 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:34:02 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ void	Server::addChannelToServer(Channel& channel)
 
 void	Server::removeChannelFromServer(Channel& channel)
 {
-	_channelList.erase(_channelList.find(channel.getName()));
+	std::map<std::string, Channel>::iterator it = _channelList.find(channel.getName());
+    if (it != _channelList.end())
+        _channelList.erase(it);
 }

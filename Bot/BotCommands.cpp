@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BotCommands.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 19:09:08 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:33:11 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	join(int client_socket, Cmd cmd)
 	std::string response = "JOIN " + getFirstWord(cmd._cmdRemaining) + "\r\n";
 	sendMessage(client_socket, response);
 	usleep(1000);
+	// Rajouter une conditions pour que le msg de confirmations ne soit pas envoyer qd pas reussi (car le channel n'existait pas)
 	response = "PRIVMSG " + cmd._channel + " :Joined " + getFirstWord(cmd._cmdRemaining) + "!";
 	sendMessage(client_socket, response);
 	usleep(1000);

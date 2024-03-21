@@ -51,6 +51,7 @@ class Channel
 		void	setHasPasswordToFalse();
 
 		bool	isClientInChannel(int socket);
+		bool	isClientInChannel(std::string nickname);
 		void	updateEveryClient();
 		void	updateClientList();
 

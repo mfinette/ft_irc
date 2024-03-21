@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/19 12:17:34 by cgelin           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:58:32 by pchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ Command::Command(string input, Server &server) : _server(server)
 		this->params.push_back(input.substr(start, end - start));
 		i++;
 	}
-	printCmd();
+//	printCmd();
 }
 
 void	Command::printCmd()

@@ -42,9 +42,7 @@ void getLoginData(string input, Client &client, Server &server) {
 	}
 }
 
-void execCMD(string input, Client &client, Server &server)
-{
-//	RPL_WELCOME(client, "Welcome");
+void execCMD(string input, Client &client, Server &server){
 	Command cmd(input, server);
 	if (cmd.getCmdName() == "QUIT")
 		cmd.QUIT(client);
@@ -68,8 +66,4 @@ void execCMD(string input, Client &client, Server &server)
 		ERR_ALREADYREGISTERED(client);
 	if (cmd.getCmdName() == "USER")
 		ERR_ALREADYREGISTERED(client);
-//	cout << "clients connected to coucou : " << server.getChannel("coucou").getClientMap() << endl;
 }
-
-// sera a finir d'implementer dans les Commandes de login : ERR_NEEDMOREPARAMS et ERR_NOTREGISTERED
-// sera a faire : corriger nom des variables privee dans classes qui commence pas par _
