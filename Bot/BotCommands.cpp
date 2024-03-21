@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BotCommands.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchapuis <pchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/21 16:09:03 by pchapuis         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:09:26 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ void	funfact(int client_socket, Cmd cmd)
 
 void	generate(int client_socket, Cmd cmd)
 {
+	std::string	curatedCmd = removeDoubleQuotesFromEntireString(removeSingleQuotesFromEntireString(cmd._cmdRemaining));
 	std::string response = "PRIVMSG " + cmd._channel + " :Generating an image based on the prompt: " + cmd._cmdRemaining;
 	sendMessage(client_socket, response);
+	std::cout << "response" << response << std::endl;
 	usleep(1000);
-	response = "PRIVMSG " + cmd._channel + " :Here is the generated image: " + getImageFromAPI(cmd._cmdRemaining.c_str());
+	response = "PRIVMSG " + cmd._channel + " :Here is the generated image: " + getImageFromAPI(curatedCmd.c_str());
 	sendMessage(client_socket, response);
 }
 
@@ -62,7 +64,7 @@ void	join(int client_socket, Cmd cmd)
 	sendMessage(client_socket, response);
 	usleep(1000);
 	// Rajouter une conditions pour que le msg de confirmations ne soit pas envoyer qd pas reussi (car le channel n'existait pas)
-	response = "PRIVMSG " + cmd._channel + " :Joined " + getFirstWord(cmd._cmdRemaining) + "!";
+	// response = "PRIVMSG " + cmd._channel + " :Joined " + getFirstWord(cmd._cmdRemaining) + "!";
 	sendMessage(client_socket, response);
 	usleep(1000);
 	response = "PRIVMSG " + getFirstWord(cmd._cmdRemaining) + " :Hello! What's popping? I'm a bot. Type help to get a list of available commands.";
@@ -77,9 +79,8 @@ void	hello(int client_socket, Cmd cmd)
 
 void	chatbot(int client_socket, Cmd cmd)
 {
-	std::string	curatedCmd = removeSingleQuotesFromEntireString(removeDoubleQuotesFromEntireString(cmd._cmdRemaining));
-	// std::string	response = "PRIVMSG " + cmd._channel + " :" + getChatAnswerFromAPI(curatedCmd.c_str());
-	// sendMessage(client_socket, response);
+	std::string	curatedCmd = removeDoubleQuotesFromEntireString(removeSingleQuotesFromEntireString(cmd._cmdRemaining));
+	std::cout << "Curated command: " << curatedCmd << std::endl;
 	std::string response = getChatAnswerFromAPI(curatedCmd.c_str());
 	std::cout << "Answer: " << response << std::endl;
 	sendMultipleLineMessage(client_socket, cmd._channel, response);

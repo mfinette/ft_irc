@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/20 19:37:05 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:16:14 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void					printCommand(Cmd cmd);
 bool					isLastWord(std::string str, std::string toFind);
 std::string				removeDoubleQuotesFromEntireString(std::string str);
 std::string				removeSingleQuotesFromEntireString(std::string str);
+std::string				insertBackslashes(std::string str);
+
 
 
 #endif

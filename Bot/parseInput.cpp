@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:28 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 18:29:34 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:28:33 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ Cmd::Cmd(std::string cmd) : _fullCmd(cmd), _isPRIVMSG(false), _isChannel(false)
 		_channel = _sender;
 		std::getline(iss, content);
 		content = content.substr(1, content.length() - 1);
-		std::cout << "(IN PARSING) = content: " << content << "\n";
 		_cmdRemaining = getStringWithoutFirstWord(content);
 	}
 	else
@@ -53,8 +52,10 @@ Cmd::~Cmd()
 
 void	sendResponse(int client_socket, Cmd cmd)
 {
+	static std::string	lastPrivMsg;
 	if (cmd._isPRIVMSG)
 	{
+		lastPrivMsg = cmd._channel;
 		if (cmd._isChannel)
 		{
 			if (cmd._isForBot)
@@ -68,11 +69,21 @@ void	sendResponse(int client_socket, Cmd cmd)
 			chooseResponse(client_socket, cmd);
 		}
 	}
+	else if (cmd._fullCmd.find(":bot!bot 366 bot") != std::string::npos)
+	{
+		std::string response = "Channel Joined !";
+		sendMultipleLineMessage(client_socket, lastPrivMsg, response);
+	}
+	else if (cmd._fullCmd.find(":bot!bot 401 bot") != std::string::npos)
+	{
+		std::string	response = "Channel does not exist. I'm just a bot, I can only join them, not create them :(";
+		sendMultipleLineMessage(client_socket, lastPrivMsg, response);
+	}
 }
 
 void	chooseResponse(int client_socket, Cmd cmd)
 {
-	printCommand(cmd);
+	// printCommand(cmd);
 	if (cmd._cmdType == "join")
 		join(client_socket, cmd);
 	else if (cmd._cmdType == "hello")
