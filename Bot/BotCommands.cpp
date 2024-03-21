@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/18 19:09:08 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:40:40 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,23 @@ void	help(int client_socket, Cmd cmd)
 {
 	std::string response;
 	if (cmd._cmdRemaining == "help")
-		response = "PRIVMSG " + cmd._channel + " :Need some help? Here is a list of the available commands: [joke, help, join, hello, generate] For further insight, type help <command>";
+		response = "Need some help? Here is a list of the available commands:\n[joke, help, join, hello, generate, chatbot] For further insight, type help <command>";
 	else if (cmd._cmdRemaining == "join")
-		response = "PRIVMSG " + cmd._channel + " :The join command is used to join a channel. For example, type join #channel";
+		response = "The join command is used to join a channel. For example, type join #channel";
 	else if (cmd._cmdRemaining == "joke")
-		response = "PRIVMSG " + cmd._channel + " :The joke command is used to fetch a random joke. For example, type joke";
+		response = "The joke command is used to fetch a random joke. For example, type joke";
 	else if (cmd._cmdRemaining == "funfact")
-		response = "PRIVMSG " + cmd._channel + " :The funfact command is used to fetch a random fun fact. For example, type funfact";
+		response = "The funfact command is used to fetch a random fun fact. For example, type funfact";
 	else if (cmd._cmdRemaining == "generate")
-		response = "PRIVMSG " + cmd._channel + " :The generate command is used to generate an image based on a prompt. For example, type generate <prompt>. Please don't use this command too much, it costs money!";
+		response = "The generate command is used to generate an image based on a prompt. For example, type generate <prompt>. Please don't use this command too much, it costs money!";
 	else if (cmd._cmdRemaining == "hello")
-		response = "PRIVMSG " + cmd._channel + " :The hello command is used to greet the bot. For example, type hello";
+		response = "The hello command is used to greet the bot. For example, type hello";
 	else if (cmd._cmdRemaining == "chatbot")
-		response = "PRIVMSG " + cmd._channel + " :The chatbot command is used to chat with me using an AI! . For example, type chatbot <prompt>";
+		response = "The chatbot command is used to chat with me using an AI! . For example, type chatbot <prompt>";
 	else
-		response = "PRIVMSG " + cmd._channel + " :Command not found. Type help to get a list of available commands.";
-	sendMessage(client_socket, response);
+		response = "Command not found. Type help to get a list of available commands.";
+	sendMultipleLineMessage(client_socket, cmd._channel, response);	
+	// sendMessage(client_socket, response);
 }
 
 void	joke(int client_socket, Cmd cmd)
@@ -76,6 +77,9 @@ void	hello(int client_socket, Cmd cmd)
 void	chatbot(int client_socket, Cmd cmd)
 {
 	std::string	curatedCmd = removeSingleQuotesFromEntireString(removeDoubleQuotesFromEntireString(cmd._cmdRemaining));
-	std::string	response = "PRIVMSG " + cmd._channel + " :" + getChatAnswerFromAPI(curatedCmd.c_str());
-	sendMessage(client_socket, response);
+	// std::string	response = "PRIVMSG " + cmd._channel + " :" + getChatAnswerFromAPI(curatedCmd.c_str());
+	// sendMessage(client_socket, response);
+	std::string response = getChatAnswerFromAPI(curatedCmd.c_str());
+	std::cout << "Answer: " << response << std::endl;
+	sendMultipleLineMessage(client_socket, cmd._channel, response);
 }
