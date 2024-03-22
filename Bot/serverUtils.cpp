@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serverUtils.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:11:55 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/20 19:45:15 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:19:32 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,24 @@ void sendMultipleLineMessage(int client_socket, const std::string& target, const
 	while (std::getline(iss, line, '\n'))
 	{
 		std::string tmp = "PRIVMSG " + target + " :" + line + RN;
-		std::cout << "Sending: " << tmp << std::endl;
+		sendMessage(client_socket, tmp);
+		usleep(1000);
+	}
+}
+
+void sendMultipleLineMessageChatbot(int client_socket, const std::string& target, const std::string& message)
+{
+	std::string processed_message = message;
+	size_t pos = processed_message.find("\\n");
+	while (pos != std::string::npos) {
+		processed_message.replace(pos, 2, "\n");
+		pos = processed_message.find("\\n", pos + 1);
+	}
+
+	std::istringstream iss(processed_message);
+	std::string line;
+	while (std::getline(iss, line, '\n')) {
+		std::string tmp = "PRIVMSG " + target + " :" + line + "\r\n"; // Use "\r\n" instead of RN
 		sendMessage(client_socket, tmp);
 		usleep(1000);
 	}

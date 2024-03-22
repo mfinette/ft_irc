@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   api.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:51:20 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/20 18:46:22 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:07:24 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ std::string getChatAnswerFromAPI(const char* prompt)
 		return "Error when using popen function";
 	char buffer[256];
 	std::string response;
-	std::cout << "response: " << response << std::endl;
 	while (fgets(buffer, sizeof(buffer), pipe) != NULL)
 		response += buffer;
+	std::cout << "response: " << response << std::endl;
 	pclose(pipe);
 	return extractText(response);
 }

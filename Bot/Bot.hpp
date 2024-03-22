@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/21 18:50:23 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:04:52 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,13 @@
 # define NEON_PINK			"\033[38;5;207m"
 # define BUFFER_SIZE 1024
 
-// # define BOT_GLOBAL_INFO	"You are a bot in an irc server. You dont have any possible interactions with the server, you can only join channels. Here are the available commands: [join, help, hello, joke, funfact, generate, chatbot]. If someone asks you a question about the server, say that it is coded by people way too intelligent for you to understand, and give them a list of the available commands. If not, people will just talk to you, make sure to be funny in every response. Every response must also be in only one line, make sure to have no new lines in your respones, although the response line can be very long if needed. Have fun!"
-# define BOT_GLOBAL_INFO	"You are a bot in an irc server, and you are very very sarcastic, but you still reply usefully to the questions you will be asked. You have no interaction with the server, the only thing you can do is talk back to the clients."
+# define BOT_GLOBAL_INFO	"You are a bot in an irc server. Your main personality trait is that you are very angry at the users, but you still reply to what\
+they ask, even though you dont want to. You dont have any possible interactions with the server, you can only join channels. \
+Here are the available commands: [join, help, hello, joke, funfact, generate, chatbot]. If someone asks you a question about the server, try to reply, here\
+is some context about the server: It is coded in c++98, and uses sockets and poll() to work. It has been created by Colas Gelin, Paul Chapuis and Maxime Finette. If you are missing the context \
+to give an accurate answer, try to answer and then name the creators of the server and suggest to ask them to answer the question, and give them a list of \
+available commands."
+
 class	Cmd
 {
 	public:
@@ -83,6 +88,7 @@ void					handleUserInput(int client_socket);
 void					chooseResponse(int client_socket, Cmd cmd);
 void					sendResponse(int client_socket, Cmd cmd);
 void					sendMultipleLineMessage(int client_socket, const std::string &target, const std::string &message);
+void					sendMultipleLineMessageChatbot(int client_socket, const std::string& target, const std::string& message);
 
 /////////// COMMANDS ///////////
 void					help(int client_socket, Cmd cmd);
@@ -97,11 +103,11 @@ void					chatbot(int client_socket, Cmd cmd);
 std::string				fetchJoke();
 std::string				fetchFunFact();
 std::string				getImageFromAPI(const char *prompt);
-std::string				getChatAnswerFromAPI(const char* prompt);
+std::string				getChatAnswerFromAPI(const char *prompt);
 
 /////////// PARSING ///////////
-std::string				getFirstWord(std::string str);
-std::string				getSecondWord(std::string str);
+std::string getFirstWord(std::string str);
+std::string getSecondWord(std::string str);
 std::string				getRemaining(std::string str);
 std::string 			removeBackslashR(std::string str);
 std::string 			removeBackslashRN(std::string str);

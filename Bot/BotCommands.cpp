@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BotCommands.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/21 19:26:50 by mfinette         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:19:50 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void	hello(int client_socket, Cmd cmd)
 void	chatbot(int client_socket, Cmd cmd)
 {
 	std::string	curatedCmd = removeDoubleQuotesFromEntireString(removeSingleQuotesFromEntireString(cmd._cmdRemaining));
-	std::cout << "Curated command: " << curatedCmd << std::endl;
 	std::string response = getChatAnswerFromAPI(curatedCmd.c_str());
-	std::cout << "Answer: " << response << std::endl;
-	sendMultipleLineMessage(client_socket, cmd._channel, response);
+	sendMultipleLineMessageChatbot(client_socket, cmd._channel, response);
 }
