@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   api.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:51:20 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/22 11:07:24 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/26 11:31:20 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,23 @@ std::string extractText(const std::string& data)
 	return url;
 }
 
+std::string	extractCost(const std::string& data)
+{
+	std::string url;
+	std::cout << "extracting cost" << std::endl;
+	std::string search_str = "\"cost\":";
+	size_t start_index = data.find(search_str);
+	if (start_index == std::string::npos)
+		return url;  // If the substring is not found, return an empty string
+	start_index += search_str.length();
+	size_t end_index = data.find("}", start_index);
+	if (end_index == std::string::npos)
+		return url;  // If the closing quote is not found, return an empty string
+	url = data.substr(start_index, end_index - start_index);
+	return url;
+
+}
+
 std::string getImageFromAPI(const char *prompt)
 {
 	std::string providers = "amazon";
@@ -64,7 +81,7 @@ std::string getImageFromAPI(const char *prompt)
 	std::cout << response << std::endl;
 	if (response.find("error") != std::string::npos)
 		return "Error when using the API";
-	return extract_image_url(response);
+	return response;
 }
 
 std::string getChatAnswerFromAPI(const char* prompt)
@@ -83,5 +100,5 @@ std::string getChatAnswerFromAPI(const char* prompt)
 		response += buffer;
 	std::cout << "response: " << response << std::endl;
 	pclose(pipe);
-	return extractText(response);
+	return response;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BotCommands.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 20:30:25 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/22 11:19:50 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/26 11:35:30 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,6 @@ void	funfact(int client_socket, Cmd cmd)
 	sendMessage(client_socket, response);
 }
 
-void	generate(int client_socket, Cmd cmd)
-{
-	std::string	curatedCmd = removeDoubleQuotesFromEntireString(removeSingleQuotesFromEntireString(cmd._cmdRemaining));
-	std::string response = "PRIVMSG " + cmd._channel + " :Generating an image based on the prompt: " + cmd._cmdRemaining;
-	sendMessage(client_socket, response);
-	std::cout << "response" << response << std::endl;
-	usleep(1000);
-	response = "PRIVMSG " + cmd._channel + " :Here is the generated image: " + getImageFromAPI(curatedCmd.c_str());
-	sendMessage(client_socket, response);
-}
-
 void	join(int client_socket, Cmd cmd)
 {
 	std::string response = "JOIN " + getFirstWord(cmd._cmdRemaining) + "\r\n";
@@ -77,9 +66,30 @@ void	hello(int client_socket, Cmd cmd)
 	sendMessage(client_socket, response);
 }
 
+void	generate(int client_socket, Cmd cmd)
+{
+	std::string response = "PRIVMSG " + cmd._channel + " :Generating an image based on the prompt: " + cmd._cmdRemaining;
+	std::string	curatedCmd = removeDoubleQuotesFromEntireString(removeSingleQuotesFromEntireString(cmd._cmdRemaining));
+	std::string	apiResponse = getImageFromAPI(curatedCmd.c_str());
+	std::string image_url = extract_image_url(apiResponse);
+	std::string cost = extractCost(apiResponse);
+	sendMessage(client_socket, response);
+	usleep(1000);
+	response = "PRIVMSG " + cmd._channel + " :Here is the generated image: " + image_url;
+	sendMessage(client_socket, response);
+	usleep(1000);
+	response = "PRIVMSG " + cmd._channel + " :The cost of this image was: " + cost + "$";
+	sendMessage(client_socket, response);
+}
+
 void	chatbot(int client_socket, Cmd cmd)
 {
 	std::string	curatedCmd = removeDoubleQuotesFromEntireString(removeSingleQuotesFromEntireString(cmd._cmdRemaining));
-	std::string response = getChatAnswerFromAPI(curatedCmd.c_str());
+	std::string responseApi = getChatAnswerFromAPI(curatedCmd.c_str());
+	std::string response = extractText(responseApi);
+	std::string cost = extractCost(responseApi);
 	sendMultipleLineMessageChatbot(client_socket, cmd._channel, response);
+	usleep(1000);
+	response = "PRIVMSG " + cmd._channel + " :The cost of this response was: " + cost + "$";
+	sendMessage(client_socket, response);
 }

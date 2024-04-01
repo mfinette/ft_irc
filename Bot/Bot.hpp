@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:09:59 by mfinette          #+#    #+#             */
-/*   Updated: 2024/03/22 12:04:52 by maxime           ###   ########.fr       */
+/*   Updated: 2024/03/26 11:19:32 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ std::string				getImageFromAPI(const char *prompt);
 std::string				getChatAnswerFromAPI(const char *prompt);
 
 /////////// PARSING ///////////
-std::string getFirstWord(std::string str);
-std::string getSecondWord(std::string str);
+std::string				getFirstWord(std::string str);
+std::string				getSecondWord(std::string str);
 std::string				getRemaining(std::string str);
 std::string 			removeBackslashR(std::string str);
 std::string 			removeBackslashRN(std::string str);
@@ -119,6 +119,9 @@ bool					isLastWord(std::string str, std::string toFind);
 std::string				removeDoubleQuotesFromEntireString(std::string str);
 std::string				removeSingleQuotesFromEntireString(std::string str);
 std::string				insertBackslashes(std::string str);
+std::string				extract_image_url(const std::string& data);
+std::string				extractText(const std::string& data);
+std::string				extractCost(const std::string& data);
 
 class CtrlCException : public std::exception
 {
