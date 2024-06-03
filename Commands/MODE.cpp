@@ -1,22 +1,5 @@
 #include "../Headers/ft_irc.hpp"
 
-//PARAMETRES : MODE <channel> <options(-i, -o, -t,..)>
-
-
-
-//Si option pas specifie, RPL_UMODEIS -> display des modes du channel
-//Si option, execution et MODE message envoye au client, si un des modes specifie ne marche pas, execution des modes 
-//qui marchent et ERR_UMODEUNKNOWNFLAG + MODE message.
-
-//if channel  existe pas ERR_NOSUCHCHANNEL
-//Si option pas specifie, RPL_CHANNELMODEIS - > display des modes du channel
-
-//si option sur channel, le user doit etre op sinon ERR_CHANOPRIVSNEEDED
-//Quand le serveur a exec les changement, une cmmand mode est envoye a tt les users
-
-//option commencent avec - ou + et lettres
-//i t k l o TYPE B (necessite un argument), si pas dargument le server ignore
-
 void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 	cout << "oFUNC" << endl;
 	if (!isExistingNick(_server, param))
@@ -185,7 +168,7 @@ void	Command::MODE(Client &client) {
 			sign = modeStr[i];
 			if (modeStr[i + 1] && !isalpha(modeStr[i + 1])) {
 				cout << "erreur" << endl;
-				break; //si pas une lettre apres sign arret de la cmd.
+				break;
 			}
 			continue;
 		}

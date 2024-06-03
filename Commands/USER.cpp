@@ -29,5 +29,3 @@ bool Command::USER(Client &client)
 		ERR_NEEDMOREPARAMS(client, cmdName);
 	return false;
 }
-
-//eventuellement faire la verif que le realname est precede dun :

@@ -22,16 +22,16 @@ void	Server::sendAll(Client &client, std::string msg){
 void	Command::PRIVMSG(Client &client){
 	if (this->params.size() < 1)
 		return ERR_NEEDMOREPARAMS(client, "PRIVMSG");
-	if (this->params[0][0] == '$') //si la target commence avec "$" le msg doit etre envoyer a tous les clients du serveur
+	if (this->params[0][0] == '$') //if target name name start with '$' the msg must be send to all clients of the server
 		return _server.sendAll(client, msg);
 	int	restriction = 0;
 	if (this->params[0][0] == '@'){
 		restriction = 1;
 		this->params[0] = this->params[0].substr(1);
 	}
-	if (!_server.isClientLog(this->params[0]) && !_server.channelExisting(this->params[0])) //si ce n'est ni un client, ni un serveur ==> ERR pas de client avec ce nick
+	if (!_server.isClientLog(this->params[0]) && !_server.channelExisting(this->params[0])) //if it's not a client or a channel
 		return ERR_NOSUCHNICK(client, this->params[0], "nick/channel");
-	if (!_server.isClientLog(this->params[0])){ //si c'est un serveur
+	if (!_server.isClientLog(this->params[0])){ //if it's a channel
 		if (msg.size() == 0)
 			return ERR_NOTEXTTOSEND(client);
 		Channel &tmp = _server.getChannel(this->params[0]);

@@ -30,7 +30,6 @@ int main(int argc, char **argv)
 		server.closeServer();
 		return (1);
 	}
-	// commenter les deux catch d'en dessous pour coder sans crash toutes les 2 secondes
 	catch (const std::exception &e)
 	{
 		std::cerr << RED << "Error: " << e.what() << RESET << std::endl;

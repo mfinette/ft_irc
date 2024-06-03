@@ -36,7 +36,7 @@ void	Channel::updateClientList(){
 void	Command::JoinServeur(Client& client, Channel& channel){
 	JOIN_CHANNEL(client, channel.getName());
 	channel.AddClientToChannel(&client);
-	if (channel.getTopic().size() != 0){ //si il y a un topic
+	if (channel.getTopic().size() != 0){ //if there is a topic
 		RPL_TOPIC(client, channel.getName(), channel.getTopic());
 		RPL_TOPICWHOTIME(client, channel.getName(), channel.getTopicAuthor(), channel.getSetAt());
 	}
@@ -72,7 +72,7 @@ bool	checkChannelName(std::string name){
 	if (name[0] != '#')
 		return false;
 	for (std::string::size_type i = 0; i < name.length(); ++i)
-        if (name[i] == 7) //code Ascii de ^G
+        if (name[i] == 7) //Ascii code of ^G
 			return false;
 	return true;
 }
@@ -85,20 +85,20 @@ void	Command::JOIN(Client &client){
 	if (params.size() > 1)
 		key_list = splitWithComa(params[1]);
 	for (unsigned int i = 0; i < channel_list.size(); i++){
-		if (channel_list[0] == "0") //quitte tous les channels
+		if (channel_list[0] == "0") //leave all channels
 			_server.leaveAll(client);
-		else if (_server.channelExisting(channel_list[i])){ //si le channel existe
+		else if (_server.channelExisting(channel_list[i])){ //if channel existing
 			Channel& channel = _server.getChannel(channel_list[i]);
-			if (client.getNickname() != "bot" && channel.isInviteOnly()){ //si c'est en invite only
+			if (client.getNickname() != "bot" && channel.isInviteOnly()){ //if invite only is on
 				ERR_INVITEONLYCHAN(client, channel.getName());
 				continue;
 			}
-			if (client.getNickname() != "bot" && channel.getUserLimit() != -1 && channel.getUserLimit() <= channel.nbClient()){ //si la user limit est presente et si elle n'as pas ete depasser
+			if (client.getNickname() != "bot" && channel.getUserLimit() != -1 && channel.getUserLimit() <= channel.nbClient()){ //check if not over the user limit
 				ERR_CHANNELISFULL(client, channel.getName());
 				continue;
 			}
 			if (client.getNickname() != "bot" && channel.hasPassword()){
-				if	(key_list.size() <= i || channel.getPassword() != key_list[i]){ //si le password n'est pas valide et il faut check si une key est bien donner
+				if	(key_list.size() <= i || channel.getPassword() != key_list[i]){ //check if the password is valid
 					ERR_BADCHANNELKEY(client, channel.getName());			
 					continue;
 				}

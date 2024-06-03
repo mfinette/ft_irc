@@ -52,10 +52,6 @@ void	join(int client_socket, Cmd cmd)
 	std::string response = "JOIN " + getFirstWord(cmd._cmdRemaining) + "\r\n";
 	sendMessage(client_socket, response);
 	usleep(1000);
-	// Rajouter une conditions pour que le msg de confirmations ne soit pas envoyer qd pas reussi (car le channel n'existait pas)
-	// response = "PRIVMSG " + cmd._channel + " :Joined " + getFirstWord(cmd._cmdRemaining) + "!";
-	sendMessage(client_socket, response);
-	usleep(1000);
 	response = "PRIVMSG " + getFirstWord(cmd._cmdRemaining) + " :Hello! What's popping? I'm a bot. Type help to get a list of available commands.";
 	sendMessage(client_socket, response);
 }

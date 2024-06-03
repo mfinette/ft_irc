@@ -14,20 +14,20 @@ void	Channel::updateEveryClient(){
 void	Command::TOPIC(Client &client){
 	if (this->params.size() == 0) //check if a name as been given as parameters
 		return ERR_NEEDMOREPARAMS(client, "TOPIC");
-	if (!_server.channelExisting(this->params[0])) //si le channel n'existe pas
+	if (!_server.channelExisting(this->params[0])) //if the channel doesn't exist
 		return ERR_NOSUCHCHANNEL(client, this->params[0]);
 	Channel &channel = _server.getChannel(this->params[0]);
-	if (!channel.isClientInChannel(client.getSocket())) //si le clien n'est pas dans le channel
+	if (!channel.isClientInChannel(client.getSocket())) //if the client isn't on the channel
 		return ERR_NOTONCHANNEL(client, this->params[0]);
-	if (params.size() != 0){ //si il y a des parametres ==> modifications du topic
-		if (channel.hasTopicRestriction() && !channel.isOperator(client.getSocket())) //check si le topic peut etre changer uniquement en tant que moderateur et si il est ops
-			return ERR_CHANOPRIVSNEEDED(client, this->params[0]); //si pas ops ERR
+	if (params.size() != 0){ //if there is parameters then modifications of the topic
+		if (channel.hasTopicRestriction() && !channel.isOperator(client.getSocket())) //check if the topic can be modify
+			return ERR_CHANOPRIVSNEEDED(client, this->params[0]);
 		channel.setTopic(this->msg);
 		channel.setTopicAuthor(client.getNickname());
 		channel.setSetAt();
 		channel.updateEveryClient();
 	}
-	else{ //si il n'y a pas de parametre ==> affichage du topic
+	else{ //if no parameters then print it
 		if (channel.getTopic().size() == 0)
 			return RPL_NOTOPIC(client, this->params[0]);
 		RPL_TOPIC(client, this->params[0], channel.getTopic());
