@@ -12,9 +12,11 @@
 
 #include "Bot.hpp"
 
-#define EDEN_API_KEY "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiM2MxMzFmNmUtYzJkMy00ZWYxLWE0MzUtNTlhM2Q5ZjMyMDllIiwidHlwZSI6ImFwaV90b2tlbiJ9._6PZat-4tRjD4SnfSAbQIcpLS76qudoj0KIQaELeKyQ"
+#define EDEN_API_KEY getApiKey()
 #define EDEN_API_IMAGE_ENDPOINT "https://api.edenai.run/v2/image/generation"
 #define EDEN_API_CHATBOT_ENDPOINT "https://api.edenai.run/v2/text/chat"
+
+
 
 std::string extract_image_url(const std::string& data)
 {
@@ -81,6 +83,8 @@ std::string getImageFromAPI(const char *prompt)
 	std::cout << response << std::endl;
 	if (response.find("error") != std::string::npos)
 		return "Error when using the API";
+	if (response.find("malformated,") != std::string::npos)
+		return "Error when using the API";
 	return response;
 }
 
@@ -98,6 +102,8 @@ std::string getChatAnswerFromAPI(const char* prompt)
 	std::string response;
 	while (fgets(buffer, sizeof(buffer), pipe) != NULL)
 		response += buffer;
+	if (response.find("malformated") != std::string::npos)
+		return "Error when using the API";
 	std::cout << "response: " << response << std::endl;
 	pclose(pipe);
 	return response;

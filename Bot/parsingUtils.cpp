@@ -141,3 +141,15 @@ std::string	removeDoubleQuotesFromEntireString(std::string str)
 	}
 	return newStr;
 }
+
+std::string	getApiKey()
+{
+	std::string apiKey;
+	std::ifstream file(".env");
+	if (file.is_open())
+	{
+		std::getline(file, apiKey);
+		file.close();
+	}
+	return apiKey;
+}

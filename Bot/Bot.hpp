@@ -122,6 +122,7 @@ std::string				insertBackslashes(std::string str);
 std::string				extract_image_url(const std::string& data);
 std::string				extractText(const std::string& data);
 std::string				extractCost(const std::string& data);
+std::string				getApiKey();
 
 class CtrlCException : public std::exception
 {
