@@ -12,6 +12,7 @@ void	Channel::updateEveryClient(){
 }
 
 void	Command::TOPIC(Client &client){
+	std::cout << "TOPIC" << "\n";
 	if (this->params.size() == 0) //check if a name as been given as parameters
 		return ERR_NEEDMOREPARAMS(client, "TOPIC");
 	if (!_server.channelExisting(this->params[0])) //if the channel doesn't exist
@@ -19,7 +20,7 @@ void	Command::TOPIC(Client &client){
 	Channel &channel = _server.getChannel(this->params[0]);
 	if (!channel.isClientInChannel(client.getSocket())) //if the client isn't on the channel
 		return ERR_NOTONCHANNEL(client, this->params[0]);
-	if (params.size() != 0){ //if there is parameters then modifications of the topic
+	if (msg.size() != 0){ //if there is parameters then modifications of the topic
 		if (channel.hasTopicRestriction() && !channel.isOperator(client.getSocket())) //check if the topic can be modify
 			return ERR_CHANOPRIVSNEEDED(client, this->params[0]);
 		channel.setTopic(this->msg);
