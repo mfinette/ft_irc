@@ -33,10 +33,6 @@ bool connectToServer(int client_socket, int port)
 	server_addr.sin_port = htons(port);
 	server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-	// Set socket to non-blocking
-	int flags = fcntl(client_socket, F_GETFL, 0);
-	fcntl(client_socket, F_SETFL, flags | O_NONBLOCK);
-
 	if (connect(client_socket, reinterpret_cast<sockaddr*>(&server_addr), sizeof(server_addr)) == -1 &&
 			errno != EINPROGRESS)
 	{
