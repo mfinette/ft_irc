@@ -35,10 +35,14 @@ void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 void Command::iMode(Channel &channel, char sign, Client &client) {
 	cout << "iFUNC" << endl;
 	if (sign == '-'){
+		if (!channel.getInviteStatus())
+			return ;
 		channel.changeInviteOnlyStatusToOff();
 		MODE_MESSAGE(client, channel.getName(), "-i");
 	}
 	else if (sign == '+'){
+		if (channel.getInviteStatus())
+			return ;
 		channel.changeInviteOnlyStatusToOn();
 		MODE_MESSAGE(client, channel.getName(), "+i");
 	}
@@ -56,10 +60,14 @@ void Command::tMode(Channel &channel, char sign, Client &client) {
 
 	cout << "tFUNC" << endl;
 	if (sign == '-'){
+		if (!channel.hasTopicRestriction())
+			return ;
 		channel.changeTopicRestrictionToOff();
 		MODE_MESSAGE(client, channel.getName(), "-t");
 	}
 	else if (sign == '+'){
+		if (channel.hasTopicRestriction())
+			return ;
 		channel.changeTopicRestrictionToOn();
 		MODE_MESSAGE(client, channel.getName(), "+t");
 	}
@@ -104,11 +112,14 @@ void Command::lMode(Channel &channel, string param, char sign, Client &client) {
 	(void) channel;
 	
 	int nbr = atoi(param.c_str());
-	if (sign == '-' && channel.getUserLimit() != -1){
+	double lNbr = atof(param.c_str());
+	if (nbr != lNbr)
+		return ;
+	if (sign == '-' && channel.getUserLimit() != -1){ //if -l and user limit set
 		channel.changeUserLimit(-1);
 		MODE_MESSAGE(client, channel.getName(), "-l");
 	}
-	else if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos && channel.getUserLimit() != nbr){
+	else if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos && channel.getUserLimit() != nbr){ //if +l and param numbers only and user limit not already to the same limit
 		if (nbr < channel.nbClient())
 			return ;
 		channel.changeUserLimit(nbr);
@@ -118,11 +129,13 @@ void Command::lMode(Channel &channel, string param, char sign, Client &client) {
 		modestring += oss.str();
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
-	else if (sign == '\0' && channel.getUserLimit() != -1 && param == "") {
+	else if (sign == '\0' && channel.getUserLimit() != -1 && param == "") { //no sign and limit define and no param then -1
 		channel.changeUserLimit(-1);
 		MODE_MESSAGE(client, channel.getName(), "-l");
 	}
-	else if (sign == '\0' && channel.getUserLimit() == -1 && param.find_first_not_of("0123456789") == std::string::npos) {
+	else if (sign == '\0' && param != "" && param.find_first_not_of("0123456789") == std::string::npos) {//no sign and no user limit and valid parameter
+		if (channel.getUserLimit() == nbr)
+			return;
 		if (nbr < channel.nbClient())
 			return ;
 		channel.changeUserLimit(nbr);
