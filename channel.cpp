@@ -110,7 +110,6 @@ std::string	Channel::getSetAt()
 {
     std::ostringstream oss;
     oss << _setAt;
-	std::cout << oss.str();
     return oss.str();
 }
 

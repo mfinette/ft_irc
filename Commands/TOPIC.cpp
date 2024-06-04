@@ -5,14 +5,12 @@ void	Channel::updateEveryClient(){
 
 	for(it = _client.begin(); it != _client.end(); ++it){
 		Client client = *it->first;
-		cout << _topic.size() << endl;
 		RPL_TOPIC(client, _name, _topic);
 		RPL_TOPICWHOTIME(client, _name, _topic_author, getSetAt());
 	}
 }
 
 void	Command::TOPIC(Client &client){
-	std::cout << "TOPIC" << "\n";
 	if (this->params.size() == 0) //check if a name as been given as parameters
 		return ERR_NEEDMOREPARAMS(client, "TOPIC");
 	if (!_server.channelExisting(this->params[0])) //if the channel doesn't exist
