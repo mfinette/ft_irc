@@ -6,26 +6,29 @@ void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 		return ERR_NOSUCHNICK(client, param, "nick");
 	int targetClient = _server.getClient(param).getSocket();
 	cout << targetClient << endl;
-	if (sign == '-' && client.getSocket() != targetClient){
+	if (client.getSocket() == targetClient)
+		return;
+	if (sign == '-' && channel.isOperator(targetClient)) {
 		channel.changeOperatorStatusToOff(targetClient);
 		std::string modestring = "-o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
-	else if (_server.getClient(param).getNickname() != "bot" && sign == '+'){
+	else if (_server.getClient(param).getNickname() != "bot" && sign == '+' && !channel.isOperator(targetClient)){
 		channel.changeOperatorStatusToOn(targetClient);
 		std::string modestring = "+o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
-	else if (channel.isOperator(_server.getClient(param).getSocket())){
+	else if (sign == '\0' && channel.isOperator(_server.getClient(param).getSocket())){
 		channel.changeOperatorStatusToOff(targetClient);
 		std::string modestring = "-o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
-	else if (_server.getClient(param).getNickname() != "bot"){
+	else if (sign == '\0' && _server.getClient(param).getNickname() != "bot"){
 		channel.changeOperatorStatusToOn(targetClient);
 		std::string modestring = "+o " + param;
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
+	else return;
 	channel.updateClientList();
 }
 
@@ -73,7 +76,7 @@ void Command::tMode(Channel &channel, char sign, Client &client) {
 void Command::kMode(Channel &channel, string param, char sign, Client &client) {
 	cout << "kFUNC" << endl;
 	cout << "sign: " << sign << " param: " << param << "\n"; 
-	if (sign == '-') {
+	if (sign == '-' && channel.hasPassword() == true) {
 		channel.setHasPasswordToFalse();
 		MODE_MESSAGE(client, channel.getName(), "-k");
 	}
@@ -84,11 +87,11 @@ void Command::kMode(Channel &channel, string param, char sign, Client &client) {
 		std::string modestring = "+k " + channel.getPassword();
 		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
-	else if (channel.hasPassword()) {
+	else if (sign != '+' && channel.hasPassword() && param == "") {
 		channel.setHasPasswordToFalse();
 		MODE_MESSAGE(client, channel.getName(), "-k");
 	}
-	else if (!channel.hasPassword() && param != "") {
+	else if (sign != '-' && !channel.hasPassword() && param != "") {
 		channel.setHasPasswordToTrue();
 		channel.setPassword(param);
 		std::string modestring = "+k " + channel.getPassword();
@@ -98,15 +101,14 @@ void Command::kMode(Channel &channel, string param, char sign, Client &client) {
 }
 
 void Command::lMode(Channel &channel, string param, char sign, Client &client) {
-	cout << "lFUNC" << endl;
 	(void) channel;
 	
 	int nbr = atoi(param.c_str());
-	if (sign == '-'){
+	if (sign == '-' && channel.getUserLimit() != -1){
 		channel.changeUserLimit(-1);
 		MODE_MESSAGE(client, channel.getName(), "-l");
 	}
-	else if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos){
+	else if (sign == '+' && param.find_first_not_of("0123456789") == std::string::npos && channel.getUserLimit() != nbr){
 		if (nbr < channel.nbClient())
 			return ;
 		channel.changeUserLimit(nbr);
@@ -115,11 +117,20 @@ void Command::lMode(Channel &channel, string param, char sign, Client &client) {
    		oss << channel.getUserLimit();
 		modestring += oss.str();
 		MODE_MESSAGE(client, channel.getName(), modestring);
-
 	}
-	else{
+	else if (sign == '\0' && channel.getUserLimit() != -1 && param == "") {
 		channel.changeUserLimit(-1);
 		MODE_MESSAGE(client, channel.getName(), "-l");
+	}
+	else if (sign == '\0' && channel.getUserLimit() == -1 && param.find_first_not_of("0123456789") == std::string::npos) {
+		if (nbr < channel.nbClient())
+			return ;
+		channel.changeUserLimit(nbr);
+		std::string modestring = "+l ";
+		std::ostringstream oss;
+   		oss << channel.getUserLimit();
+		modestring += oss.str();
+		MODE_MESSAGE(client, channel.getName(), modestring);
 	}
 }
 
