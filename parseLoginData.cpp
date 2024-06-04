@@ -38,7 +38,7 @@ void getLoginData(string input, Client &client, Server &server) {
 				}
 			} 
 		}
-		cout << client.getLoginStage() << endl;
+		// cout << client.getLoginStage() << endl;
 	}
 }
 

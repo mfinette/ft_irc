@@ -1,11 +1,9 @@
 #include "../Headers/ft_irc.hpp"
 
 void Command::oMode(Client &client, Channel &channel, string param, char sign) {
-	cout << "oFUNC" << endl;
 	if (!isExistingNick(_server, param))
 		return ERR_NOSUCHNICK(client, param, "nick");
 	int targetClient = _server.getClient(param).getSocket();
-	cout << targetClient << endl;
 	if (client.getSocket() == targetClient)
 		return;
 	if (sign == '-' && channel.isOperator(targetClient)) {
@@ -33,7 +31,6 @@ void Command::oMode(Client &client, Channel &channel, string param, char sign) {
 }
 
 void Command::iMode(Channel &channel, char sign, Client &client) {
-	cout << "iFUNC" << endl;
 	if (sign == '-'){
 		if (!channel.getInviteStatus())
 			return ;
@@ -58,7 +55,6 @@ void Command::iMode(Channel &channel, char sign, Client &client) {
 
 void Command::tMode(Channel &channel, char sign, Client &client) {
 
-	cout << "tFUNC" << endl;
 	if (sign == '-'){
 		if (!channel.hasTopicRestriction())
 			return ;
@@ -82,14 +78,11 @@ void Command::tMode(Channel &channel, char sign, Client &client) {
 }
 
 void Command::kMode(Channel &channel, string param, char sign, Client &client) {
-	cout << "kFUNC" << endl;
-	cout << "sign: " << sign << " param: " << param << "\n"; 
 	if (sign == '-' && channel.hasPassword() == true) {
 		channel.setHasPasswordToFalse();
 		MODE_MESSAGE(client, channel.getName(), "-k");
 	}
 	else if (sign == '+' && param != "") {
-		cout << "test: " << param << "\n";
 		channel.setHasPasswordToTrue();
 		channel.setPassword(param);
 		std::string modestring = "+k " + channel.getPassword();
@@ -170,7 +163,6 @@ void	Command::MODE(Client &client) {
 	size_t j = 2;
 	string parameter;
 
-	cout << "mode fnc" << endl;
 	if (params.size() <= 0)
 		return ERR_NEEDMOREPARAMS(client, "MODE");
 	if (!_server.channelExisting(params[0]))
@@ -191,7 +183,7 @@ void	Command::MODE(Client &client) {
 		if (modeStr[i] == '+' || modeStr[i] == '-') {
 			sign = modeStr[i];
 			if (modeStr[i + 1] && !isalpha(modeStr[i + 1])) {
-				cout << "erreur" << endl;
+				cout << "Error: character after sign should be a letter." << endl;
 				break;
 			}
 			continue;

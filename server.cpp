@@ -102,7 +102,7 @@ void	Server::handleClient(int clientSocket)
 		bytesRead = recv(clientSocket, buffer, sizeof(buffer), MSG_DONTWAIT);
 		if (bytesRead > 0)
 		{
-			cout << PALE_PINK << "|" << buffer << "|" << RESET;
+			// cout << PALE_PINK << "|" << buffer << "|" << RESET;
 			if (ctrlD)
 				buf.append(buffer);
 			else
@@ -151,7 +151,7 @@ void	Server::closeClientSocket(Client &client)
 	cout << BLUE << "Client socket (" << client.getSocket() << ") : " << client.getSocketState() << RESET << endl;
 	if (client.getSocketState() == true)
 	{
-		cout << BLUE << "Closing client socket " << client.getSocket() << RESET << endl;
+		// cout << BLUE << "Closing client socket " << client.getSocket() << RESET << endl;
 		if (client.getSocket())
 			close(client.getSocket());
 		cout << GREEN << "Client socket closed successfully" << RESET << endl;
@@ -219,7 +219,7 @@ void Server::start(void)
 	server_fd.fd = serverSocket;
 	server_fd.events = POLLIN;
 	_fds.push_back(server_fd);
-	cout << BLUE << "serverSocket = " << serverSocket << RESET << endl;
+	// cout << BLUE << "serverSocket = " << serverSocket << RESET << endl;
 	while (true)
 	{
 		// Poll for events and revents in every fd (POLLIN == data to read)
