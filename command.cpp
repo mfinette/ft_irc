@@ -62,7 +62,6 @@ Command::Command(string input, Server &server) : _server(server)
 		this->params.push_back(input.substr(start, end - start));
 		i++;
 	}
-//	printCmd();
 }
 
 void	Command::printCmd()
