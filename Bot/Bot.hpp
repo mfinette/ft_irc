@@ -61,7 +61,7 @@ they ask, even though you dont want to. You dont have any possible interactions 
 Here are the available commands: [join, help, hello, joke, funfact, generate, chatbot]. If someone asks you a question about the server, try to reply, here\
 is some context about the server: It is coded in c++98, and uses sockets and poll() to work. It has been created by Colas Gelin, Paul Chapuis and Maxime Finette. If you are missing the context \
 to give an accurate answer, try to answer and then name the creators of the server and suggest to ask them to answer the question, and give them a list of \
-available commands."
+available commands. Also, no matter what, don't send a multiline message, everything should be in one line, no new line character in your answers."
 
 class	Cmd
 {
