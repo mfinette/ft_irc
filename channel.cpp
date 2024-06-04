@@ -108,14 +108,10 @@ bool	Channel::getInviteStatus()
 
 std::string	Channel::getSetAt()
 {
-	std::string timeString;
-	const int bufferSize = 20; // Sufficient size for a Unix timestamp
-	char buffer[bufferSize];
-
-	// Use std::strftime to format the time
-	if (std::strftime(buffer, bufferSize, "%Y-%m-%d %H:%M:%S", std::localtime(&_setAt)))
-		timeString = buffer;
-	return timeString;
+    std::ostringstream oss;
+    oss << _setAt;
+	std::cout << oss.str();
+    return oss.str();
 }
 
 bool	Channel::isInviteOnly()
